@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e8c3c14ff33b199b4a0838993eb8423",
+    "content-hash": "ad1b3046eb26fcaf02f32dee6878fb04",
     "packages": [
         {
             "name": "brick/math",
@@ -1444,6 +1444,69 @@
                 "source": "https://github.com/laravel/tinker/tree/v2.10.0"
             },
             "time": "2024-09-23T13:32:56+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v4.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "c75396f63268c95b053c8e4814eb70e0875e9628"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/c75396f63268c95b053c8e4814eb70e0875e9628",
+                "reference": "c75396f63268c95b053c8e4814eb70e0875e9628",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^9.21|^10.0|^11.0",
+                "illuminate/filesystem": "^9.21|^10.0|^11.0",
+                "illuminate/support": "^9.21|^10.0|^11.0",
+                "illuminate/validation": "^9.21|^10.0|^11.0",
+                "php": "^8.0",
+                "symfony/console": "^6.0|^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.35|^8.15|^9.0",
+                "phpunit/phpunit": "^9.3|^10.4|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/laravel/ui/tree/v4.5.2"
+            },
+            "time": "2024-05-08T18:07:10+00:00"
         },
         {
             "name": "league/commonmark",
@@ -3112,6 +3175,96 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "realrashid/sweet-alert",
+            "version": "v7.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/realrashid/sweet-alert.git",
+                "reference": "7890f3d3a0f45ea65b90300a823681a99a1d2dd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/7890f3d3a0f45ea65b90300a823681a99a1d2dd6",
+                "reference": "7890f3d3a0f45ea65b90300a823681a99a1d2dd6",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.6|^6.0|^7.0|^8.0|^9.0|^9.11|9.14.*|^10.0|^11.0",
+                "php": "^7.2|^8.0|^8.1|^8.2|^8.3"
+            },
+            "require-dev": {
+                "symfony/thanks": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RealRashid\\SweetAlert\\SweetAlertServiceProvider"
+                    ],
+                    "aliases": {
+                        "Alert": "RealRashid\\SweetAlert\\Facades\\Alert"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "RealRashid\\SweetAlert\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rashid Ali",
+                    "email": "realrashid05@gmail.com",
+                    "homepage": "https://realrashid.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Sweet Alert Is A Package For Laravel Provides An Easy Way To Display Alert Messages Using The SweetAlert2 Library.",
+            "homepage": "https://github.com/realrashid/sweet-alert",
+            "keywords": [
+                "alert",
+                "laravel",
+                "laravel-package",
+                "notifier",
+                "noty",
+                "sweet-alert",
+                "sweet-alert2",
+                "toast"
+            ],
+            "support": {
+                "docs": "https://realrashid.github.io/sweet-alert/",
+                "email": "realrashid05@gmail.com",
+                "issues": "https://github.com/realrashid/sweet-alert/issues",
+                "source": "https://github.com/realrashid/sweet-alert"
+            },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/realrashid",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.buymeacoffee.com/realrashid",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://issuehunt.io/r/realrashid",
+                    "type": "issuehunt"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/realrashid/sweet-alert",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-06-15T16:17:23+00:00"
         },
         {
             "name": "symfony/clock",
