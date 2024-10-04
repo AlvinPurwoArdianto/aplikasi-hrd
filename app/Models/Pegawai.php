@@ -9,6 +9,7 @@ class Pegawai extends Model
 {
     use HasFactory;
 
+    protected $table = 'pegawais';
     protected $fillable = [
         'id',
         'nama_pegawai',
@@ -24,6 +25,11 @@ class Pegawai extends Model
     ];
 
     public $timestamp = true;
+
+    public function penggajian()
+    {
+        return $this->hasMany(Penggajian::class);
+    }
 
     public function jabatan()
     {

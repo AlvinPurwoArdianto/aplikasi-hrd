@@ -30,17 +30,23 @@
                 <div data-i18n="Authentications">Employee</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('jabatan.index') ? 'active' : '' }}">
+                <li class="menu-item {{ request()->routeIs('jabatan.*') ? 'active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="menu-link">
                         <div data-i18n="Basic">Jabatan</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('pegawai.index') ? 'active' : '' }}">
+                <li class="menu-item {{ request()->routeIs('pegawai.*') ? 'active' : '' }}">
                     <a href="{{ route('pegawai.index') }}" class="menu-link">
                         <div data-i18n="Basic">Pegawai</div>
                     </a>
                 </li>
             </ul>
+        </li>
+        <li class="menu-item {{ url()->current() == route('penggajian.index') ? 'active' : '' }}">
+            <a href="{{ route('penggajian.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-wallet"></i>
+                <div data-i18n="Analytics">Penggajian</div>
+            </a>
         </li>
     </ul>
 </aside>
