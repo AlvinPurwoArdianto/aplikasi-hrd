@@ -87,7 +87,8 @@
 
         <div class="card">
             <h5 class="card-header">
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"
+                <button type="button" class="btn rounded-pill btn-info" data-bs-toggle="modal"
+                    data-bs-target="#createModal"
                     style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                     <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
                         data-bs-html="true" title="Add Jabatan"></i>
@@ -115,16 +116,16 @@
                                     <form action="{{ route('jabatan.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#editModal{{ $data->id }}"
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="left" data-bs-html="true" title="Edit Jabatan"></i>
                                             Edit
                                         </a>
 
-                                        <a href="{{ route('jabatan.destroy', $data->id) }}" class="btn btn-sm btn-danger"
-                                            data-confirm-delete="true"
+                                        <a href="{{ route('jabatan.destroy', $data->id) }}"
+                                            class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="right" data-bs-html="true" title="Delete Jabatan"></i>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PenggajianController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('pegawai/{id}/edit', [pegawaiController::class, 'edit'])->name('pegawai.edit');
     Route::put('pegawai/{id}', [pegawaiController::class, 'update'])->name('pegawai.update');
     Route::delete('pegawai/{id}', [pegawaiController::class, 'destroy'])->name('pegawai.destroy');
+
+    //Route Penggajian
+    // Route::resource('penggajian', PenggajianController::class);
+    // Route Penggajian Tanpa Resource
+    Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian.index');
+    Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
+    Route::post('penggajian', [PenggajianController::class, 'store'])->name('penggajian.store');
+    Route::get('penggajian/{id}', [PenggajianController::class, 'show'])->name('penggajian.show');
+    Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit'])->name('penggajian.edit');
+    Route::put('penggajian/{id}', [PenggajianController::class, 'update'])->name('penggajian.update');
+    Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy'])->name('penggajian.destroy');
 });
 
 Auth::routes();

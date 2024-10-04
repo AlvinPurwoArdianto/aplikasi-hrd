@@ -176,6 +176,27 @@
             });
         });
     </script>
+
+
+    {{-- Buat Auto Select Jabatan --}}
+    <script>
+        document.getElementById('pegawai').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var jabatan = selectedOption.getAttribute('data-jabatan');
+
+            // Set value di dropdown jabatan
+            var jabatanDropdown = document.getElementById('jabatan');
+            jabatanDropdown.innerHTML = ''; // Kosongkan dulu
+
+            // Tambahkan opsi jabatan yang sesuai
+            if (jabatan) {
+                var option = document.createElement('option');
+                option.value = jabatan;
+                option.text = jabatan;
+                jabatanDropdown.appendChild(option);
+            }
+        });
+    </script>
 </body>
 
 </html>

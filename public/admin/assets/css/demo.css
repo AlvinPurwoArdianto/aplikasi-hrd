@@ -13,6 +13,16 @@
     transition: transform 0.5s ease;
 }
 
+/* UNTUK ALERT AKTIF DAN TIDAK AKTIF */
+.alert {
+
+    position: relative;
+    padding: 0.9375rem 0.9375rem;
+    /* margin-bottom: 1rem; */
+    border: 0 solid transparent;
+    border-radius: 5px;
+}
+
 @keyframes slide-in-right {
     0% {
         transform: translateX(100%);
