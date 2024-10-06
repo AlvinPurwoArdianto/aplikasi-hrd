@@ -105,11 +105,13 @@ class PenggajianController extends Controller
     public function destroy($id)
     {
         $penggajian = Penggajian::findOrFail($id);
+
         $pegawai = Pegawai::find($penggajian->id_pegawai);
-        $pegawai->gaji -= $penggajian->jumlah_gaji;
+        $pegawai->gaji -= ($penggajian->jumlah_gaji + $penggajian->bonus - $penggajian->potongan);
         $pegawai->save();
 
         $penggajian->delete();
-        return redirect()->route('penggajian.index')->with('danger', 'Penggajian berhasil dihapus!');
+        return redirect()->route('penggajian.index')->with('danger', 'Penggajian berhasil dihapus dan gaji diperbarui!');
     }
+
 }

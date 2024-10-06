@@ -115,6 +115,8 @@
 
     @include('sweetalert::alert')
 
+    @stack('scripts')
+
     {{-- UNTUk TOAST 2 DETIK --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -197,6 +199,7 @@
             }
         });
     </script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 </body>
 
 </html>
