@@ -23,6 +23,12 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Pages</span>
         </li>
+        <li class="menu-item {{ url()->current() == route('absensi.index') ? 'active' : '' }}">
+            <a href="{{ route('absensi.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-calendar'></i>
+                <div data-i18n="Analytics">Absensi</div>
+            </a>
+        </li>
         <li
             class="menu-item {{ request()->routeIs('pegawai.*') || request()->routeIs('jabatan.*') ? 'active menu-open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -44,7 +50,7 @@
         </li>
         <li class="menu-item {{ url()->current() == route('penggajian.index') ? 'active' : '' }}">
             <a href="{{ route('penggajian.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-wallet"></i>
+                <i class="menu-icon tf-icons bx bx-wallet"></i>
                 <div data-i18n="Analytics">Penggajian</div>
             </a>
         </li>

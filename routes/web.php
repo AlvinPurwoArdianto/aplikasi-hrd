@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // Route Jabatan
@@ -43,8 +45,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit'])->name('penggajian.edit');
     Route::put('penggajian/{id}', [PenggajianController::class, 'update'])->name('penggajian.update');
     Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy'])->name('penggajian.destroy');
+
+    //Route absensi
+    // Route::resource('absensi', AbsensiController::class);
+    // Route absensi Tanpa Resource
+    Route::get('absensi', [AbsensiController::class, 'index'])->name('absensi.index');
+    Route::get('absensi/create', [AbsensiController::class, 'create'])->name('absensi.create');
+    Route::post('absensi', [AbsensiController::class, 'store'])->name('absensi.store');
+    Route::get('absensi/{id}', [AbsensiController::class, 'show'])->name('absensi.show');
+    Route::get('absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
+    Route::post('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
+    Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
+
+    // Route::post('absen-pulang/{id}', [AbsensiController::class, 'absenPulang'])->name('absen.pulang');
+
 });
+
+// LOGIN GOOGLE
+Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
