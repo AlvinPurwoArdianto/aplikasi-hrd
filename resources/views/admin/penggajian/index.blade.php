@@ -147,9 +147,9 @@
                             </tr>
 
                             <!-- Modal Edit penggajian -->
-                            <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true"
-                                data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg">
+                            <div class="modal fade  " id="editModal{{ $data->id }}" tabindex="-1"
+                                aria-hidden="true" data-bs-backdrop="static">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Edit penggajian</h5>
@@ -233,7 +233,7 @@
 
     <!-- Modal Create penggajian -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add penggajian</h5>

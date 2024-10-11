@@ -94,6 +94,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastSuccess = document.getElementById('toastSuccess');
+            const toastError = document.getElementById('toastError');
+
+            if (toastSuccess) {
+                setTimeout(function() {
+                    toastSuccess.classList.add('toast-hide');
+                }, 2000);
+            }
+
+            if (toastError) {
+                setTimeout(function() {
+                    toastError.classList.add('toast-hide');
+                }, 2000);
+            }
+        });
+    </script>
 </body>
 
 </html>

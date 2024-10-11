@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jabatan;
+use App\Models\Pegawai;
 
 class HomeController extends Controller
 {
@@ -23,7 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $jabatan = Jabatan::latest()->get();
-        return view('home', compact('jabatan'));
+        $pegawai = Pegawai::all();
+
+        $totalPegawai = Pegawai::count('id');
+        $totalPenggajian = Pegawai::sum('gaji');
+        // $fasilitas = Fasilitas::count('id');
+        // $artikel = Artikel::count('id');
+        // $pendaftaran = Pendaftaran::count('id');
+
+        return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian'));
     }
 }
