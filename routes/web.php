@@ -5,14 +5,17 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
+use App\Http\Controllers\RekrutmenController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('auth');
+});
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
     // Route Jabatan
     // Route::resource('jabatan', JabatanController::class);s
     //Route Jabatan Tanpa Resource
@@ -58,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 
     // Route::post('absen-pulang/{id}', [AbsensiController::class, 'absenPulang'])->name('absen.pulang');
+    Route::get('rekrutmen', [RekrutmenController::class, 'index'])->name('rekrutmen.index');
 
 });
 
@@ -66,5 +70,3 @@ Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 Auth::routes();
-
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,85 +1,275 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
+    <style>
+        /* Google Fonts - Poppins */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-                            <div class="row mb-3">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4070f4;
+            column-gap: 30px;
+        }
 
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+        .form {
+            position: absolute;
+            max-width: 430px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 6px;
+            background: #FFF;
+        }
 
-                            <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+        .form.signup {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
+        .forms.show-signup .form.signup {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+        .forms.show-signup .form.login {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
+        header {
+            font-size: 28px;
+            font-weight: 600;
+            color: #232836;
+            text-align: center;
+        }
 
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+        form {
+            margin-top: 30px;
+        }
 
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
+        .form .field {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
 
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
+        .field input,
+        .field button {
+            height: 100%;
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            font-weight: 400;
+            border-radius: 6px;
+        }
 
-                            <a href="{{ url('auth/google') }}" class="btn btn-primary">
-                                <i class="bx bxl-google"></i> Login with Google
-                            </a>
+        .field input {
+            outline: none;
+            padding: 0 15px;
+            border: 1px solid#CACACA;
+        }
 
-                        </form>
+        .field input:focus {
+            border-bottom-width: 2px;
+        }
+
+        .eye-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #8b8b8b;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .field button {
+            color: #fff;
+            background-color: #0171d3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .field button:hover {
+            background-color: #016dcb;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-link span,
+        .form-link a {
+            font-size: 14px;
+            font-weight: 400;
+            color: #232836;
+        }
+
+        .form a {
+            color: #0171d3;
+            text-decoration: none;
+        }
+
+        .form-content a:hover {
+            text-decoration: underline;
+        }
+
+        .line {
+            position: relative;
+            height: 1px;
+            width: 100%;
+            margin: 36px 0;
+            background-color: #d4d4d4;
+        }
+
+        .line::before {
+            content: 'Or';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            color: #8b8b8b;
+            padding: 0 15px;
+        }
+
+        .media-options a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        img.google-img {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+        }
+
+        img.google-img {
+            height: 20px;
+            width: 20px;
+            object-fit: cover;
+        }
+
+        a.google {
+            border: 1px solid #CACACA;
+        }
+
+        a.google span {
+            font-weight: 500;
+            opacity: 0.6;
+            color: #232836;
+        }
+
+        @media screen and (max-width: 400px) {
+            .form {
+                padding: 20px 10px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content">
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <header>Login</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input id="email" type="email"
+                                class="form-control @error('email') is-invalid @enderror" name="email"
+                                value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="field input-field">
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required
+                                autocomplete="current-password" placeholder="Password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            <button type="submit">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Don't have an account? <a href="{{ route('register') }}"
+                                class="link signup-link">Signup</a></span>
                     </div>
-                </div>
+                </form>
             </div>
+
+            <div class="line"></div>
+            <div class="media-options">
+                <a href="{{ url('auth/google') }}" class="field google">
+                    <img src="{{ asset('admin/assets/img/google.png') }}" alt="" class="google-img">
+                    <span>Login with Google</span>
+                </a>
+            </div>
+
         </div>
-    </div>
-@endsection
+    </section>
+
+
+    <script>
+        const forms = document.querySelector(".forms"),
+            pwShowHide = document.querySelectorAll(".eye-icon"),
+            links = document.querySelectorAll(".link");
+
+        pwShowHide.forEach((eyeIcon) => {
+            eyeIcon.addEventListener("click", () => {
+                let pwFields =
+                    eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+                pwFields.forEach((password) => {
+                    if (password.type === "password") {
+                        password.type = "text";
+                        eyeIcon.classList.replace("bx-hide", "bx-show");
+                        return;
+                    }
+                    password.type = "password";
+                    eyeIcon.classList.replace("bx-show", "bx-hide");
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

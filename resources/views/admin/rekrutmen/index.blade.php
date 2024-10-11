@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> Jabatan</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> Rekrutmen</h4>
 
         {{-- UNTUK TOAST NOTIFIKASI --}}
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -92,28 +92,32 @@
                     style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                     <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
                         data-bs-html="true" title="Add Jabatan"></i>
-                    Add Jabatan
+                    Add Rekrutmen
                 </button>
-                Add Jabatan
+                Add Rekrutmen
             </h5>
 
-            <!-- Table for Jabatan Data -->
+            <!-- Table for Rekrutmen Data -->
             <div class="table-responsive text-nowrap">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Jabatan</th>
+                            <th>Nama</th>
+                            <th>tanggal lamaran</th>
+                            <th>status lamaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @foreach ($jabatan as $data)
+                        @foreach ($rekrutmen as $data)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->nama_jabatan }}</td>
+                                <td>{{ $data->nama }}</td>
+                                <td>{{ $data->tanggal_lamaran }}</td>
+                                <td>{{ $data->status_lamaran }}</td>
                                 <td>
-                                    <form action="{{ route('jabatan.destroy', $data->id) }}" method="POST">
+                                    <form action="" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
@@ -124,7 +128,7 @@
                                             Edit
                                         </a>
 
-                                        <a href="{{ route('jabatan.destroy', $data->id) }}"
+                                        <a href=""
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
@@ -171,20 +175,20 @@
         </div>
     </div>
 
-    <!-- Modal Create Jabatan -->
+    <!-- Modal Create Rekrutmen -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Jabatan</h5>
+                    <h5 class="modal-title">Add Rekrutmen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('jabatan.store') }}" method="POST">
+                <form action="{{ route('rekrutmen.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nama_jabatan" class="form-label">Nama Jabatan</label>
-                            <input type="text" class="form-control" name="nama_jabatan" placeholder="Enter jabatan"
+                            <label for="nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" name="nama" placeholder="Enter rekrutmen"
                                 required>
                         </div>
                     </div>

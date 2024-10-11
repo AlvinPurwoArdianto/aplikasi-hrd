@@ -21,7 +21,7 @@
         </li>
 
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Pages</span>
+            <span class="menu-header-text"><strong>Menu</strong></span>
         </li>
         <li class="menu-item {{ url()->current() == route('absensi.index') ? 'active' : '' }}">
             <a href="{{ route('absensi.index') }}" class="menu-link">
@@ -52,6 +52,12 @@
             <a href="{{ route('penggajian.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-wallet"></i>
                 <div data-i18n="Analytics">Penggajian</div>
+            </a>
+        </li>
+        <li class="menu-item {{ url()->current() == route('rekrutmen.index') ? 'active' : '' }}">
+            <a href="{{ route('rekrutmen.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-wallet"></i>
+                <div data-i18n="Analytics">Rekrutmen</div>
             </a>
         </li>
     </ul>
