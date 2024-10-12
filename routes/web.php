@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -60,13 +60,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 
-    // Route::post('absen-pulang/{id}', [AbsensiController::class, 'absenPulang'])->name('absen.pulang');
+    //Route rekrutmen
+    // Route::resource('rekrutmen', RekrutmenController::class);
+    // Route rekrutmen Tanpa Resource
     Route::get('rekrutmen', [RekrutmenController::class, 'index'])->name('rekrutmen.index');
-
+    Route::get('rekrutmen/create', [RekrutmenController::class, 'create'])->name('rekrutmen.create');
+    Route::post('rekrutmen', [RekrutmenController::class, 'store'])->name('rekrutmen.store');
+    Route::get('rekrutmen/{id}', [RekrutmenController::class, 'show'])->name('rekrutmen.show');
+    Route::get('rekrutmen/{id}/edit', [RekrutmenController::class, 'edit'])->name('rekrutmen.edit');
+    Route::post('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
+    Route::delete('rekrutmen/{id}', [RekrutmenController::class, 'destroy'])->name('rekrutmen.destroy');
 });
 
 // LOGIN GOOGLE
-Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
-Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+// Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+// Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
+Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
+Route::get('/logout', [SocialiteController::class, 'logout'])->name('logout')->middleware('guest');
 
 Auth::routes();
