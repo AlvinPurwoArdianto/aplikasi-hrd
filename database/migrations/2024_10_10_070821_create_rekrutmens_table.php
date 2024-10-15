@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->date('tanggal_lamaran');
-            $table->string('status_lamaran');
+            $table->string('cv');
             $table->timestamps();
         });
     }

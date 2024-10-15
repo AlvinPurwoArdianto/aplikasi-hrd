@@ -52,7 +52,6 @@ class AbsensiController extends Controller
         ]);
 
         return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
-
     }
 
     /**

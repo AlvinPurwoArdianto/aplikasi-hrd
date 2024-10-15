@@ -1,7 +1,11 @@
 @extends('layouts.admin.template')
+{{-- @section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+@endsection --}}
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> Pegawai</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Karyawan /</span> Pegawai</h4>
 
         {{-- UNTUK TOAST NOTIFIKASI --}}
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -93,12 +97,12 @@
                     <i class="bi bi-person-fill-add"></i>
                     Add pegawai
                 </a>
-                Add pegawai
+                Table pegawai
             </h5>
 
             <!-- Table for pegawai Data -->
             <div class="table-responsive text-nowrap">
-                <table class="table table-hover">
+                <table class="table table-hover" id="example">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -164,3 +168,25 @@
         </div>
     </div>
 @endsection
+{{-- @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
+
+    <script>
+        new DataTable('#example', {
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                }
+            }
+        });
+    </script>
+@endpush --}}
