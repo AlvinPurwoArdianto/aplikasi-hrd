@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> <span
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Karyawan /</span> <span
                 class="text-muted fw-light">Pegawai /</span> Create</h4>
 
         <div class="card mb-4">

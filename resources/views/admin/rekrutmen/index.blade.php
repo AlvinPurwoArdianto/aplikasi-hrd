@@ -105,6 +105,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>tanggal lamaran</th>
+                            <th>CV</th>
                             <th>status lamaran</th>
                             <th>Aksi</th>
                         </tr>
@@ -115,7 +116,18 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->tanggal_lamaran }}</td>
-                                <td>{{ $data->status_lamaran }}</td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                        style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                        <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                            data-bs-placement="left" data-bs-html="true" title="Edit Jabatan"></i>
+                                        Lihat
+                                    </a>
+
+                                    {{-- {{ $data->cv }} --}}
+                                </td>
+                                <td>
+                                </td>
                                 <td>
                                     <form action="" method="POST">
                                         @csrf
@@ -128,8 +140,7 @@
                                             Edit
                                         </a>
 
-                                        <a href=""
-                                            class="btn rounded-pill btn-danger" data-confirm-delete="true"
+                                        <a href="" class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="right" data-bs-html="true" title="Delete Jabatan"></i>
@@ -183,13 +194,22 @@
                     <h5 class="modal-title">Add Rekrutmen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('rekrutmen.store') }}" method="POST">
+                <form action="{{ route('rekrutmen.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" name="nama" placeholder="Enter rekrutmen"
-                                required>
+                        <div class="row">
+                            <div class="col mb-0">
+                                <label for="nameBasic" class="form-label">Nama</label>
+                                <input type="text" class="form-control" name="nama" required>
+                            </div>
+                            <div class="col mb-0">
+                                <label for="nameBasic" class="form-label">Tanggal Lamaran</label>
+                                <input type="date" class="form-control" name="tanggal_lamaran" required>
+                            </div>
+                        </div>
+                        <div class="col mb-0">
+                            <label for="nameBasic" class="form-label">Masukan CV Anda</label>
+                            <input type="file" class="form-control" name="cv" required accept="application/pdf">
                         </div>
                     </div>
                     <div class="modal-footer">

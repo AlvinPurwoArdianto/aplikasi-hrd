@@ -15,7 +15,6 @@ class RekrutmenController extends Controller
         $rekrutmen = Rekrutmen::latest()->get();
         confirmDelete('Hapus Rekrutmen!', 'Apakah Anda Yakin?');
         return view('admin.rekrutmen.index', compact('rekrutmen'));
-
     }
 
     /**
@@ -23,7 +22,7 @@ class RekrutmenController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.rekrutmen.create');
     }
 
     /**
@@ -31,7 +30,18 @@ class RekrutmenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'tanggal_lamaran' => 'required',
+        ]);
+
+        $rekrutmen = new Rekrutmen();
+        $rekrutmen->nama = $request->nama;
+        $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
+        $rekrutmen->cv = $request->cv;
+        $rekrutmen->save();
+
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
     }
 
     /**

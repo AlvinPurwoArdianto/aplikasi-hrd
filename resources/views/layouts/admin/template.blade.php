@@ -52,6 +52,8 @@
             z-index: 9999 !important;
         }
     </style>
+
+    @yield('css')
 </head>
 
 <body>

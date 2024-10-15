@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\CutisController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
@@ -70,6 +71,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('rekrutmen/{id}/edit', [RekrutmenController::class, 'edit'])->name('rekrutmen.edit');
     Route::post('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
     Route::delete('rekrutmen/{id}', [RekrutmenController::class, 'destroy'])->name('rekrutmen.destroy');
+
+    //Route cuti
+    // Route::resource('cuti', CutisController::class);
+    // Route cuti Tanpa Resource
+    Route::get('cuti', [CutisController::class, 'index'])->name('cuti.index');
+    Route::get('cuti/create', [cutisController::class, 'create'])->name('cuti.create');
+    Route::post('cuti', [cutisController::class, 'store'])->name('cuti.store');
+    Route::get('cuti/{id}', [cutisController::class, 'show'])->name('cuti.show');
+    Route::get('cuti/{id}/edit', [cutisController::class, 'edit'])->name('cuti.edit');
+    Route::post('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
+    Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
 });
 
 // LOGIN GOOGLE
@@ -78,6 +90,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
-Route::get('/logout', [SocialiteController::class, 'logout'])->name('logout')->middleware('guest');
+Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('guest');
 
 Auth::routes();
