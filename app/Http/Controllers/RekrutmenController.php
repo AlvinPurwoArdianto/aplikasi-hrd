@@ -65,7 +65,19 @@ class RekrutmenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'tanggal_lamaran' => 'required',
+        ]);
+
+        $rekrutmen = Rekrutmen::findOrfail($id);
+        $rekrutmen->nama = $request->nama;
+        $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
+        $rekrutmen->cv = $request->cv;
+        $rekrutmen->save();
+
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
+
     }
 
     /**
@@ -73,6 +85,8 @@ class RekrutmenController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rekrutmen = Rekrutmen::findOrfail($id);
+        $rekrutmen->delete();
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil dihapus.');
     }
 }

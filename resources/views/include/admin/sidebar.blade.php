@@ -76,12 +76,6 @@
         </li>
         <li class="menu-item"> {{-- {{ url()->current() == route('laporan.index') ? 'active' : '' }} > --}}
             <a href="#" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Analytics">Kinerja</div>
-            </a>
-        </li>
-        <li class="menu-item"> {{-- {{ url()->current() == route('laporan.index') ? 'active' : '' }} > --}}
-            <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Analytics">Laporan</div>
             </a>
