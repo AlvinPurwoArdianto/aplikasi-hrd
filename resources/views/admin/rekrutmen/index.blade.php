@@ -91,7 +91,7 @@
                     data-bs-target="#createModal"
                     style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                     <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
-                        data-bs-html="true" title="Add Jabatan"></i>
+                        data-bs-html="true" title="Add rekrutmen"></i>
                     Add Rekrutmen
                 </button>
                 Add Rekrutmen
@@ -120,60 +120,75 @@
                                     <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Edit Jabatan"></i>
+                                            data-bs-placement="left" data-bs-html="true" title="Edit rekrutmen"></i>
                                         Lihat
                                     </a>
 
                                     {{-- {{ $data->cv }} --}}
                                 </td>
                                 <td>
+
                                 </td>
                                 <td>
-                                    <form action="" method="POST">
+                                    <form action="{{ route('rekrutmen.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
                                             data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                data-bs-placement="left" data-bs-html="true" title="Edit Jabatan"></i>
+                                                data-bs-placement="left" data-bs-html="true" title="Edit rekrutmen"></i>
                                             Edit
                                         </a>
 
-                                        <a href="" class="btn rounded-pill btn-danger" data-confirm-delete="true"
+                                        <a href="{{ route('rekrutmen.destroy', $data->id) }}"
+                                            class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                data-bs-placement="right" data-bs-html="true" title="Delete Jabatan"></i>
+                                                data-bs-placement="right" data-bs-html="true"
+                                                title="Delete rekrutmen"></i>
                                             Delete
                                         </a>
                                     </form>
                                 </td>
                             </tr>
 
-                            <!-- Modal Edit Jabatan -->
+                            <!-- Modal Edit rekrutmen -->
                             <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true"
                                 data-bs-backdrop="static">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Edit Jabatan</h5>
+                                            <h5 class="modal-title">Edit rekrutmen</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('jabatan.update', $data->id) }}" method="POST">
+                                        <form action="{{ route('rekrutmen.update', $data->id) }}" method="POST"
+                                            enctype="multipart/form-data">
                                             @csrf
-                                            @method('PUT')
                                             <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="nama_jabatan" class="form-label">Nama Jabatan</label>
-                                                    <input type="text" class="form-control" name="nama_jabatan"
-                                                        value="{{ $data->nama_jabatan }}" required>
+                                                <div class="row">
+                                                    <div class="col mb-0">
+                                                        <label for="nameBasic" class="form-label">Nama</label>
+                                                        <input type="text" class="form-control" name="nama"
+                                                            required>
+                                                    </div>
+                                                    <div class="col mb-0">
+                                                        <label for="nameBasic" class="form-label">Tanggal Lamaran</label>
+                                                        <input type="date" class="form-control" name="tanggal_lamaran"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                                <div class="col mb-0">
+                                                    <label for="nameBasic" class="form-label">Masukan CV Anda</label>
+                                                    <input type="file" class="form-control" name="cv" required
+                                                        accept="application/pdf">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
                                     </div>
@@ -188,7 +203,7 @@
 
     <!-- Modal Create Rekrutmen -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Rekrutmen</h5>
@@ -197,8 +212,8 @@
                 <form action="{{ route('rekrutmen.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col mb-0">
+                        <div class="row mt-3">
+                            <div class="col mb-0 ">
                                 <label for="nameBasic" class="form-label">Nama</label>
                                 <input type="text" class="form-control" name="nama" required>
                             </div>
@@ -207,7 +222,7 @@
                                 <input type="date" class="form-control" name="tanggal_lamaran" required>
                             </div>
                         </div>
-                        <div class="col mb-0">
+                        <div class="col mb-0 mt-3">
                             <label for="nameBasic" class="form-label">Masukan CV Anda</label>
                             <input type="file" class="form-control" name="cv" required accept="application/pdf">
                         </div>
