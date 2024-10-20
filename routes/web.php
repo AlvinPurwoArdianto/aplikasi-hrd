@@ -82,6 +82,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('cuti/{id}/edit', [cutisController::class, 'edit'])->name('cuti.edit');
     Route::post('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
     Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
+
+    //Route laporan
+    // Route::get('laporan', [L]);
 });
 
 // LOGIN GOOGLE
