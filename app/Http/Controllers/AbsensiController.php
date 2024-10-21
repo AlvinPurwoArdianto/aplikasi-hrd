@@ -39,10 +39,10 @@ class AbsensiController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $pegawai = Pegawai::find($request->id_pegawai);
-        $existingAbsensi = Absensi::where('id_Pegawai', $pegawai->id)->whereDate('created_at', today())->first();
+        $sudahAbsen = Absensi::where('id_Pegawai', $pegawai->id)->whereDate('created_at', today())->first();
 
-        if ($existingAbsensi) {
-            return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen!');
+        if ($sudahAbsen) {
+            return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
         }
 
         $request->validate([

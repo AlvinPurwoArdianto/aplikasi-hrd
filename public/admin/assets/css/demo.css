@@ -3,7 +3,9 @@
 * File include item demo only specific css only
 ******************************************************************************/
 /* UNTUK SIDEBAR DROPDOWN */
-
+.menu-open .menu-sub {
+    display: block;
+}
 
 /* UNTUK TOAST SLIDE */
 .toast {
