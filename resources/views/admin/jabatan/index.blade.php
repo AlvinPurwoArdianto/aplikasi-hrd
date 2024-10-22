@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Karyawan /</span> Jabatan</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Management Karyawan /</span> Jabatan</h4>
 
         {{-- UNTUK TOAST NOTIFIKASI --}}
         <div class="toast-container position-fixed top-0 end-0 p-3">
