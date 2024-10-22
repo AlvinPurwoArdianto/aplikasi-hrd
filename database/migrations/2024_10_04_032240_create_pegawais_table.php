@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('tanggal_masuk');
             $table->integer('umur');
             $table->integer('gaji')->nullable()->default(0);
-            $table->enum('status_pegawai', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->boolean('status_pegawai')->nullable()->default(0);
             $table->unsignedBigInteger('id_jabatan');
 
             $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('cascade');

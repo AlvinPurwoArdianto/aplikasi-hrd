@@ -18,6 +18,7 @@ class AdminSeeder extends Seeder
             'google_id' => null,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
+            'is_admin' => 1,
         ]);
     }
 }

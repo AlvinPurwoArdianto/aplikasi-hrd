@@ -117,30 +117,43 @@
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->tanggal_lamaran }}</td>
                                 <td>
-                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#viewCVModal{{ $data->id }}"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Edit rekrutmen"></i>
+                                            data-bs-placement="left" data-bs-html="true" title="Lihat CV"></i>
                                         Lihat
                                     </a>
-
-                                    {{-- {{ $data->cv }} --}}
                                 </td>
                                 <td>
-
+                                    @if ($data->status_rekrutmen == 1)
+                                        <span class="badge bg-label-info">— Sudah Diterima —</span>
+                                    @else
+                                        <span class="badge bg-label-dark">— Menunggu Acc —</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <form action="{{ route('rekrutmen.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
-                                            data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
-                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                            <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                data-bs-placement="left" data-bs-html="true" title="Edit rekrutmen"></i>
-                                            Edit
-                                        </a>
-
+                                        @if ($data->status_rekrutmen == 1)
+                                            <a href="javascript:void(0)" class="btn rounded-pill btn-secondary"
+                                                style="pointer-events: none; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                                <i class="bi bi-pencil-square" data-bs-toggle="tooltip"
+                                                    data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true"
+                                                    title="Edit rekrutmen"></i>
+                                                Edit
+                                            </a>
+                                        @else
+                                            <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
+                                                style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                                <i class="bi bi-pencil-square" data-bs-toggle="tooltip"
+                                                    data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true"
+                                                    title="Edit rekrutmen"></i>
+                                                Edit
+                                            </a>
+                                        @endif
                                         <a href="{{ route('rekrutmen.destroy', $data->id) }}"
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
@@ -156,7 +169,7 @@
                             <!-- Modal Edit rekrutmen -->
                             <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true"
                                 data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-dialog modal-md modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Edit rekrutmen</h5>
@@ -166,23 +179,22 @@
                                         <form action="{{ route('rekrutmen.update', $data->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
+                                            @method('PUT')
                                             <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col mb-0">
-                                                        <label for="nameBasic" class="form-label">Nama</label>
-                                                        <input type="text" class="form-control" name="nama"
-                                                            required>
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label for="nameBasic" class="form-label">Tanggal Lamaran</label>
-                                                        <input type="date" class="form-control" name="tanggal_lamaran"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="col mb-0">
-                                                    <label for="nameBasic" class="form-label">Masukan CV Anda</label>
-                                                    <input type="file" class="form-control" name="cv" required
-                                                        accept="application/pdf">
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-2 col-form-label"
+                                                        for="basic-icon-default-fullname">Status rekrutmen</label>
+                                                    <select name="status_rekrutmen" class="form-control">
+                                                        <option selected disabled>-- Pilih Status rekrutmen --</option>
+                                                        <option value="1"
+                                                            {{ $data->status_rekrutmen == 1 ? 'selected' : '' }}>
+                                                            Diterima
+                                                        </option>
+                                                        <option value="0"
+                                                            {{ $data->status_rekrutmen == 0 ? 'selected' : '' }}>
+                                                            Menunggu
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -191,6 +203,30 @@
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Lihat CV -->
+                            <div class="modal fade" id="viewCVModal{{ $data->id }}" tabindex="-1"
+                                aria-hidden="true" data-bs-backdrop="static">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Lihat CV - {{ $data->nama }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="embed-responsive" style="height: 400px;">
+                                                <embed src="{{ Storage::url($data->cv) }}" type="application/pdf"
+                                                    width="100%" height="100%">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +239,7 @@
 
     <!-- Modal Create Rekrutmen -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Rekrutmen</h5>

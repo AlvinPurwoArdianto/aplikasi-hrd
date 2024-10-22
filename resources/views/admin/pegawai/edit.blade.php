@@ -118,12 +118,11 @@
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Status Pegawai</label>
                         <div class="col-sm-10">
                             <select name="status_pegawai" class="form-control">
-                                <option value="" disabled>-- Pilih Status Pegawai --</option>
-                                <option value="Aktif" {{ $pegawai->status_pegawai == 'Aktif' ? 'selected' : '' }}>
-                                    Aktif</option>
-                                <option value="Tidak Aktif"
-                                    {{ $pegawai->status_pegawai == 'Tidak Aktif' ? 'selected' : '' }}>
-                                    Tidak Aktif</option>
+                                <option selected disabled>-- Pilih Status Pegawai --</option>
+                                <option value="1" {{ $pegawai->status_pegawai == 1 ? 'selected' : '' }}>Aktif
+                                </option>
+                                <option value="0" {{ $pegawai->status_pegawai == 0 ? 'selected' : '' }}>Tidak Aktif
+                                </option>
                             </select>
                         </div>
                     </div>
