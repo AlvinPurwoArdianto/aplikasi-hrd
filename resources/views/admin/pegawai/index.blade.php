@@ -133,7 +133,7 @@
                                 <td>{{ $data->tanggal_masuk }}</td>
                                 <td>{{ $data->gaji }}</td>
                                 <td>
-                                    @if ($data->status_pegawai == 'Aktif')
+                                    @if ($data->status_pegawai == 1)
                                         <span class="badge bg-label-info">— Pegawai Aktif —</span>
                                     @else
                                         <span class="badge bg-label-dark">— Pegawai Tidak Aktif —</span>

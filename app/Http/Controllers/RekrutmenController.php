@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rekrutmen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RekrutmenController extends Controller
 {
@@ -35,10 +36,21 @@ class RekrutmenController extends Controller
             'tanggal_lamaran' => 'required',
         ]);
 
+        // $filePath = $request->file('cv')->store('public/cv');
+
         $rekrutmen = new Rekrutmen();
         $rekrutmen->nama = $request->nama;
         $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
-        $rekrutmen->cv = $request->cv;
+
+        // Proses upload file CV
+        if ($request->hasFile('cv')) {
+            $file = $request->file('cv');
+            // Simpan file ke storage/cv
+            $filePath = $file->store('cv', 'public'); // Menggunakan disk public
+            $rekrutmen->cv = $filePath;
+        }
+
+        // $rekrutmen->cv = $filePath;
         $rekrutmen->save();
 
         return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
@@ -65,19 +77,11 @@ class RekrutmenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required',
-            'tanggal_lamaran' => 'required',
-        ]);
-
-        $rekrutmen = Rekrutmen::findOrfail($id);
-        $rekrutmen->nama = $request->nama;
-        $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
-        $rekrutmen->cv = $request->cv;
+        $rekrutmen = Rekrutmen::find($id);
+        $rekrutmen->status_rekrutmen = $request->status_rekrutmen;
         $rekrutmen->save();
 
-        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
-
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen telah diterima.');
     }
 
     /**
@@ -85,7 +89,8 @@ class RekrutmenController extends Controller
      */
     public function destroy($id)
     {
-        $rekrutmen = Rekrutmen::findOrfail($id);
+        $rekrutmen = Rekrutmen::findOrFail($id);
+        $rekrutmen->deleteCV();
         $rekrutmen->delete();
         return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil dihapus.');
     }

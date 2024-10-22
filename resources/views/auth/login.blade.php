@@ -160,7 +160,6 @@
             justify-content: center;
         }
 
-
         img.google-img {
             position: absolute;
             top: 50%;
@@ -221,18 +220,13 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <i class='bx bx-hide eye-icon'></i>
+                            <i class='bx bx-hide eye-icon' id="togglePassword"></i>
                         </div>
 
                         <div class="field button-field">
                             <button type="submit">Login</button>
                         </div>
                     </form>
-
-                    <div class="form-link">
-                        <span>Don't have an account? <a href="{{ route('register') }}"
-                                class="link signup-link">Signup</a></span>
-                    </div>
                 </form>
             </div>
 
@@ -247,29 +241,21 @@
         </div>
     </section>
 
-
     <script>
-        const forms = document.querySelector(".forms"),
-            pwShowHide = document.querySelectorAll(".eye-icon"),
-            links = document.querySelectorAll(".link");
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
 
-        pwShowHide.forEach((eyeIcon) => {
-            eyeIcon.addEventListener("click", () => {
-                let pwFields =
-                    eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+        togglePassword.addEventListener("click", function() {
+            // Toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
 
-                pwFields.forEach((password) => {
-                    if (password.type === "password") {
-                        password.type = "text";
-                        eyeIcon.classList.replace("bx-hide", "bx-show");
-                        return;
-                    }
-                    password.type = "password";
-                    eyeIcon.classList.replace("bx-show", "bx-hide");
-                });
-            });
+            // Toggle the eye icon
+            this.classList.toggle('bx-hide');
+            this.classList.toggle('bx-show');
         });
     </script>
+
 </body>
 
 </html>

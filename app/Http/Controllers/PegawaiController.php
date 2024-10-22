@@ -97,31 +97,33 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_pegawai' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required',
-            'jenis_kelamin' => 'required',
-            'alamat' => 'required',
-            'email' => 'required',
-            'tanggal_masuk' => 'required',
-            'umur' => 'required',
-            'gaji' => 'required',
-            'status_pegawai' => 'required',
-            'id_jabatan' => 'required',
-        ], [
-            'nama_pegawai.required' => 'Nama jabatan sudah ada!',
-            'tempat_lahir.required' => 'Tempat Lahir Harus Diisi!',
-            'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
-            'jenis_kelamin.required' => 'Jenis Kelamin Harus Diisi!',
-            'alamat.required' => 'Alamat Harus Diisi!',
-            'email.required' => 'Email Harus Diisi!',
-            'tanggal_masuk.required' => 'Tanggal Masuk Harus Diisi!',
-            'umur.required' => 'Umur Harus Diisi!',
-            'gaji.required' => 'Gaji Harus Diisi!',
-            'id_jabatan.required' => 'Jabatan Harus Diisi!',
-        ]
-        );
+        // dd($request->all());
+
+        // $request->validate([
+        //     'nama_pegawai' => 'required',
+        //     'tempat_lahir' => 'required',
+        //     'tanggal_lahir' => 'required',
+        //     'jenis_kelamin' => 'required',
+        //     'alamat' => 'required',
+        //     'email' => 'required',
+        //     'tanggal_masuk' => 'required',
+        //     'umur' => 'required',
+        //     'gaji' => 'required',
+        //     // 'status_pegawai' => 'boolean',
+        //     'id_jabatan' => 'required',
+        // ], [
+        //     'nama_pegawai.required' => 'Nama jabatan sudah ada!',
+        //     'tempat_lahir.required' => 'Tempat Lahir Harus Diisi!',
+        //     'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'jenis_kelamin.required' => 'Jenis Kelamin Harus Diisi!',
+        //     'alamat.required' => 'Alamat Harus Diisi!',
+        //     'email.required' => 'Email Harus Diisi!',
+        //     'tanggal_masuk.required' => 'Tanggal Masuk Harus Diisi!',
+        //     'umur.required' => 'Umur Harus Diisi!',
+        //     'gaji.required' => 'Gaji Harus Diisi!',
+        //     'id_jabatan.required' => 'Jabatan Harus Diisi!',
+        // ]
+        // );
 
         $pegawai = Pegawai::findOrFail($id);
         $pegawai->nama_pegawai = $request->nama_pegawai;
@@ -149,6 +151,5 @@ class PegawaiController extends Controller
         $pegawai = Pegawai::find($id);
         $pegawai->delete();
         return redirect()->route('pegawai.index')->with('danger', 'pegawai berhasil dihapus!');
-
     }
 }

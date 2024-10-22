@@ -63,7 +63,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('absensi', [AbsensiController::class, 'store'])->name('absensi.store');
     Route::get('absensi/{id}', [AbsensiController::class, 'show'])->name('absensi.show');
     Route::get('absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
-    Route::post('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
+    Route::put('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 
     //Route rekrutmen
@@ -74,7 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('rekrutmen', [RekrutmenController::class, 'store'])->name('rekrutmen.store');
     Route::get('rekrutmen/{id}', [RekrutmenController::class, 'show'])->name('rekrutmen.show');
     Route::get('rekrutmen/{id}/edit', [RekrutmenController::class, 'edit'])->name('rekrutmen.edit');
-    Route::post('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
+    Route::put('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
     Route::delete('rekrutmen/{id}', [RekrutmenController::class, 'destroy'])->name('rekrutmen.destroy');
 
     //Route cuti
@@ -85,7 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('cuti', [cutisController::class, 'store'])->name('cuti.store');
     Route::get('cuti/{id}', [cutisController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/edit', [cutisController::class, 'edit'])->name('cuti.edit');
-    Route::post('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
+    Route::put('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
     Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan
