@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rekrutmen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RekrutmenController extends Controller
 {
@@ -13,7 +14,6 @@ class RekrutmenController extends Controller
     public function index()
     {
         $rekrutmen = Rekrutmen::latest()->get();
-        confirmDelete('Hapus Rekrutmen!', 'Apakah Anda Yakin?');
         return view('admin.rekrutmen.index', compact('rekrutmen'));
     }
 
@@ -30,15 +30,24 @@ class RekrutmenController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi input form
         $request->validate([
             'nama' => 'required',
             'tanggal_lamaran' => 'required',
+            'cv' => 'required|mimes:pdf|max:2048' // Hanya file PDF yang diperbolehkan
         ]);
 
+        // Simpan data rekrutmen
         $rekrutmen = new Rekrutmen();
         $rekrutmen->nama = $request->nama;
         $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
-        $rekrutmen->cv = $request->cv;
+
+        // Simpan file CV ke storage
+        if ($request->hasFile('cv')) {
+            $filePath = $request->file('cv')->store('cv', 'public');
+            $rekrutmen->cv = $filePath;
+        }
+
         $rekrutmen->save();
 
         return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
@@ -49,7 +58,8 @@ class RekrutmenController extends Controller
      */
     public function show($id)
     {
-        //
+        $rekrutmen = Rekrutmen::findOrFail($id);
+        return view('admin.rekrutmen.show', compact('rekrutmen'));
     }
 
     /**
@@ -57,7 +67,8 @@ class RekrutmenController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rekrutmen = Rekrutmen::findOrFail($id);
+        return view('admin.rekrutmen.edit', compact('rekrutmen'));
     }
 
     /**
@@ -65,19 +76,32 @@ class RekrutmenController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validasi input form
         $request->validate([
             'nama' => 'required',
             'tanggal_lamaran' => 'required',
+            'cv' => 'nullable|mimes:pdf|max:2048' // File CV bisa di-update, tetapi opsional
         ]);
 
-        $rekrutmen = Rekrutmen::findOrfail($id);
+        $rekrutmen = Rekrutmen::findOrFail($id);
         $rekrutmen->nama = $request->nama;
         $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
-        $rekrutmen->cv = $request->cv;
+
+        // Update file CV jika ada perubahan
+        if ($request->hasFile('cv')) {
+            // Hapus file lama jika ada
+            if ($rekrutmen->cv && Storage::disk('public')->exists($rekrutmen->cv)) {
+                Storage::disk('public')->delete($rekrutmen->cv);
+            }
+
+            // Simpan file baru
+            $filePath = $request->file('cv')->store('cv', 'public');
+            $rekrutmen->cv = $filePath;
+        }
+
         $rekrutmen->save();
 
-        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diajukan.');
-
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil diperbarui.');
     }
 
     /**
@@ -85,8 +109,33 @@ class RekrutmenController extends Controller
      */
     public function destroy($id)
     {
-        $rekrutmen = Rekrutmen::findOrfail($id);
+        $rekrutmen = Rekrutmen::findOrFail($id);
+
+        // Hapus file CV jika ada
+        if ($rekrutmen->cv && Storage::disk('public')->exists($rekrutmen->cv)) {
+            Storage::disk('public')->delete($rekrutmen->cv);
+        }
+
         $rekrutmen->delete();
+
         return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil dihapus.');
     }
+
+    /**
+     * Download CV file.
+     */
+    /**
+ * Download CV file.
+ */
+public function downloadCV($id)
+{
+    $rekrutmen = Rekrutmen::findOrFail($id);
+
+    if ($rekrutmen->cv && Storage::disk('public')->exists($rekrutmen->cv)) {
+        return response()->download(storage_path('app/public/' . $rekrutmen->cv));
+    }
+
+    return redirect()->back()->with('error', 'CV tidak ditemukan.');
+}
+
 }

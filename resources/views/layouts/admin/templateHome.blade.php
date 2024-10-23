@@ -147,6 +147,42 @@
                             </div>
                         </div>
 
+
+                      
+                        @foreach($pegawai as $p)
+    <div class="col-lg-6 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                        <small class="text-warning fw-semibold">
+                            <i class='bx bxs-user-circle' style="font-size: 50px"></i>
+                        </small>
+                    </div>
+                </div>
+                <span>{{ $p->nama_pegawai }}</span>
+                <div class="row pt-2">
+                    <div class="col">
+                        @php
+                            // Calculate total salary for the current month for each pegawai
+                            $totalGajiBulanIni = $penggajian->where('id_pegawai', $p->id)->sum(function($item) {
+                                return $item->jumlah_gaji + $item->bonus - $item->potongan;
+                            });
+                        @endphp
+                        <h3 class="card-title text-nowrap">
+                            {{ $totalGajiBulanIni ?? 'Tidak ada data' }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+                        
+
+
+
                         {{-- DIBAWAH INI ADALAH UNTUK BAHAN SELANJUTNYA --}}
 
                         INI BUAT CHART DAN LAIN LAIN

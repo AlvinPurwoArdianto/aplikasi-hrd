@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\Penggajian;
+
 
 class HomeController extends Controller
 {
@@ -21,16 +23,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $pegawai = Pegawai::all();
+  // HomeController.php
+  public function index()
+  {
+      $pegawai = Pegawai::all();
+  
+      $totalPegawai = Pegawai::count('id');
+      $totalPenggajian = Penggajian::sum('jumlah_gaji');
+  
+      // Get current month
+      $currentMonth = date('m');
+      $currentYear = date('Y');
+  
+      // Get total salary for the current month
+      $totalPenggajianBulanIni = Penggajian::whereMonth('tanggal_gaji', $currentMonth)
+                                             ->whereYear('tanggal_gaji', $currentYear)
+                                             ->sum('jumlah_gaji');
+  
+      return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian', 'totalPenggajianBulanIni'));
+  }
+  
 
-        $totalPegawai = Pegawai::count('id');
-        $totalPenggajian = Pegawai::sum('gaji');
-        // $fasilitas = Fasilitas::count('id');
-        // $artikel = Artikel::count('id');
-        // $pendaftaran = Pendaftaran::count('id');
-
-        return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian'));
-    }
 }
+    

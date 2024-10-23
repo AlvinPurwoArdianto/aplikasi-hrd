@@ -71,6 +71,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('rekrutmen/{id}/edit', [RekrutmenController::class, 'edit'])->name('rekrutmen.edit');
     Route::post('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
     Route::delete('rekrutmen/{id}', [RekrutmenController::class, 'destroy'])->name('rekrutmen.destroy');
+    Route::get('rekrutmen/downloadCV/{id}', [RekrutmenController::class, 'downloadCV'])->name('rekrutmen.downloadCV');
+
 
     //Route cuti
     // Route::resource('cuti', CutisController::class);
