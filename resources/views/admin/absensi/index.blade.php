@@ -108,6 +108,7 @@
                                         @if (is_null($data->jam_keluar))
                                             <form action="{{ route('absensi.update', $data->id) }}" method="POST">
                                                 @csrf
+                                                @method('PUT')
                                                 <button type="submit" class="btn btn-warning" data-confirm-delete="true"
                                                     onclick="confirmAbsenPulang({{ $data->id }})">Absen Pulang</button>
                                             </form>

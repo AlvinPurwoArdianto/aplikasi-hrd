@@ -89,9 +89,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan
-    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    Route::post('/laporan/filter', [LaporanController::class, 'filter'])->name('laporan.filter');
-    // Route::post('print-laporan', [LaporanController::class, 'printReport'])->name('printReport');
+    Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
+    Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
+    Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
 });
 
 // LOGIN GOOGLE
