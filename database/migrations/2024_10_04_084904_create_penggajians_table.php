@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('potongan')->nullable()->default(0);
             $table->unsignedBigInteger('id_pegawai');
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('cascade');
+            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
             $table->timestamps();
         });
     }

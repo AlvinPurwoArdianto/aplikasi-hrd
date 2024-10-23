@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('status_pegawai')->nullable()->default(0);
             $table->unsignedBigInteger('id_jabatan');
 
-            $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('cascade');
+            $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('restrict');
 
             $table->timestamps();
         });

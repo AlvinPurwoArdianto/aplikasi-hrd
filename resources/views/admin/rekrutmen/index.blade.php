@@ -115,7 +115,7 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama }}</td>
-                                <td>{{ $data->tanggal_lamaran }}</td>
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_lamaran)->translatedFormat('d F Y') }}</td>
                                 <td>
                                     <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#viewCVModal{{ $data->id }}"

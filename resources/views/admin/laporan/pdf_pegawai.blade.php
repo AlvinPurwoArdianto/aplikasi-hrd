@@ -37,7 +37,13 @@
 
 <body>
     <h1>Laporan Pegawai</h1>
-    <p>Dari: {{ request('tanggal_awal') }} s/d {{ request('tanggal_akhir') }}</p>
+    <p>
+        Laporan Pegawai ini hanya berdasarkan tanggal masuk saja
+    </p>
+    <p>
+        Dari: {{ \Carbon\Carbon::parse(request('tanggal_awal'))->translatedFormat('d F Y') }} s/d
+        {{ \Carbon\Carbon::parse(request('tanggal_akhir'))->translatedFormat('d F Y') }}
+    </p>
     <table>
         <thead>
             <tr>

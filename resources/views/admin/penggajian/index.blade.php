@@ -118,7 +118,7 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
-                                <td>{{ $data->tanggal_gaji }}</td>
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_gaji)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->jumlah_gaji }}</td>
                                 <td>{{ $data->bonus }}</td>
                                 <td>{{ $data->potongan }}</td>
