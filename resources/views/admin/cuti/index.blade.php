@@ -117,8 +117,8 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
-                                <td>{{ $data->tanggal_mulai }}</td>
-                                <td>{{ $data->tanggal_selesai }}</td>
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_mulai)->translatedFormat('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
                                     <form action="{{ route('cuti.destroy', $data->id) }}" method="POST">

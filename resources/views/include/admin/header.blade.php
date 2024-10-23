@@ -22,7 +22,7 @@
             <li class="nav-item dropdown-notifications dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class="bx bx-bell fs-4 lh-0"></i>
-                    <span id="notification-count" class="badge bg-danger">1</span>
+                    {{-- <span id="notification-count" class="badge bg-danger">1</span> --}}
                 </a>
             </li>
 

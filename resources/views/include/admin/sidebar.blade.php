@@ -78,23 +78,25 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Data Laporan</span>
         </li>
-        <li class="menu-item"> {{-- {{ request()->routeIs('pegawai.*') || request()->routeIs('jabatan.*') ? 'active menu-open' : '' }} --}} <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <li
+            class="menu-item {{ request()->routeIs('laporan.*') || request()->routeIs('laporan.*') ? 'active menu-open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tmenu-icon tf-icons bx bxs-report" class="menu-item "></i>
                 <div data-i18n="Authentications">Laporan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item"> {{-- {{ request()->routeIs('jabatan.*') ? 'active' : '' }} --}}
-                    <a href="{{ route('laporan.index') }}" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('laporan.pegawai') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.pegawai') }}" class="menu-link">
                         <div data-i18n="Basic">Laporan Pegawai</div>
                     </a>
                 </li>
-                <li class="menu-item"> {{-- {{ request()->routeIs('pegawai.*') ? 'active' : '' }} --}}
-                    <a href="{{ route('laporan.index') }}" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('laporan.absensi') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.absensi') }}" class="menu-link">
                         <div data-i18n="Basic">Laporan Absen</div>
                     </a>
                 </li>
-                <li class="menu-item"> {{-- {{ request()->routeIs('pegawai.*') ? 'active' : '' }} --}}
-                    <a href="{{ route('laporan.index') }}" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('laporan.cuti') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.cuti') }}" class="menu-link">
                         <div data-i18n="Basic">Laporan Cuti</div>
                     </a>
                 </li>

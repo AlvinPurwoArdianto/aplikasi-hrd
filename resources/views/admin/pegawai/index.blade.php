@@ -130,7 +130,8 @@
                                 <td>{{ $data->umur }}</td>
                                 <td>{{ $data->alamat }}</td>
                                 <td>{{ $data->email }}</td>
-                                <td>{{ $data->tanggal_masuk }}</td>
+                                {{-- <td>{{ $data->tanggal_masuk }}</td> --}}
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->gaji }}</td>
                                 <td>
                                     @if ($data->status_pegawai == 1)
