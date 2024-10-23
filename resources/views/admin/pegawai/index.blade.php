@@ -1,8 +1,7 @@
 @extends('layouts.admin.template')
-{{-- @section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
-@endsection --}}
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Management Karyawan /</span> Pegawai</h4>
@@ -89,7 +88,7 @@
         @endif
 
 
-        <div class="card">
+        <div class="card mb-4">
             <h5 class="card-header">
                 <a href="{{ route('pegawai.create') }}" class="btn rounded-pill btn-info" data-bs-toggle="tooltip"
                     data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="Add pegawai"
@@ -109,12 +108,12 @@
                             <th>Nama pegawai</th>
                             <th>Jabatan</th>
                             <th>Tanggal Lahir</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Umur</th>
-                            <th>Alamat</th>
-                            <th>Email</th>
+                            {{-- <th>Jenis Kelamin</th> --}}
+                            {{-- <th>Umur</th> --}}
+                            {{-- <th>Alamat</th> --}}
+                            {{-- <th>Email</th> --}}
                             <th>Tanggal Masuk</th>
-                            <th>Gaji</th>
+                            {{-- <th>Gaji</th> --}}
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -125,14 +124,13 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama_pegawai }}</td>
                                 <td>{{ $data->jabatan->nama_jabatan }}</td>
-                                <td>{{ $data->tanggal_lahir }}</td>
-                                <td>{{ $data->jenis_kelamin }}</td>
-                                <td>{{ $data->umur }}</td>
-                                <td>{{ $data->alamat }}</td>
-                                <td>{{ $data->email }}</td>
-                                {{-- <td>{{ $data->tanggal_masuk }}</td> --}}
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') }}</td>
+                                {{-- <td>{{ $data->jenis_kelamin }}</td> --}}
+                                {{-- <td>{{ $data->umur }}</td> --}}
+                                {{-- <td>{{ $data->alamat }}</td> --}}
+                                {{-- <td>{{ $data->email }}</td> --}}
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') }}</td>
-                                <td>{{ $data->gaji }}</td>
+                                {{-- <td>{{ $data->gaji }}</td> --}}
                                 <td>
                                     @if ($data->status_pegawai == 1)
                                         <span class="badge bg-label-info">— Pegawai Aktif —</span>
@@ -152,6 +150,11 @@
                                             Edit
                                         </a>
 
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-info"
+                                            data-bs-toggle="modal" data-bs-target="#pegawaiDetailModal">
+                                            <i class="bi bi-eye-fill"></i> Detail
+                                        </a>
+
                                         <a href="{{ route('pegawai.destroy', $data->id) }}"
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
@@ -162,6 +165,48 @@
                                     </form>
                                 </td>
                             </tr>
+
+
+                            <!-- Modal Detail Pegawai -->
+                            <div class="modal fade" id="pegawaiDetailModal" tabindex="-1"
+                                aria-labelledby="pegawaiDetailModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="pegawaiDetailModalLabel">Detail Pegawai -
+                                                {{ $data->nama_pegawai }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Nama:</strong> {{ $data->nama_pegawai }} </p>
+                                            <p><strong>Jabatan:</strong> {{ $data->jabatan->nama_jabatan }} </p>
+                                            <p><strong>Tempat Lahir:</strong> {{ $data->tempat_lahir }} </p>
+                                            <p><strong>Tanggal Lahir:</strong>
+                                                {{ \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') }}
+                                            </p>
+                                            <p><strong>Jenis Kelamin:</strong> {{ $data->jenis_kelamin }} </p>
+                                            <p><strong>Alamat:</strong> {{ $data->alamat }} </p>
+                                            <p><strong>Email:</strong> {{ $data->email }} </p>
+                                            <p><strong>Tanggal Masuk:</strong>
+                                                {{ \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') }}
+                                            </p>
+                                            <p><strong>Jumlah Gaji:</strong> {{ $data->gaji }} </p>
+                                            <p><strong>Status:</strong>
+                                                @if ($data->status_pegawai == 1)
+                                                    <span class="badge bg-label-info"> Pegawai Aktif </span>
+                                                @else
+                                                    <span class="badge bg-label-dark"> Pegawai Tidak Aktif </span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -169,25 +214,12 @@
         </div>
     </div>
 @endsection
-{{-- @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+@push('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
     <script>
-        new DataTable('#example', {
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                }
-            }
-        });
+        new DataTable('#example')
     </script>
-@endpush --}}
+@endpush

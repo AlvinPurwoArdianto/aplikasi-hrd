@@ -21,7 +21,7 @@ class CreateAbsensisTable extends Migration
             $table->time('jam_keluar')->nullable();
             $table->string('status')->default('Hadir'); // Status bisa 'Hadir', 'Sakit', 'Izin', 'Alpa'
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('cascade');
+            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
             $table->timestamps();
         });
     }

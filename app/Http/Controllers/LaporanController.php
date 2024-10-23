@@ -30,12 +30,6 @@ class LaporanController extends Controller
             $pegawai = Pegawai::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get();
         }
 
-        if ($pegawai->isEmpty()) {
-            if ($request->has('pdf') || $request->has('download_pdf')) {
-                return redirect()->back()->with('error', 'PDF ERROR, Tidak ada data yang ditemukan.');
-            } //ini buat filter data apakah ada atau tidak
-        }
-
         // tampil pdf
         if ($request->has('pdf')) {
             $pdf = PDF::loadView('admin.laporan.pdf_pegawai', compact('pegawai'));

@@ -21,31 +21,38 @@
         <div class="card">
             <div class="card-header">
                 <form action="{{ route('laporan.pegawai') }}" method="GET">
-                    @csrf
                     <div class="row">
                         <div class="col-4">
-                            <input type="date" class="form-control" name="tanggal_awal" required>
+                            <input type="date" class="form-control" name="tanggal_awal"
+                                value="{{ request('tanggal_awal') }}" required>
                         </div>
                         <div class="col-4">
-                            <input type="date" class="form-control" name="tanggal_akhir" required>
+                            <input type="date" class="form-control" name="tanggal_akhir"
+                                value="{{ request('tanggal_akhir') }}" required>
                         </div>
-                        <div class="col-4">
+                        <div class="col-2">
                             <button class="btn btn-primary form-control" type="submit">Filter</button>
+                        </div>
+                        <div class="col-2">
+                            <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
+                                type="submit">Reset</a>
                         </div>
                     </div>
                 </form>
                 <div class="row mt-3">
-                    <div class="col-4">
-                        <button id="lihatPdfButton" class="btn btn-secondary form-control" data-bs-toggle="modal"
-                            data-bs-target="#pdfModal">Lihat PDF</button>
-                    </div>
-                    <div class="col-4">
-                        <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')]) }}"
-                            class="btn btn-danger form-control">Buat PDF</a>
-                    </div>
-                    <div class="col-4">
-                        <button class="btn btn-success form-control" type="submit">Buat EXCEL</button>
-                    </div>
+                    @if (!$pegawai->isEmpty())
+                        <div class="col-4">
+                            <button id="lihatPdfButton" class="btn btn-secondary form-control" data-bs-toggle="modal"
+                                data-bs-target="#pdfModal">Lihat PDF</button>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')]) }}"
+                                class="btn btn-info form-control">Buat PDF</a>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-success form-control" type="submit">Buat EXCEL</button>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
