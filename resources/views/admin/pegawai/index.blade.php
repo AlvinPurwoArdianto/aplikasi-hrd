@@ -159,6 +159,17 @@
                                             </div>
                                         </div>
 
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-info"
+                                            data-bs-toggle="modal" data-bs-target="#pegawaiDetailModal">
+                                            <i class="bi bi-eye-fill"></i> Detail
+                                        </a>
+                                        <a href="{{ route('pegawai.destroy', $data->id) }}"
+                                            class="btn rounded-pill btn-danger" data-confirm-delete="true"
+                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="right" data-bs-html="true" title="Delete Pegawai"></i>
+                                            Delete
+                                        </a>
                                     </form>
                                 </td>
                             </tr>
