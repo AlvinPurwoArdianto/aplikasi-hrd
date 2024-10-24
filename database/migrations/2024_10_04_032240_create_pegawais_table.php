@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->text('alamat');
             $table->string('email');
+            $table->string('password')->nullable();
             $table->date('tanggal_masuk');
             $table->integer('umur');
             $table->integer('gaji')->nullable()->default(0);
