@@ -201,7 +201,27 @@
             }
         });
     </script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+
+    {{-- UNTUK MODAL LAPORAN PDF --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfButton = document.getElementById('lihatPdfButton');
+            const pdfFrame = document.getElementById('pdfFrame');
+
+            pdfButton.addEventListener('click', function() {
+                const tanggalAwal = document.querySelector('input[name="tanggal_awal"]').value;
+                const tanggalAkhir = document.querySelector('input[name="tanggal_akhir"]').value;
+                const pdfUrl =
+                    `{{ route('laporan.pegawai', ['pdf' => true]) }}&tanggal_awal=${tanggalAwal}&tanggal_akhir=${tanggalAkhir}`;
+
+                // Set URL PDF ke iframe
+                pdfFrame.src = pdfUrl;
+
+                // Tampilkan modal
+                $('#pdfModal').modal('show');
+            });
+        });
+    </script>
 </body>
 
 </html>

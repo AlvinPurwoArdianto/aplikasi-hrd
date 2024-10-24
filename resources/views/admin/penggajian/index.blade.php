@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> penggajian</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> penggajian</h4>
 
         {{-- UNTUK TOAST NOTIFIKASI --}}
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -118,7 +118,7 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
-                                <td>{{ $data->tanggal_gaji }}</td>
+                                <td>{{ \Carbon\Carbon::parse($data->tanggal_gaji)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->jumlah_gaji }}</td>
                                 <td>{{ $data->bonus }}</td>
                                 <td>{{ $data->potongan }}</td>

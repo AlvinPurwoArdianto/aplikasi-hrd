@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->date('tanggal_lamaran');
             $table->string('cv');
+            $table->boolean('status_rekrutmen')->default(0);
             $table->timestamps();
         });
     }

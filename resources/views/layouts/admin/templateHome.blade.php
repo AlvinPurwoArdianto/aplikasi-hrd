@@ -48,6 +48,21 @@
 </head>
 
 <body>
+    <!-- Toast Untuk Success -->
+    @if (session('success'))
+        <div class="bs-toast toast toast-placement-ex m-2 bg-success top-0 end-0 fade show toast-custom" role="alert"
+            aria-live="assertive" aria-atomic="true" id="toastSuccess">
+            <div class="toast-header">
+                <i class="bi bi-check-circle me-2"></i>
+                <div class="me-auto fw-semibold">Success</div>
+                <small>Just Now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -201,13 +216,13 @@
             if (toastSuccess) {
                 setTimeout(function() {
                     toastSuccess.classList.add('toast-hide');
-                }, 1500);
+                }, 2000);
             }
 
             if (toastError) {
                 setTimeout(function() {
                     toastError.classList.add('toast-hide');
-                }, 1500);
+                }, 2000);
             }
         });
     </script>

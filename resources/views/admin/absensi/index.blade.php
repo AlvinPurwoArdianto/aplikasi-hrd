@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> Absensi</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu Absensi /</span> Absensi</h4>
 
         <!-- Toast Untuk Success -->
         @if (session('success'))
@@ -68,58 +68,61 @@
                 </div>
             </div>
         @endif
-        <div class="card">
 
-            <h5 class="card-header">
-                <button type="submit" href="{{ route('pegawai.create') }}" class="btn rounded-pill btn-info"
-                    data-bs-toggle="modal" data-bs-target="#absenMasukModal"
-                    style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px; margin-right: 30x">
-                    <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
-                        data-bs-html="true" title="Absen"></i>
+        <section class="attendance-list">
+            <div class="card">
+                <h5 class="card-header">
+                    <button type="submit" href="{{ route('pegawai.create') }}" class="btn rounded-pill btn-info"
+                        data-bs-toggle="modal" data-bs-target="#absenMasukModal"
+                        style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px; margin-right: 30x">
+                        <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                            data-bs-placement="left" data-bs-html="true" title="Absen"></i>
+                        Absen Masuk
+                    </button>
                     Absen Masuk
-                </button>
-                Absen Masuk
-            </h5>
+                </h5>
 
-            <div class="table-responsive text-nowrap">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Pegawai</th>
-                            <th>Tanggal</th>
-                            <th>Jam Masuk</th>
-                            <th>Jam Keluar</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($absensi as $data)
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->pegawai->nama_pegawai }}</td>
-                                <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
-                                <td>{{ $data->jam_masuk }}</td>
-                                <td>
-                                    {{ $data->jam_keluar ?? 'Belum Absen Pulang' }}
-                                </td>
-                                <td>
-                                    @if (is_null($data->jam_keluar))
-                                        <form action="{{ route('absensi.update', $data->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning" data-confirm-delete="true"
-                                                onclick="confirmAbsenPulang({{ $data->id }})">Absen Pulang</button>
-                                        </form>
-                                    @else
-                                        <button class="btn btn-secondary" disabled>Sudah Absen Pulang</button>
-                                    @endif
-                                </td>
+                                <th>No</th>
+                                <th>Nama Pegawai</th>
+                                <th>Tanggal</th>
+                                <th>Jam Masuk</th>
+                                <th>Jam Keluar</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($absensi as $data)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $data->pegawai->nama_pegawai }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
+                                    <td>{{ $data->jam_masuk }}</td>
+                                    <td>
+                                        {{ $data->jam_keluar ?? 'Belum Absen Pulang' }}
+                                    </td>
+                                    <td>
+                                        @if (is_null($data->jam_keluar))
+                                            <form action="{{ route('absensi.update', $data->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-warning" data-confirm-delete="true"
+                                                    onclick="confirmAbsenPulang({{ $data->id }})">Absen Pulang</button>
+                                            </form>
+                                        @else
+                                            <button class="btn btn-secondary" disabled>Sudah Absen Pulang</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- Modal Absen Masuk -->

@@ -21,13 +21,13 @@
         </li>
 
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text"><strong>Menu</strong></span>
+            <span class="menu-header-text">Menu</span>
         </li>
         <li
             class="menu-item {{ request()->routeIs('pegawai.*') || request()->routeIs('jabatan.*') ? 'active menu-open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tmenu-icon tf-icons bx bx-user" class="menu-item "></i>
-                <div data-i18n="Authentications">Karyawan</div>
+                <i class="menu-icon tmenu-icon tf-icons bx bxs-user-pin" class="menu-item "></i>
+                <div data-i18n="Authentications">Management Karyawan</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('jabatan.*') ? 'active' : '' }}">
@@ -46,7 +46,7 @@
             class="menu-item {{ request()->routeIs('absensi.*') || request()->routeIs('cuti.*') ? 'active menu-open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tmenu-icon tf-icons bx bx-calendar" class="menu-item "></i>
-                <div data-i18n="Authentications">Absensi</div>
+                <div data-i18n="Authentications">Menu Absensi</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
@@ -74,11 +74,33 @@
                 <div data-i18n="Analytics">Rekrutmen</div>
             </a>
         </li>
-        <li class="menu-item"> {{-- {{ url()->current() == route('laporan.index') ? 'active' : '' }} > --}}
-            <a href="#" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Analytics">Laporan</div>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Data Laporan</span>
+        </li>
+        <li
+            class="menu-item {{ request()->routeIs('laporan.*') || request()->routeIs('laporan.*') ? 'active menu-open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tmenu-icon tf-icons bx bxs-report" class="menu-item "></i>
+                <div data-i18n="Authentications">Laporan</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->routeIs('laporan.pegawai') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.pegawai') }}" class="menu-link">
+                        <div data-i18n="Basic">Laporan Pegawai</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('laporan.absensi') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.absensi') }}" class="menu-link">
+                        <div data-i18n="Basic">Laporan Absen</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('laporan.cuti') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.cuti') }}" class="menu-link">
+                        <div data-i18n="Basic">Laporan Cuti</div>
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 </aside>

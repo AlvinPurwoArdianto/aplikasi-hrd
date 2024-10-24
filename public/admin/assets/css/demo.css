@@ -5,7 +5,6 @@
 /* UNTUK SIDEBAR DROPDOWN */
 .menu-open .menu-sub {
     display: block;
-    /* Tampilkan submenu jika menu utama aktif */
 }
 
 /* UNTUK TOAST SLIDE */

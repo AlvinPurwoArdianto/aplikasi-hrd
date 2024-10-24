@@ -16,7 +16,7 @@ class CreateCutisTable extends Migration
             $table->string('alasan');
             $table->timestamps();
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('cascade');
+            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
         });
     }
 

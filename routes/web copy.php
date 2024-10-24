@@ -8,16 +8,12 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::resource('/', WelcomeController::class)->names('welcome');
-// Route::put('/{id}/update', [WelcomeController::class, 'update'])->name('welcome.update');
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/cobain', function () {
     return view('cobain');
@@ -67,7 +63,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('absensi', [AbsensiController::class, 'store'])->name('absensi.store');
     Route::get('absensi/{id}', [AbsensiController::class, 'show'])->name('absensi.show');
     Route::get('absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
-    Route::put('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
+    Route::post('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
     Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 
     //Route rekrutmen
@@ -78,7 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('rekrutmen', [RekrutmenController::class, 'store'])->name('rekrutmen.store');
     Route::get('rekrutmen/{id}', [RekrutmenController::class, 'show'])->name('rekrutmen.show');
     Route::get('rekrutmen/{id}/edit', [RekrutmenController::class, 'edit'])->name('rekrutmen.edit');
-    Route::put('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
+    Route::post('rekrutmen/{id}', [RekrutmenController::class, 'update'])->name('rekrutmen.update');
     Route::delete('rekrutmen/{id}', [RekrutmenController::class, 'destroy'])->name('rekrutmen.destroy');
 
     //Route cuti
@@ -89,13 +85,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('cuti', [cutisController::class, 'store'])->name('cuti.store');
     Route::get('cuti/{id}', [cutisController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/edit', [cutisController::class, 'edit'])->name('cuti.edit');
-    Route::put('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
+    Route::post('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
     Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan
-    Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
-    Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
-    Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
+    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::post('/laporan/filter', [LaporanController::class, 'filter'])->name('laporan.filter');
+    // Route::post('print-laporan', [LaporanController::class, 'printReport'])->name('printReport');
 });
 
 // LOGIN GOOGLE
@@ -107,34 +103,3 @@ Route::get('/callback', [SocialiteController::class, 'callback'])->name('callbac
 Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('guest');
 
 Auth::routes();
-
-Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
-    Route::get('dashboard', function () {
-        return view('user.dashboard.index');
-    });
-
-    Route::get('absensi', [WelcomeController::class, 'index'])->name('welcome.index');
-    Route::resource('/absensi', WelcomeController::class)->names('welcome');
-    Route::put('/{id}/update', [WelcomeController::class, 'update'])->name('welcome.update');
-    Route::get('absensi/create', [WelcomeController::class, 'create'])->name('welcome.create');
-    Route::post('absensi', [WelcomeController::class, 'store'])->name('welcome.store');
-    Route::get('absensi/{id}/edit', [WelcomeController::class, 'edit'])->name('welcome.edit');
-    Route::post('absensi/{id}', [WelcomeController::class, 'update'])->name('welcome.update');
-
-    Route::get('penggajian', [PenggajianController::class, 'index1'])->name('penggajian.index1');
-    Route::get('penggajian/create', [PenggajianController::class, 'create1'])->name('penggajian.create1');
-    Route::post('penggajian', [PenggajianController::class, 'store1'])->name('penggajian.store1');
-    Route::get('penggajian/{id}', [PenggajianController::class, 'show1'])->name('penggajian.show1');
-    Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit1'])->name('penggajian.edit1');
-    Route::put('penggajian/{id}', [PenggajianController::class, 'update1'])->name('penggajian.update1');
-    Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy1'])->name('penggajian.destroy1');
-
-    Route::get('profile', function () {
-        return view('user.profile.index');
-    });
-
-});
-
-// Route::get('gsap', function () {
-//     return view('gsap');
-// });

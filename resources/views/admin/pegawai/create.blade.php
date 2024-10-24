@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Karyawan /</span> <span
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Management Karyawan /</span> <span
                 class="text-muted fw-light">Pegawai /</span> Create</h4>
 
         <div class="card mb-4">
@@ -102,16 +102,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Status Pegawai</label>
                         <div class="col-sm-10">
                             <select name="status_pegawai" id="" class="form-control">
                                 <option selected disabled>-- Pilih Status Pegawai --</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Tidak Aktif">Tidak Aktif</option>
+                                <option value="1">Aktif</option>
+                                <option value="0">Tidak Aktif</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
                             <a href="{{ route('pegawai.index') }} " class="btn btn-primary">Kembali</a>
