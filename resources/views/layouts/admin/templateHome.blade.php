@@ -40,6 +40,8 @@
 
     <!-- Helpers -->
     <script src="{{ asset('admin/assets/vendor/js/helpers.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -163,7 +165,131 @@
                         </div>
 
                         {{-- DIBAWAH INI ADALAH UNTUK BAHAN SELANJUTNYA --}}
+                        <style>
+    .chart-container {
+        display: flex;
+        justify-content: space-between;
+    }
 
+    .chart-box {
+        width: 48%; /* Adjusts width to fit side by side */
+    }
+
+    canvas {
+        max-height: 300px; /* Maintain consistent chart size */
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="compact-form-group">
+                        <h5 class="card-title">Pengeluaran Perusahaan dari Penggajian ({{ $selectedYear }})</h5>
+                        
+                        <!-- Year Selection Dropdown -->
+                        <form method="GET" action="{{ route('home') }}" style="margin-left: auto;">
+                            <label for="year">Tahun:</label>
+                            <select id="year" name="year" onchange="this.form.submit()">
+                                @foreach($availableYears as $year)
+                                    <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+
+                    <div class="chart-container">
+                        <!-- Expenditure Chart -->
+                        <div class="chart-box">
+                            <canvas id="pengeluaranChart"></canvas>
+                        </div>
+
+                        <!-- Growth Percentage Chart -->
+                        <div class="chart-box">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx1 = document.getElementById('pengeluaranChart').getContext('2d');
+        var ctx2 = document.getElementById('growthChart').getContext('2d');
+
+        var labels = {!! json_encode(array_keys($allMonths)) !!}; // e.g., January, February...
+        var data = {!! json_encode(array_values($allMonths)) !!}; // Pengeluaran per bulan
+
+        // Expenditure Chart
+        var pengeluaranChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Pengeluaran (Rp) - ' + '{{ $selectedYear }}',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Growth Percentage Chart
+        var growthLabels = {!! json_encode(array_keys($growthData)) !!}; // e.g., Previous Year, Current Year
+        var growthData = {!! json_encode(array_values($growthData)) !!}; // Growth percentages
+
+        var growthChart = new Chart(ctx2, {
+            type: 'line', // Change to line chart for growth
+            data: {
+                labels: growthLabels,
+                datasets: [{
+                    label: 'Growth (%)',
+                    data: growthData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Growth (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Years'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+                        
+``                        
+                        
                         INI BUAT CHART DAN LAIN LAIN
                     </div>
 
