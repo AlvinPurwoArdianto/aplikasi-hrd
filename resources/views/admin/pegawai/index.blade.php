@@ -88,7 +88,7 @@
         @endif
 
 
-        <div class="card mb-4">
+        <div class="card mb-4 pb-2">
             <h5 class="card-header">
                 <a href="{{ route('pegawai.create') }}" class="btn rounded-pill btn-info" data-bs-toggle="tooltip"
                     data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="Add pegawai"
@@ -142,19 +142,27 @@
                                     <form action="{{ route('pegawai.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('pegawai.edit', $data->id) }}"
-                                            class="btn rounded-pill btn-primary"
-                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                            <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                data-bs-placement="left" data-bs-html="true" title="Edit pegawai"></i>
-                                            Edit
-                                        </a>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ route('pegawai.edit', $data->id) }}"><i
+                                                        class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                <a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#pegawaiDetailModal">
+                                                    <i class="bi bi-eye-fill"></i> Lihat Detail</a>
+                                                <a class="dropdown-item" data-confirm-delete="true"
+                                                    href="{{ route('pegawai.destroy', $data->id) }}"><i
+                                                        class="bx bx-trash me-1"></i> Delete</a>
+                                            </div>
+                                        </div>
 
                                         <a href="javascript:void(0)" class="btn rounded-pill btn-info"
                                             data-bs-toggle="modal" data-bs-target="#pegawaiDetailModal">
                                             <i class="bi bi-eye-fill"></i> Detail
                                         </a>
-
                                         <a href="{{ route('pegawai.destroy', $data->id) }}"
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">

@@ -63,6 +63,7 @@ class PegawaiController extends Controller
         $pegawai->jenis_kelamin = $request->jenis_kelamin;
         $pegawai->alamat = $request->alamat;
         $pegawai->email = $request->email;
+        $pegawai->password = $request->password;
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->umur = $request->umur;
         $pegawai->gaji = $request->gaji;

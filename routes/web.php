@@ -23,6 +23,10 @@ Route::get('/cobain', function () {
     return view('cobain');
 });
 
+Route::get('/cobain', function () {
+    return view('cobain');
+});
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
