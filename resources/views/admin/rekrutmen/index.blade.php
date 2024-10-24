@@ -218,7 +218,7 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="embed-responsive" style="height: 400px;">
+                                            <div class="embed-responsive" style="height: 500px;">
                                                 <embed src="{{ Storage::url($data->cv) }}" type="application/pdf"
                                                     width="100%" height="100%">
                                             </div>
