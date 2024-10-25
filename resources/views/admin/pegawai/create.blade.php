@@ -85,6 +85,24 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Masukan Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" id="password-confirm"
+                                    name="password_confirmation" placeholder="Masukan Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Tanggal Masuk</label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">

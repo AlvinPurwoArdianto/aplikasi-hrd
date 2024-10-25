@@ -108,6 +108,7 @@
                             <th>Tanggal Mulai Cuti</th>
                             <th>Tanggal Selesai Cuti</th>
                             <th>Alasan Cuti</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -116,22 +117,23 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
+                                {{-- <td></td> --}}
                                 <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
+                                {{-- <td>{{ $data->pegawai->jabatan->nama_jabatan ?? 'Tidak ada jabatan' }}</td> --}}
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_mulai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
+                                    @if ($data->status == 1)
+                                        <span class="badge bg-label-info">— Diterima —</span>
+                                    @else
+                                        <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
+                                    @endif
+                                </td>
+                                <td>
                                     <form action="{{ route('cuti.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
-                                            data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
-                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                            <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                data-bs-placement="left" data-bs-html="true" title="Edit cuti"></i>
-                                            Edit
-                                        </a>
-
                                         <a href="{{ route('cuti.destroy', $data->id) }}"
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
@@ -142,86 +144,6 @@
                                     </form>
                                 </td>
                             </tr>
-
-                            <!-- Modal Edit cuti -->
-                            <div class="modal fade  " id="editModal{{ $data->id }}" tabindex="-1"
-                                aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Edit cuti</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ route('cuti.update', $data->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col mb-0">
-                                                        <label for="nameBasic" class="form-label">Nama Pegawai</label>
-                                                        <select name="id_pegawai" class="form-control" id="pegawai"
-                                                            required>
-                                                            <option selected disabled>-- Nama pegawai --</option>
-                                                            @foreach ($pegawai as $data)
-                                                                <option value="{{ $data->id }}"
-                                                                    {{ session('id_pegawai') && in_array($data->id, session('id_pegawai')) ? 'disabled' : '' }}
-                                                                    data-jabatan="{{ $data->jabatan->nama_jabatan }}">
-                                                                    {{ $data->nama_pegawai }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label class="col-sm-2 col-form-label"
-                                                            for="basic-default-name">Jabatan</label>
-                                                        <div class="col">
-                                                            <select name="jabatan" id="jabatan" class="form-control"
-                                                                disabled>
-                                                                <option>-- Pilih Jabatan --</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col mb-0">
-                                                        <label for="nameBasic" class="form-label">Tanggal Mulai
-                                                            Cuti</label>
-                                                        <input type="date" class="form-control" name="tanggal_gaji"
-                                                            required>
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label class="col col-form-label" for="basic-default-name">Jumlah
-                                                            Nominal <span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <input type="number" class="form-control" name="jumlah_gaji"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <div class="col mb-0">
-                                                        <label for="nameBasic" class="form-label">Tambahan Bonus</label>
-                                                        <input type="number" class="form-control" name="bonus">
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label class="col col-form-label" for="basic-default-name">Jumlah
-                                                            Potongan</label>
-                                                        <div class="col">
-                                                            <input type="number" class="form-control" name="potongan">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -243,12 +165,12 @@
                         <div class="row">
                             <div class="col mb-0">
                                 <label for="nameBasic" class="form-label">Nama Pegawai</label>
-                                <select name="id_pegawai" class="form-control" id="pegawai" required>
+                                <select name="id_user" class="form-control" id="pegawai" required>
                                     <option selected disabled>-- Nama pegawai --</option>
                                     @foreach ($pegawai as $data)
                                         <option value="{{ $data->id }}"
-                                            {{ session('id_pegawai') && in_array($data->id, session('id_pegawai')) ? 'disabled' : '' }}
-                                            data-jabatan="{{ $data->jabatan->nama_jabatan }}">
+                                            {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
+                                            data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
                                             {{ $data->nama_pegawai }}
                                         </option>
                                     @endforeach

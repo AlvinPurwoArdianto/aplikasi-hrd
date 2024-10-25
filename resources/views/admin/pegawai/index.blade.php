@@ -108,12 +108,7 @@
                             <th>Nama pegawai</th>
                             <th>Jabatan</th>
                             <th>Tanggal Lahir</th>
-                            {{-- <th>Jenis Kelamin</th> --}}
-                            {{-- <th>Umur</th> --}}
-                            {{-- <th>Alamat</th> --}}
-                            {{-- <th>Email</th> --}}
-                            <th>Tanggal Masuk</th>
-                            {{-- <th>Gaji</th> --}}
+                            <th>Email</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -123,14 +118,10 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama_pegawai }}</td>
-                                <td>{{ $data->jabatan->nama_jabatan }}</td>
+                                {{-- <td>{{ $data->jabatan->nama_jabatan }}</td> --}}
+                                <td>{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') }}</td>
-                                {{-- <td>{{ $data->jenis_kelamin }}</td> --}}
-                                {{-- <td>{{ $data->umur }}</td> --}}
-                                {{-- <td>{{ $data->alamat }}</td> --}}
-                                {{-- <td>{{ $data->email }}</td> --}}
-                                <td>{{ \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') }}</td>
-                                {{-- <td>{{ $data->gaji }}</td> --}}
+                                <td>{{ $data->email }}</td>
                                 <td>
                                     @if ($data->status_pegawai == 1)
                                         <span class="badge bg-label-info">— Pegawai Aktif —</span>
@@ -151,7 +142,7 @@
                                                 <a class="dropdown-item" href="{{ route('pegawai.edit', $data->id) }}"><i
                                                         class="bx bx-edit-alt me-1"></i> Edit</a>
                                                 <a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#pegawaiDetailModal">
+                                                    data-bs-target="#pegawaiDetailModal{{ $data->id }}">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
                                                 <a class="dropdown-item" data-confirm-delete="true"
                                                     href="{{ route('pegawai.destroy', $data->id) }}"><i
@@ -165,35 +156,40 @@
 
 
                             <!-- Modal Detail Pegawai -->
-                            <div class="modal fade" id="pegawaiDetailModal" tabindex="-1"
-                                aria-labelledby="pegawaiDetailModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                            <div class="modal fade" id="pegawaiDetailModal{{ $data->id }}" tabindex="-1"
+                                aria-labelledby="pegawaiDetailModalLabel{{ $data->id }}" aria-hidden="true"
+                                data-bs-backdrop="static">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="pegawaiDetailModalLabel">Detail Pegawai -
+                                            <h5 class="modal-title" id="pegawaiDetailModalLabel{{ $data->id }}">
+                                                Detail Pegawai -
                                                 {{ $data->nama_pegawai }}</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <p><strong>Nama:</strong> {{ $data->nama_pegawai }} </p>
-                                            <p><strong>Jabatan:</strong> {{ $data->jabatan->nama_jabatan }} </p>
-                                            <p><strong>Tempat Lahir:</strong> {{ $data->tempat_lahir }} </p>
+                                            <p><strong>Jabatan:</strong>
+                                                {{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}
+                                            </p>
+                                            <p><strong>Tempat Lahir:</strong>
+                                                {{ $data->tempat_lahir ? $data->tempat_lahir : 'Tidak Ada' }} </p>
                                             <p><strong>Tanggal Lahir:</strong>
-                                                {{ \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') }}
+                                                {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Jenis Kelamin:</strong> {{ $data->jenis_kelamin }} </p>
-                                            <p><strong>Alamat:</strong> {{ $data->alamat }} </p>
                                             <p><strong>Email:</strong> {{ $data->email }} </p>
+                                            <p><strong>Alamat:</strong> {{ $data->alamat }} </p>
                                             <p><strong>Tanggal Masuk:</strong>
-                                                {{ \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') }}
+                                                {{ $data->tanggal_masuk ? \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Jumlah Gaji:</strong> {{ $data->gaji }} </p>
+                                            <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
+                                            <p><strong>Gaji:</strong> {{ $data->gaji }} </p>
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)
-                                                    <span class="badge bg-label-info"> Pegawai Aktif </span>
+                                                    <span class="badge bg-label-info">— Pegawai Aktif —</span>
                                                 @else
-                                                    <span class="badge bg-label-dark"> Pegawai Tidak Aktif </span>
+                                                    <span class="badge bg-label-dark">— Pegawai Tidak Aktif —</span>
                                                 @endif
                                             </p>
                                         </div>

@@ -33,14 +33,29 @@ class JabatanController extends Controller
     {
         $request->validate([
             'nama_jabatan' => 'required|unique:jabatans',
+            'additional_fields.*' => 'nullable|string|unique:jabatans,nama_jabatan',
         ], [
             'nama_jabatan.unique' => 'Nama jabatan sudah ada!',
+            'additional_fields.*.unique' => 'Nama jabatan tambahan sudah ada!',
         ]
         );
 
         $jabatan = new Jabatan();
         $jabatan->nama_jabatan = $request->nama_jabatan;
         $jabatan->save();
+
+        // Simpan jabatan tambahan (jika ada)
+        if ($request->has('additional_fields')) {
+            foreach ($request->additional_fields as $additionalField) {
+                if (!empty($additionalField)) {
+                    // Buat instance baru untuk tiap jabatan tambahan
+                    $newJabatan = new Jabatan();
+                    $newJabatan->nama_jabatan = $additionalField;
+                    $newJabatan->save();
+                }
+            }
+        }
+
         return redirect()->route('jabatan.index')->with('success', 'Jabatan berhasil ditambahkan!');
     }
 

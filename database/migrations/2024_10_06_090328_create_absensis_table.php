@@ -15,13 +15,13 @@ class CreateAbsensisTable extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pegawai');
+            $table->unsignedBigInteger('id_user');
             $table->date('tanggal_absen');
             $table->time('jam_masuk')->nullable();
             $table->time('jam_keluar')->nullable();
             $table->string('status')->default('Hadir'); // Status bisa 'Hadir', 'Sakit', 'Izin', 'Alpa'
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();
         });
     }

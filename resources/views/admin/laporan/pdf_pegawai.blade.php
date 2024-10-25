@@ -57,16 +57,21 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $no = 1;
+            @endphp
             @foreach ($pegawai as $item)
-                <tr>
-                    <td>{{ $loop->index + 1 }}</td>
-                    <td>{{ $item->nama_pegawai }}</td>
-                    <td>{{ $item->jabatan->nama_jabatan }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->translatedFormat('d F Y') }}</td>
-                    <td>{{ $item->umur }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ number_format($item->gaji, 2, ',', '.') }}</td>
-                </tr>
+                @if ($item->is_admin == 0)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $item->nama_pegawai }}</td>
+                        <td>{{ $item->jabatan ? $item->jabatan->nama_jabatan : 'Tidak ada jabatan' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->translatedFormat('d F Y') }}</td>
+                        <td>{{ $item->umur }}</td>
+                        <td>{{ $item->email }}</td>
+                        <td>{{ number_format($item->gaji, 2, ',', '.') }}</td>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>

@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Absensi;
 use App\Models\Cutis;
 use App\Models\Jabatan;
-use App\Models\Pegawai;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    public function index()
+    public function indexPegawai()
     {
         $absensi = Absensi::latest()->get();
-        $pegawai = Pegawai::all();
-        return view('admin.laporan.index', compact('absensi', 'pegawai'));
+        $pegawai = User::all();
+        return view('admin.laporan.pegawai', compact('absensi', 'pegawai'));
     }
 
     // LAPORAN BUAT PEGAWAI DAN FILTER
@@ -25,9 +25,9 @@ class LaporanController extends Controller
         $tanggalAkhir = $request->input('tanggal_akhir');
 
         if (!$tanggalAwal || !$tanggalAkhir) {
-            $pegawai = Pegawai::all();
+            $pegawai = User::all();
         } else {
-            $pegawai = Pegawai::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get();
+            $pegawai = User::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get();
         }
 
         // tampil pdf
@@ -47,7 +47,7 @@ class LaporanController extends Controller
     // LAPORAN BUAT ABSENSI DAN FILTER
     public function absensi()
     {
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         $jabatan = Jabatan::all();
         $absensi = Absensi::all();
         return view('admin.laporan.absensi', compact('pegawai', 'jabatan', 'absensi'));
@@ -56,7 +56,7 @@ class LaporanController extends Controller
     //LAPORAN BUAT CUTI DAN FILTER
     public function cuti()
     {
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         $jabatan = Jabatan::all();
         $cuti = Cutis::all();
         return view('admin.laporan.cuti', compact('pegawai', 'jabatan', 'cuti'));

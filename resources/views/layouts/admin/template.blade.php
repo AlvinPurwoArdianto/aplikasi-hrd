@@ -222,6 +222,20 @@
             });
         });
     </script>
+
+    {{-- BUAT NAMBAH FIELD JABATAN --}}
+    <script>
+        function addField() {
+            const container = document.getElementById('additionalFields');
+            const inputGroup = document.createElement('div');
+            inputGroup.classList.add('mb-3');
+            inputGroup.innerHTML = `
+            <input type="text" name="additional_fields[]" class="form-control mt-2" placeholder="Nama Jabatan Tambahan" required>
+        `;
+            container.appendChild(inputGroup);
+        }
+    </script>
+
 </body>
 
 </html>

@@ -22,6 +22,6 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Menambahkan pesan flash untuk login sukses
-        session()->flash('success', 'Login berhasil! Selamat datang, ' . $user->name);
+        session()->flash('success', 'Login berhasil! Selamat datang, ' . $user->nama_pegawai);
     }
 }

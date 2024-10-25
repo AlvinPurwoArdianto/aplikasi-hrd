@@ -10,7 +10,7 @@ class Cutis extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_pegawai',
+        'id_user',
         'tanggal_mulai',
         'tanggal_selesai',
         'alasan',
@@ -20,6 +20,6 @@ class Cutis extends Model
 
     public function pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'id_pegawai');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

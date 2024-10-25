@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
-use App\Models\Pegawai;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +16,7 @@ class AbsensiController extends Controller
     public function index()
     {
         $absensi = Absensi::latest()->get();
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         return view('admin.absensi.index', compact('absensi', 'pegawai'));
     }
 
@@ -26,7 +26,7 @@ class AbsensiController extends Controller
     public function create()
     {
         $absensi = Absensi::all();
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         return view('admin.absensi.index', compact('absensi', 'pegawai'));
 
     }
@@ -38,22 +38,27 @@ class AbsensiController extends Controller
     {
         date_default_timezone_set('Asia/Jakarta');
 
-        $pegawai = Pegawai::find($request->id_pegawai);
-        $sudahAbsen = Absensi::where('id_Pegawai', $pegawai->id)->whereDate('created_at', today())->first();
+        // $request->validate([
+        //     'id_user' => 'required|exists:users,id',
+        // ]);
 
+        // untuk mengecek apakah user ditemukan
+        $pegawai = User::find($request->id_user);
+        if (!$pegawai) {
+            return redirect()->route('absensi.create')->with('error', 'User tidak ditemukan!');
+        }
+
+        // Cek apakah sudah absen hari ini
+        $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('created_at', today())->first();
         if ($sudahAbsen) {
             return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
         }
-
-        $request->validate([
-            'id_pegawai' => 'required|exists:pegawais,id',
-        ]);
 
         // Ambil waktu sekarang
         $jamMasuk = now()->format('H:i'); // atau bisa gunakan Carbon::now()
 
         Absensi::create([
-            'id_pegawai' => $request->id_pegawai,
+            'id_user' => $request->id_user,
             'tanggal_absen' => now()->format('Y-m-d'), // format tanggal
             'jam_masuk' => $jamMasuk, // format jam
         ]);
@@ -75,7 +80,7 @@ class AbsensiController extends Controller
     public function edit($id)
     {
         $absensi = Absensi::findOrFail($id);
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         return view('admin.absensi.index', compact('absensi', 'pegawai'));
     }
 

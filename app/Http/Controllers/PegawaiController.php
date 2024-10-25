@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
-use App\Models\Pegawai;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
@@ -13,7 +15,7 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $pegawai = Pegawai::latest()->get();
+        $pegawai = User::all();
         $jabatan = Jabatan::all();
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
@@ -24,7 +26,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         $jabatan = Jabatan::all();
         return view('admin.pegawai.create', compact('pegawai', 'jabatan'));
     }
@@ -56,14 +58,14 @@ class PegawaiController extends Controller
         ]
         );
 
-        $pegawai = new Pegawai();
+        $pegawai = new User();
         $pegawai->nama_pegawai = $request->nama_pegawai;
         $pegawai->tempat_lahir = $request->tempat_lahir;
         $pegawai->tanggal_lahir = $request->tanggal_lahir;
         $pegawai->jenis_kelamin = $request->jenis_kelamin;
         $pegawai->alamat = $request->alamat;
         $pegawai->email = $request->email;
-        $pegawai->password = $request->password;
+        $pegawai->password = Hash::make($request->password);
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->umur = $request->umur;
         $pegawai->gaji = $request->gaji;
@@ -88,7 +90,7 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pegawai = User::findOrFail($id);
         $jabatan = Jabatan::all();
         return view('admin.pegawai.edit', compact('pegawai', 'jabatan'));
     }
@@ -126,7 +128,7 @@ class PegawaiController extends Controller
         // ]
         // );
 
-        $pegawai = Pegawai::findOrFail($id);
+        $pegawai = User::findOrFail($id);
         $pegawai->nama_pegawai = $request->nama_pegawai;
         $pegawai->tempat_lahir = $request->tempat_lahir;
         $pegawai->tanggal_lahir = $request->tanggal_lahir;
@@ -149,8 +151,13 @@ class PegawaiController extends Controller
      */
     public function destroy($id)
     {
-        $pegawai = Pegawai::find($id);
-        $pegawai->delete();
-        return redirect()->route('pegawai.index')->with('danger', 'pegawai berhasil dihapus!');
+        $pegawai = User::find($id);
+        if (Auth::user()->id !== $pegawai->id) {
+            $pegawai->delete();
+            return redirect()->route('pegawai.index')->with('danger', 'pegawai berhasil dihapus!');
+        }
+
+        return redirect()->route('pegawai.index')->with('danger', 'Anda tidak bisa menghapus diri sendiri!');
+
     }
 }

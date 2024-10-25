@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -23,10 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
 
-        $totalPegawai = Pegawai::count('id');
-        $totalPenggajian = Pegawai::sum('gaji');
+        $totalPegawai = User::count('id');
+        $totalPenggajian = User::sum('gaji');
         // $fasilitas = Fasilitas::count('id');
         // $artikel = Artikel::count('id');
         // $pendaftaran = Pendaftaran::count('id');
