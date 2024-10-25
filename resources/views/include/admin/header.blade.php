@@ -35,7 +35,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>{{ $notification->pegawai->nama_pegawai }} mengajukan cuti</span>
                                 <form action="{{ route('cuti.confirm', $notification->id) }}" method="POST"
-                                    class="d-inline">
+                                    class="d-inline ml-4">
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" class="btn btn-sm btn-success">Terima</button>
