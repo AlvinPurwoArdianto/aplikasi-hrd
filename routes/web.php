@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::get('cuti/{id}', [CutisController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/edit', [CutisController::class, 'edit'])->name('cuti.edit');
     Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
+    Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
     Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan

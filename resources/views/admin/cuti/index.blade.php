@@ -118,13 +118,13 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 {{-- <td></td> --}}
-                                <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
-                                {{-- <td>{{ $data->pegawai->jabatan->nama_jabatan ?? 'Tidak ada jabatan' }}</td> --}}
+                                {{-- <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td> --}}
+                                <td>{{ $data->pegawai->jabatan->nama_jabatan ?? 'Tidak ada jabatan' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_mulai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @if ($data->status == 1)
+                                    @if ($data->status_cuti == 1)
                                         <span class="badge bg-label-info">— Diterima —</span>
                                     @else
                                         <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>

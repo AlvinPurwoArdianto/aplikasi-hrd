@@ -12,8 +12,9 @@ class CutisController extends Controller
     {
         $pegawai = User::all();
         $cuti = Cutis::with(['pegawai.jabatan'])->get();
+        $cutiNotifications = Cutis::where('status_cuti', 0)->get();
         confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
-        return view('admin.cuti.index', compact('cuti', 'pegawai'));
+        return view('admin.cuti.index', compact('cuti', 'pegawai', 'cutiNotifications'));
     }
 
     public function create()
@@ -29,7 +30,7 @@ class CutisController extends Controller
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'alasan' => 'required|string|max:255',
         ]);
-        // Simpan data cuti baru
+
         $cuti = new Cutis();
         $cuti->id_user = $request->id_user;
         $cuti->tanggal_mulai = $request->tanggal_mulai;
@@ -56,4 +57,14 @@ class CutisController extends Controller
         $cuti->delete();
         return redirect()->route('cuti.index')->with('success', 'Cuti berhasil dihapus.');
     }
+
+    public function confirm($id)
+    {
+        $cuti = Cutis::findOrFail($id);
+        $cuti->status_cuti = 1;
+        $cuti->save();
+
+        return redirect()->back()->with('success', 'Pengajuan cuti diterima.');
+    }
+
 }
