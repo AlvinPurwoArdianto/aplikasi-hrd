@@ -17,9 +17,9 @@ return new class extends Migration
             $table->integer('jumlah_gaji');
             $table->integer('bonus')->nullable()->default(0);
             $table->integer('potongan')->nullable()->default(0);
-            $table->unsignedBigInteger('id_pegawai');
+            $table->unsignedBigInteger('id_user');
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
             $table->timestamps();
         });
     }

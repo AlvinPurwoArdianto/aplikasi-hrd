@@ -17,10 +17,21 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama_pegawai',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat',
+        'tanggal_masuk',
+        'umur',
+        'gaji',
+        'status_pegawai',
         'google_id',
         'email',
+        'email_verified_at',
         'password',
+        'is_admin',
+        'id_jabatan',
     ];
 
     /**
@@ -44,5 +55,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function penggajian()
+    {
+        return $this->hasMany(Penggajian::class, 'id_user');
+    }
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class, 'id_user');
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'id_jabatan');
+    }
+    public function cuti()
+    {
+        return $this->hasMany(Cutis::class, 'id_user');
     }
 }

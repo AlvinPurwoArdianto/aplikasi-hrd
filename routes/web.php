@@ -8,6 +8,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Middleware\isAdmin;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,18 +17,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-// Route::resource('/', WelcomeController::class)->names('welcome');
-// Route::put('/{id}/update', [WelcomeController::class, 'update'])->name('welcome.update');
-
 Route::get('/cobain', function () {
     return view('cobain');
 });
 
-Route::get('/cobain', function () {
-    return view('cobain');
-});
-
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // Route Jabatan
@@ -45,12 +39,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // Route::resource('pegawai', PegawaiConteroller::class);
     // Route pegawai Tanpa Resource
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
-    Route::get('pegawai/create', [pegawaiController::class, 'create'])->name('pegawai.create');
-    Route::post('pegawai', [pegawaiController::class, 'store'])->name('pegawai.store');
-    Route::get('pegawai/{id}', [pegawaiController::class, 'show'])->name('pegawai.show');
-    Route::get('pegawai/{id}/edit', [pegawaiController::class, 'edit'])->name('pegawai.edit');
-    Route::put('pegawai/{id}', [pegawaiController::class, 'update'])->name('pegawai.update');
-    Route::delete('pegawai/{id}', [pegawaiController::class, 'destroy'])->name('pegawai.destroy');
+    Route::get('pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
+    Route::post('pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
+    Route::get('pegawai/{id}', [PegawaiController::class, 'show'])->name('pegawai.show');
+    Route::get('pegawai/{id}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
+    Route::put('pegawai/{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
+    Route::delete('pegawai/{id}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 
     //Route Penggajian
     // Route::resource('penggajian', PenggajianController::class);
@@ -89,12 +83,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     // Route::resource('cuti', CutisController::class);
     // Route cuti Tanpa Resource
     Route::get('cuti', [CutisController::class, 'index'])->name('cuti.index');
-    Route::get('cuti/create', [cutisController::class, 'create'])->name('cuti.create');
-    Route::post('cuti', [cutisController::class, 'store'])->name('cuti.store');
-    Route::get('cuti/{id}', [cutisController::class, 'show'])->name('cuti.show');
-    Route::get('cuti/{id}/edit', [cutisController::class, 'edit'])->name('cuti.edit');
-    Route::put('cuti/{id}', [cutisController::class, 'update'])->name('cuti.update');
-    Route::delete('cuti/{id}', [cutisController::class, 'destroy'])->name('cuti.destroy');
+    Route::get('cuti/create', [CutisController::class, 'create'])->name('cuti.create');
+    Route::post('cuti', [CutisController::class, 'store'])->name('cuti.store');
+    Route::get('cuti/{id}', [CutisController::class, 'show'])->name('cuti.show');
+    Route::get('cuti/{id}/edit', [CutisController::class, 'edit'])->name('cuti.edit');
+    Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
+    Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
@@ -108,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
-Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('guest');
+Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
 
 Auth::routes();
 

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cutis;
-use App\Models\Pegawai;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CutisController extends Controller
 {
     public function index()
     {
-        $pegawai = Pegawai::all();
-        $cuti = Cutis::all();
+        $pegawai = User::all();
+        $cuti = Cutis::with(['pegawai.jabatan'])->get();
+        confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
         return view('admin.cuti.index', compact('cuti', 'pegawai'));
     }
 
@@ -23,36 +24,35 @@ class CutisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_pegawai' => 'required|exists:pegawais,id',
+            'id_user' => 'required|exists:users,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'alasan' => 'required|string|max:255',
         ]);
-        Cutis::create($request->all()); // Menyimpan data cuti
+        // Simpan data cuti baru
+        $cuti = new Cutis();
+        $cuti->id_user = $request->id_user;
+        $cuti->tanggal_mulai = $request->tanggal_mulai;
+        $cuti->tanggal_selesai = $request->tanggal_selesai;
+        $cuti->alasan = $request->alasan;
+        $cuti->save();
 
         return redirect()->route('cuti.index')->with('success', 'Cuti berhasil diajukan.');
     }
 
-    public function edit(Cutis $cuti)
+    public function edit($id)
     {
-        return view('cuti.edit', compact('cuti'));
+        //
     }
 
-    public function update(Request $request, Cutis $cuti)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'alasan' => 'required|string|max:255',
-        ]);
-
-        $cuti->update($request->all());
-
-        return redirect()->route('cuti.index')->with('success', 'Cuti berhasil diperbarui.');
+        //
     }
 
-    public function destroy(Cutis $cuti)
+    public function destroy($id)
     {
+        $cuti = Cutis::findOrFail($id);
         $cuti->delete();
         return redirect()->route('cuti.index')->with('success', 'Cuti berhasil dihapus.');
     }

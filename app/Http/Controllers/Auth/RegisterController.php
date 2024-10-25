@@ -52,8 +52,20 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'nama_pegawai' => $data['nama_pegawai'],
+            'tempat_lahir' => $data['tempat_lahir'],
+            'tanggal_lahir' => $data['tanggal_lahir'],
+            'jenis_kelamin' => $data['jenis_kelamin'],
+            'alamat' => $data['alamat'],
+            'tanggal_masuk' => $data['tanggal_masuk'],
             'email' => $data['email'],
+            'umur' => $data['umur'],
+            'gaji' => $data['gaji'],
+            'status_pegawai' => 0,
+            'id_jabatan' => $data['id_jabatan'],
+            'is_admin' => 0,
+            'google_id' => null,
+            'is_admin' => 0,
             'password' => Hash::make($data['password']),
         ]);
     }
@@ -73,7 +85,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'nama_pegawai' => ['required', 'string', 'max:255'],
+            'tempat_lahir' => ['required', 'string', 'max:255'],
+            'tanggal_lahir' => ['required', 'date'],
+            'jenis_kelamin' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:255'],
+            'tanggal_masuk' => ['required', 'date'],
+            'umur' => ['required', 'integer'],
+            'gaji' => ['required', 'integer'],
+            'id_jabatan' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

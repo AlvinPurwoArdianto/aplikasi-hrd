@@ -13,12 +13,24 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('google_id')->nullable()->unique();
+            $table->string('nama_pegawai');
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('jenis_kelamin')->nullable();
+            $table->text('alamat')->nullable();
+            $table->date('tanggal_masuk')->nullable();
+            $table->integer('umur')->nullable();
+            $table->integer('gaji')->nullable()->default(0);
+            $table->boolean('status_pegawai')->default(0)->nullable();
+
+            $table->unsignedBigInteger('id_jabatan')->nullable();
+            $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('restrict');
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->boolean('is_admin')->default(0);
+            $table->string('google_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });

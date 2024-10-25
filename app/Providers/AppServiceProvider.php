@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,4 +22,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    public function configureMiddleware()
+    {
+        Route::middlewareGroup('web', [
+            \App\Http\Middleware\IsAdmin::class,
+            // Middleware lainnya
+        ]);
+    }
+
 }

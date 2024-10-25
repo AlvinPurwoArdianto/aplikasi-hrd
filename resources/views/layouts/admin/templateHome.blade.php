@@ -92,7 +92,7 @@
                                         <div class="col-sm-7">
                                             <div class="card-body">
                                                 <h5 class="card-title text-primary">Welcome Back
-                                                    <b>{{ Auth::user()->name }}</b> 🎉
+                                                    <b>{{ Auth::user()->nama_pegawai }}</b> 🎉
                                                 </h5>
                                                 <p class="mb-4">
                                                     Ini Adalah Halaman Utama <span class="fw-bold">Aplikasi HRD.</span>

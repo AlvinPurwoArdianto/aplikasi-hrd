@@ -10,13 +10,14 @@ class CreateCutisTable extends Migration
     {
         Schema::create('cutis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pegawai');
+            $table->unsignedBigInteger('id_user');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('alasan');
+            $table->boolean('status_cuti')->default(0);
             $table->timestamps();
 
-            $table->foreign('id_pegawai')->references('id')->on('pegawais')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
         });
     }
 

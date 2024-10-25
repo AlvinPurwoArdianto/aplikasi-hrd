@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
 use App\Models\Penggajian;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PenggajianController extends Controller
@@ -14,7 +14,7 @@ class PenggajianController extends Controller
     public function index()
     {
         $penggajian = Penggajian::latest()->get();
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         confirmDelete('Hapus Penggajian!', 'Apakah Anda Yakin?');
         return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
     }
@@ -32,7 +32,7 @@ class PenggajianController extends Controller
     public function create()
     {
         $penggajian = Penggajian::all();
-        $pegawai = Pegawai::all();
+        $pegawai = User::all();
         return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
     }
     public function create1()
@@ -57,7 +57,7 @@ class PenggajianController extends Controller
 
         // Simpan data penggajian
         $penggajian = new Penggajian();
-        $penggajian->id_pegawai = $request->id_pegawai;
+        $penggajian->id_user = $request->id_user;
         $penggajian->tanggal_gaji = $request->tanggal_gaji;
         $penggajian->jumlah_gaji = $request->jumlah_gaji;
         $penggajian->bonus = $request->bonus;
@@ -65,10 +65,12 @@ class PenggajianController extends Controller
         $penggajian->save();
 
         // Update total gaji pegawai
-        $pegawai = Pegawai::find($request->id_pegawai);
-        $total_gaji = $request->jumlah_gaji + ($request->bonus) - ($request->potongan);
-        $pegawai->gaji += $total_gaji; // Menambah total gaji baru ke gaji lama
-        $pegawai->save();
+        $pegawai = User::find($request->id_user);
+        if ($pegawai) {
+            $total_gaji = $request->jumlah_gaji + ($request->bonus) - ($request->potongan);
+            $pegawai->gaji += $total_gaji;
+            $pegawai->save();
+        }
 
         return redirect()->route('penggajian.index')->with('success', 'Penggajian berhasil ditambahkan dan total gaji diperbarui.');
     }
@@ -131,7 +133,7 @@ class PenggajianController extends Controller
     public function update(Request $request, $id)
     {
         $penggajian = Penggajian::findOrFail($id);
-        $penggajian->id_pegawai = $request->id_pegawai;
+        $penggajian->id_user = $request->id_user;
         $penggajian->tanggal_gaji = $request->tanggal_gaji;
         $penggajian->jumlah_gaji = $request->jumlah_gaji;
         $penggajian->bonus = $request->bonus;
@@ -139,9 +141,11 @@ class PenggajianController extends Controller
         $penggajian->save();
 
         // Update total gaji pegawai
-        $pegawai = Pegawai::find($request->id_pegawai);
-        $pegawai->gaji = $penggajian->jumlah_gaji + ($request->bonus) - ($request->potongan);
-        $pegawai->save();
+        $pegawai = User::find($request->id_user);
+        if ($pegawai) {
+            $pegawai->gaji = $penggajian->jumlah_gaji + ($request->bonus) - ($request->potongan);
+            $pegawai->save();
+        }
 
         return redirect()->route('penggajian.index')->with('success', 'Penggajian berhasil ditambahkan dan total gaji diperbarui.');
 
@@ -172,9 +176,11 @@ class PenggajianController extends Controller
     {
         $penggajian = Penggajian::findOrFail($id);
 
-        $pegawai = Pegawai::find($penggajian->id_pegawai);
-        $pegawai->gaji -= ($penggajian->jumlah_gaji + $penggajian->bonus - $penggajian->potongan);
-        $pegawai->save();
+        $pegawai = User::find($penggajian->id_user);
+        if ($pegawai) {
+            $pegawai->gaji -= ($penggajian->jumlah_gaji + $penggajian->bonus - $penggajian->potongan);
+            $pegawai->save();
+        }
 
         $penggajian->delete();
         return redirect()->route('penggajian.index')->with('danger', 'Penggajian berhasil dihapus dan gaji diperbarui!');

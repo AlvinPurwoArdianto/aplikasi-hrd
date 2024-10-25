@@ -98,7 +98,7 @@
                             @foreach ($absensi as $data)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $data->pegawai->nama_pegawai }}</td>
+                                    <td>{{ $data->user->nama_pegawai }}</td>
                                     <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
                                     <td>{{ $data->jam_masuk }}</td>
                                     <td>
@@ -139,7 +139,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="pegawai" class="form-label">Pegawai</label>
-                            <select name="id_pegawai" class="form-control" required>
+                            <select name="id_user" class="form-control" required>
                                 <option selected disabled>-- Pilih Nama Pegawai --</option>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}">{{ $item->nama_pegawai }}</option>
