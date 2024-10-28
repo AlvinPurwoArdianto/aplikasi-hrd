@@ -21,7 +21,7 @@ class CreateAbsensisTable extends Migration
             $table->time('jam_keluar')->nullable();
             $table->string('status')->default('Hadir'); // Status bisa 'Hadir', 'Sakit', 'Izin', 'Alpa'
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

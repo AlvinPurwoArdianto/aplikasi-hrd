@@ -100,9 +100,8 @@
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $data->user->nama_pegawai }}</td>
                                     <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
-                                    <td>{{ $data->jam_masuk }}</td>
-                                    <td>
-                                        {{ $data->jam_keluar ?? 'Belum Absen Pulang' }}
+                                    <td>{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H.i') }}</td>
+                                    <td>{{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') : 'Belum Absen Pulang' }}
                                     </td>
                                     <td>
                                         @if (is_null($data->jam_keluar))
@@ -142,7 +141,9 @@
                             <select name="id_user" class="form-control" required>
                                 <option selected disabled>-- Pilih Nama Pegawai --</option>
                                 @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_pegawai }}</option>
+                                    @if ($item->is_admin == 0)
+                                        <option value="{{ $item->id }}">{{ $item->nama_pegawai }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

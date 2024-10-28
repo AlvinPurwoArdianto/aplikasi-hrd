@@ -119,13 +119,13 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 {{-- <td></td> --}}
-                                <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
-                                {{-- <td>{{ $data->pegawai->jabatan->nama_jabatan ?? 'Tidak ada jabatan' }}</td> --}}
+                                {{-- <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td> --}}
+                                <td>{{ $data->pegawai->jabatan->nama_jabatan ?? 'Tidak ada jabatan' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_mulai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @if ($data->status == 1)
+                                    @if ($data->status_cuti == 1)
                                         <span class="badge bg-label-info">— Diterima —</span>
                                     @else
                                         <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
@@ -180,11 +180,13 @@
                                 <select name="id_user" class="form-control" id="pegawai" required>
                                     <option selected disabled>-- Nama pegawai --</option>
                                     @foreach ($pegawai as $data)
-                                        <option value="{{ $data->id }}"
-                                            {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
-                                            data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
-                                            {{ $data->nama_pegawai }}
-                                        </option>
+                                        @if ($data->is_admin == 0)
+                                            <option value="{{ $data->id }}"
+                                                {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
+                                                data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
+                                                {{ $data->nama_pegawai }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

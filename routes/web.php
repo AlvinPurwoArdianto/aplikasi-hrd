@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/cobain', function () {
-    return view('cobain');
-});
+Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -38,6 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     // Route pegawai
     // Route::resource('pegawai', PegawaiConteroller::class);
     // Route pegawai Tanpa Resource
+    Route::get('pegawai/akun', [PegawaiController::class, 'indexAdmin'])->name('pegawai.admin');
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
     Route::get('pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
     Route::post('pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
@@ -88,6 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::get('cuti/{id}', [CutisController::class, 'show'])->name('cuti.show');
     Route::get('cuti/{id}/edit', [CutisController::class, 'edit'])->name('cuti.edit');
     Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
+    Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
     Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
 
     //Route laporan
@@ -137,6 +137,3 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
 
 });
 
-// Route::get('gsap', function () {
-//     return view('gsap');
-// });
