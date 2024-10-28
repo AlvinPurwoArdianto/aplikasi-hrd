@@ -110,6 +110,7 @@
                             <th>Alasan Cuti</th>
                             <th>Status</th>
                             <th>Aksi</th>
+                            {{-- <th>Verifikasi</th> --}}
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -143,6 +144,17 @@
                                         </a>
                                     </form>
                                 </td>
+                                {{-- <td>
+                                    <form action="{{ route('cuti.updateStatus', $data->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" name="status" value="1"
+                                            class="btn btn-success btn-sm">Accept</button>
+                                        <button type="submit" name="status" value="0"
+                                            class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                </td> --}}
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -213,3 +225,10 @@
         </div>
     </div>
 @endsection
+<script>
+    document.getElementById('pegawai').addEventListener('change', function () {
+    var selectedOption = this.options[this.selectedIndex];
+    var jabatan = selectedOption.getAttribute('data-jabatan');
+    document.getElementById('jabatan').value = jabatan;
+});
+</script>
