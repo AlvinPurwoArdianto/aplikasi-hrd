@@ -115,7 +115,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" name="id_pegawai" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="id_user" value="{{ Auth::user()->id }}">
                                 {{-- <div class="mb-3">
                                 <label for="pegawai" class="form-label">Pegawai</label>
                                 <select name="id_pegawai" class="form-control" required>
@@ -165,7 +165,7 @@
                                         @endforeach
 
                                         @if ($absenPulangDisplayed == false)
-                                            <button class="btn btn-outline-secondary" style="width: 100px" disabled>Sudah Absen Pulang</button>
+                                            <button class="btn btn-outline-secondary" style="width: 200px" disabled>Sudah Absen Pulang</button>
                                         @endif
                                     </td>
 
@@ -194,7 +194,7 @@
                     @foreach ($absensi as $data)
                         <tr class="text-center">
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $data->pegawai->nama_pegawai }}</td>
+                            <td>{{ $data->user->nama_pegawai }}</td>
                             <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
                             <td>{{ $data->jam_masuk }}</td>
                             <td>
