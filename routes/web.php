@@ -16,9 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/cobain', function () {
-    return view('cobain');
-});
+Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -37,6 +35,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     // Route pegawai
     // Route::resource('pegawai', PegawaiConteroller::class);
     // Route pegawai Tanpa Resource
+    Route::get('pegawai/akun', [PegawaiController::class, 'indexAdmin'])->name('pegawai.admin');
     Route::get('pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
     Route::get('pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
     Route::post('pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
@@ -103,5 +102,3 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
 Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
-
-Auth::routes();

@@ -168,11 +168,13 @@
                                 <select name="id_user" class="form-control" id="pegawai" required>
                                     <option selected disabled>-- Nama pegawai --</option>
                                     @foreach ($pegawai as $data)
-                                        <option value="{{ $data->id }}"
-                                            {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
-                                            data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
-                                            {{ $data->nama_pegawai }}
-                                        </option>
+                                        @if ($data->is_admin == 0)
+                                            <option value="{{ $data->id }}"
+                                                {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
+                                                data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
+                                                {{ $data->nama_pegawai }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

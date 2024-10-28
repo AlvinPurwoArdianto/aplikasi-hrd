@@ -120,7 +120,9 @@
                                 <td>{{ $data->nama_pegawai }}</td>
                                 {{-- <td>{{ $data->jabatan->nama_jabatan }}</td> --}}
                                 <td>{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') }}</td>
+                                <td>
+                                    {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak ada tanggal lahir' }}
+                                </td>
                                 <td>{{ $data->email }}</td>
                                 <td>
                                     @if ($data->status_pegawai == 1)
@@ -171,7 +173,7 @@
                                         <div class="modal-body">
                                             <p><strong>Nama:</strong> {{ $data->nama_pegawai }} </p>
                                             <p><strong>Jabatan:</strong>
-                                                {{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}
+                                                {{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak Ada' }}
                                             </p>
                                             <p><strong>Tempat Lahir:</strong>
                                                 {{ $data->tempat_lahir ? $data->tempat_lahir : 'Tidak Ada' }} </p>
@@ -179,12 +181,13 @@
                                                 {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
                                             <p><strong>Email:</strong> {{ $data->email }} </p>
-                                            <p><strong>Alamat:</strong> {{ $data->alamat }} </p>
+                                            <p><strong>Alamat:</strong> {{ $data->alamat ? $data->alamat : 'Tidak Ada' }}
+                                            </p>
                                             <p><strong>Tanggal Masuk:</strong>
                                                 {{ $data->tanggal_masuk ? \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
-                                            <p><strong>Gaji:</strong> {{ $data->gaji }} </p>
+                                            <p><strong>Umur:</strong> {{ $data->umur ?? 'Tidak Ada' }} Tahun </p>
+                                            <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)
                                                     <span class="badge bg-label-info">— Pegawai Aktif —</span>

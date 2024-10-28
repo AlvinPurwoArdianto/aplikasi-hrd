@@ -32,7 +32,7 @@
                     </li>
                     @foreach ($cutiNotifications as $notification)
                         <li class="dropdown-item">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center gap-2">
                                 <span>{{ $notification->pegawai->nama_pegawai }} mengajukan cuti</span>
                                 <form action="{{ route('cuti.confirm', $notification->id) }}" method="POST"
                                     class="d-inline ml-4">

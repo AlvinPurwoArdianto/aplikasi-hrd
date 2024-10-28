@@ -19,7 +19,8 @@ class CutisController extends Controller
 
     public function create()
     {
-        return view('cuti.create'); // Form untuk membuat cuti
+        $pegawai = User::where('is_admin', 0)->get();
+        return view('cuti.create', compact('pegawai')); // Form untuk membuat cuti
     }
 
     public function store(Request $request)

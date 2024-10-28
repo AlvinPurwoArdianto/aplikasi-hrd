@@ -59,6 +59,12 @@
 /* AKHIR TOAST SLIDE */
 
 
+/* BUAT NOTIFIKASI MENJADI BULAT */
+#notification-count {
+    border-radius: 50%;
+}
+
+
 .menu .app-brand.demo {
     height: 64px;
     margin-top: 12px;

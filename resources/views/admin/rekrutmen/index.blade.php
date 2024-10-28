@@ -129,7 +129,7 @@
                                     @if ($data->status_rekrutmen == 1)
                                         <span class="badge bg-label-info">— Sudah Diterima —</span>
                                     @else
-                                        <span class="badge bg-label-dark">— Menunggu Acc —</span>
+                                        <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
                                     @endif
                                 </td>
                                 <td>
