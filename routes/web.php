@@ -8,8 +8,8 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
-use App\Http\Middleware\isAdmin;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -130,6 +130,10 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('profile', function () {
         return view('user.profile.index');
     });
+
+    Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
+    Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');
+    Route::patch('/cuti/update-status/{id}', [CutisController::class, 'updateStatus'])->name('cuti.updateStatus');
 
 });
 
