@@ -118,7 +118,6 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama_pegawai }}</td>
-                                {{-- <td>{{ $data->jabatan->nama_jabatan }}</td> --}}
                                 <td>{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}</td>
                                 <td>
                                     {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak ada tanggal lahir' }}
@@ -146,9 +145,10 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal"
                                                     data-bs-target="#pegawaiDetailModal{{ $data->id }}">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
-                                                <a class="dropdown-item" data-confirm-delete="true"
-                                                    href="{{ route('pegawai.destroy', $data->id) }}"><i
-                                                        class="bx bx-trash me-1"></i> Delete</a>
+                                                <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"
+                                                    class="dropdown-item" data-confirm-delete="true"><i
+                                                        class="bx bx-trash me-1"></i>
+                                                    Delete</a>
                                             </div>
                                         </div>
 

@@ -158,6 +158,11 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         $pegawai = User::find($id);
+
+        if (!$pegawai) {
+            return redirect()->route('pegawai.index')->with('danger', 'Pegawai tidak ditemukan!');
+        }
+
         if (Auth::user()->id !== $pegawai->id) {
             $pegawai->delete();
             return redirect()->route('pegawai.index')->with('danger', 'pegawai berhasil dihapus!');

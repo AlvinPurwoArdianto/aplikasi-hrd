@@ -99,7 +99,8 @@
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $data->user->nama_pegawai }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($data->jam_masuk)->format('H.i') }}</td>
                                     <td>{{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') : 'Belum Absen Pulang' }}
                                     </td>
@@ -109,7 +110,8 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-warning" data-confirm-delete="true"
-                                                    onclick="confirmAbsenPulang({{ $data->id }})">Absen Pulang</button>
+                                                    onclick="confirmAbsenPulang({{ $data->id }})">Absen
+                                                    Pulang</button>
                                             </form>
                                         @else
                                             <button class="btn btn-secondary" disabled>Sudah Absen Pulang</button>

@@ -11,12 +11,12 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    public function indexPegawai()
-    {
-        $absensi = Absensi::latest()->get();
-        $pegawai = User::all();
-        return view('admin.laporan.pegawai', compact('absensi', 'pegawai'));
-    }
+    // public function indexPegawai()
+    // {
+    //     $absensi = Absensi::latest()->get();
+    //     $pegawai = User::all();
+    //     return view('admin.laporan.pegawai', compact('absensi', 'pegawai'));
+    // }
 
     // LAPORAN BUAT PEGAWAI DAN FILTER
     public function pegawai(Request $request)
@@ -54,11 +54,38 @@ class LaporanController extends Controller
     }
 
     //LAPORAN BUAT CUTI DAN FILTER
-    public function cuti()
+    public function cuti(Request $request)
     {
-        $pegawai = User::all();
-        $jabatan = Jabatan::all();
-        $cuti = Cutis::all();
-        return view('admin.laporan.cuti', compact('pegawai', 'jabatan', 'cuti'));
+        $tanggalAwal = $request->input('tanggal_awal');
+        $tanggalAkhir = $request->input('tanggal_akhir');
+
+        if (!$tanggalAwal || !$tanggalAkhir) {
+            $cuti = Cutis::with(['pegawai.jabatan'])->get();
+        } else {
+            $cuti = Cutis::with(['pegawai.jabatan'])
+                ->whereBetween('tanggal_mulai', [$tanggalAwal, $tanggalAkhir])
+                ->get();
+        }
+
+        // Hitung total hari cuti untuk setiap record cuti
+        foreach ($cuti as $item) {
+            $tanggalMulai = \Carbon\Carbon::parse($item->tanggal_mulai);
+            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_selesai);
+            $item->total_hari_cuti = $tanggalMulai->diffInDays($tanggalAkhir) + 1; // +1 agar tanggal mulai juga terhitung
+        }
+
+        // tampil pdf
+        if ($request->has('view_pdf')) {
+            $pdf = PDF::loadView('admin.laporan.pdf_cuti', compact('cuti'));
+            return $pdf->stream('laporan_cuti.pdf'); // untuk menampilkan PDF
+        }
+
+        // download pdf
+        if ($request->has('download_pdf')) {
+            $pdf = PDF::loadView('admin.laporan.pdf_cuti', compact('cuti'));
+            return $pdf->download('laporan_cuti.pdf'); // untuk mendownload PDF
+        }
+
+        return view('admin.laporan.cuti', compact('cuti'));
     }
 }
