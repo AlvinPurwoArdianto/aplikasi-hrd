@@ -15,10 +15,16 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $pegawai = User::all();
+        $pegawai = User::where('is_admin', 0)->get();
         $jabatan = Jabatan::all();
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
+    }
+
+    public function indexAdmin()
+    {
+        $pegawai = User::where('is_admin', 1)->get();
+        return view('admin.pegawai.index', compact('pegawai'));
     }
 
     /**
