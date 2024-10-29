@@ -1,19 +1,19 @@
 @extends('layouts.user.template')
 @section('content')
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Aplikasi HRD</title>
-    <link rel="shortcut icon"
-        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS06Lv3qkW0IXtMqy_xll0d87wjMNS1vqx3Q&s"
-        type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Aplikasi HRD</title>
+        <link rel="shortcut icon"
+            href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS06Lv3qkW0IXtMqy_xll0d87wjMNS1vqx3Q&s"
+            type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- <style>
+        {{-- <style>
         body {
             background-color: #f3f4f6;
         }
@@ -57,10 +57,10 @@
         }
     </style> --}}
 
-</head>
+    </head>
 
-<body>
-    {{-- <div class="container">
+    <body>
+        {{-- <div class="container">
         @if (session('success'))
             <div class="alert alert-success fade show" role="alert">
                 {{ session('success') }}
@@ -131,7 +131,8 @@
                                     <td>
                                         <form action="{{ route('welcome.store') }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-outline-primary" style="width: 200px">Simpan Absen
+                                            <button type="submit" class="btn btn-outline-primary"
+                                                style="width: 200px">Simpan Absen
                                                 Masuk</button>
                                         </form>
                                     </td>
@@ -155,8 +156,9 @@
                                                     onsubmit="disableButton(this)">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-outline-warning" style="width: 200px"
-                                                        id="btnAbsenPulang-{{ $data->id }}">Absen Pulang</button>
+                                                    <button type="submit" class="btn btn-outline-warning"
+                                                        style="width: 200px" id="btnAbsenPulang-{{ $data->id }}">Absen
+                                                        Pulang</button>
                                                 </form>
                                                 @php
                                                     $absenPulangDisplayed = true; // set ke true setelah tombol ditampilkan
@@ -165,10 +167,20 @@
                                         @endforeach
 
                                         @if ($absenPulangDisplayed == false)
-                                            <button class="btn btn-outline-secondary" style="width: 200px" disabled>Sudah Absen Pulang</button>
+                                            <button class="btn btn-outline-secondary" style="width: 200px" disabled>Sudah
+                                                Absen Pulang</button>
                                         @endif
                                     </td>
-
+                                    <!-- Form Absen Sakit -->
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <form action="{{ route('welcome.absenSakit') }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-danger"
+                                                    style="width: 200px">Absen Sakit</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </form>
@@ -185,8 +197,8 @@
                         <th>No</th>
                         <th>Nama Pegawai</th>
                         <th>Tanggal</th>
-                        <th>Jam Masuk</th>
-                        <th>Jam Keluar</th>
+                        <th>Jam Absen</th>
+                        <th>Jam selesai</th>
                         {{-- <th>Aksi</th> --}}
                     </tr>
                 </thead>
@@ -217,44 +229,44 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    </div>
+        </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-
-    <script>
-        function disableButton(form) {
-            const button = form.querySelector('button[type="submit"]');
-            button.disabled = true;
-            button.innerHTML = 'Sedang diproses...'; // Ubah teks setelah klik
-        }
-    </script>
-
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                html: '<strong>{{ session('success') }}</strong>',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 1200
-            })
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
         </script>
-    @endif
 
-    @if (session('error'))
         <script>
-            Swal.fire({
-                html: '<strong>{{ session('error') }}</strong>',
-                icon: 'error',
-                showConfirmButton: false,
-                timer: 1200
-            })
+            function disableButton(form) {
+                const button = form.querySelector('button[type="submit"]');
+                button.disabled = true;
+                button.innerHTML = 'Sedang diproses...'; // Ubah teks setelah klik
+            }
         </script>
-    @endif
-    </script>
-</body>
 
-</html>
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    html: '<strong>{{ session('success') }}</strong>',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1200
+                })
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    html: '<strong>{{ session('error') }}</strong>',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1200
+                })
+            </script>
+        @endif
+        </script>
+    </body>
+
+    </html>
 @endsection

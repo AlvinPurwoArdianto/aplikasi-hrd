@@ -8,6 +8,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 
 Auth::routes();
-
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -118,6 +119,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::post('absensi', [WelcomeController::class, 'store'])->name('welcome.store');
     Route::get('absensi/{id}/edit', [WelcomeController::class, 'edit'])->name('welcome.edit');
     Route::post('absensi/{id}', [WelcomeController::class, 'update'])->name('welcome.update');
+    Route::post('/absen-sakit', [WelcomeController::class, 'absenSakit'])->name('welcome.absenSakit');
+
 
     Route::get('penggajian', [PenggajianController::class, 'index1'])->name('penggajian.index1');
     Route::get('penggajian/create', [PenggajianController::class, 'create1'])->name('penggajian.create1');
@@ -132,8 +135,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     });
 
     Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
+    // Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');d
     Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');
+
     Route::patch('/cuti/update-status/{id}', [CutisController::class, 'updateStatus'])->name('cuti.updateStatus');
 
 });
-

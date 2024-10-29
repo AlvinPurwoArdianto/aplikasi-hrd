@@ -31,21 +31,27 @@ class CutisController extends Controller
         return view('cuti.create', compact('pegawai')); // Form untuk membuat cuti
     }
 
+    // Di dalam CutisController.php
+
     public function store1(Request $request)
     {
-        $request->validate([
+        // Validasi input
+        $validated = $request->validate([
             'tanggal_cuti' => 'required|date',
-            'alasan' => 'required|string|max:255',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_cuti',
+            'alasan' => 'required|string',
         ]);
 
+        // Simpan data cuti ke database
         Cutis::create([
-            'user_id' => Auth::user()->id,
-            'tanggal_cuti' => $request->tanggal_cuti,
-            'alasan' => $request->alasan,
-            'status' => 'Pending', // atau sesuai logika aplikasi
+            'id_user' => Auth::id(),
+            'tanggal_mulai' => $validated['tanggal_cuti'], // Menyimpan tanggal mulai
+            'tanggal_selesai' => $validated['tanggal_selesai'], // Menyimpan tanggal selesai
+            'alasan' => $validated['alasan'], // Menyimpan alasan
+            'status_cuti' => 0, // Status "Menunggu Konfirmasi"
         ]);
 
-        return redirect()->back()->with('success', 'Pengajuan cuti berhasil dikirim.');
+        return redirect()->route('cuti.index1')->with('success', 'Pengajuan cuti berhasil diajukan!');
     }
 
     public function updateStatus(Request $request, $id)

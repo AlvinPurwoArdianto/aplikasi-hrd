@@ -6,6 +6,7 @@ use App\Models\Absensi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class WelcomeController extends Controller
@@ -53,14 +54,15 @@ class WelcomeController extends Controller
         // $request->validate([
         //     'id_user' => 'required|exists:users,id',
         // ]);
+        if (!$this->withinCheckInTime()) {
+            return redirect()->back()->with('error', 'Absen masuk hanya bisa dilakukan antara 08:00 dan 09:00.');
+        }
 
-        // untuk mengecek apakah user ditemukan
         $pegawai = User::find($request->id_user);
         if (!$pegawai) {
             return redirect()->route('welcome.create')->with('error', 'User tidak ditemukan!');
         }
 
-        // Cek apakah sudah absen hari ini
         $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('created_at', today())->first();
         if ($sudahAbsen) {
             return redirect()->route('welcome.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
@@ -164,7 +166,7 @@ class WelcomeController extends Controller
 
         $currentTime = Carbon::now('Asia/Jakarta');
 
-        if ($currentTime->between(Carbon::createFromTime(19, 0, 0), Carbon::createFromTime(20, 0, 0))) {
+        if ($currentTime->between(Carbon::createFromTime(15, 0, 0), Carbon::createFromTime(16, 0, 0))) {
             $absensi = Absensi::findOrFail($id);
             $absensi->update([
                 'jam_keluar' => $currentTime->toTimeString(),
@@ -173,6 +175,15 @@ class WelcomeController extends Controller
             return redirect()->back()->with('success', 'Absen pulang berhasil!');
         } else {
             return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan antara 19:00 dan 20:00.');
+        }
+
+        if (!$this->withinCheckOutTime()) {
+            return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan antara 19:00 dan 20:00.');
+        }
+
+        $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('tanggal_absen', today())->first();
+        if ($sudahAbsen) {
+            return redirect()->route('welcome.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
         }
 
         if ($absensi && is_null($absensi->jam_keluar)) {
@@ -184,6 +195,28 @@ class WelcomeController extends Controller
         }
         return redirect()->route('welcome.index')->with('error', 'Absen Pulang gagal disimpan.');
 
+    }
+
+    public function absenSakit(Request $request)
+    {
+        $id_user = Auth::user()->id;
+        $tanggal_absen = \Carbon\Carbon::today('Asia/Jakarta')->format('Y-m-d');
+
+        // Cek apakah sudah ada absen di tanggal ini
+        $absensi = Absensi::where('id_user', $id_user)->where('tanggal_absen', $tanggal_absen)->first();
+
+        if ($absensi) {
+            return redirect()->back()->with('error', 'Anda sudah absen hari ini');
+        }
+
+        // Simpan absen sakit
+        Absensi::create([
+            'id_user' => $id_user,
+            'tanggal_absen' => $tanggal_absen,
+            'status' => 'sakit',
+        ]);
+
+        return redirect()->back()->with('success', 'Absen sakit berhasil disimpan');
     }
 
     /**
