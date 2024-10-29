@@ -26,7 +26,7 @@
         <li
             class="menu-item {{ request()->routeIs('pegawai.*') || request()->routeIs('jabatan.*') ? 'active menu-open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tmenu-icon tf-icons bx bxs-user-pin" class="menu-item "></i>
+                <i class="menu-icon tmenu-icon tf-icons bx bx-user-pin" class="menu-item "></i>
                 <div data-i18n="Authentications">Management Karyawan</div>
             </a>
             <ul class="menu-sub">
@@ -60,6 +60,12 @@
                 <div data-i18n="Analytics">Rekrutmen</div>
             </a>
         </li>
+        <li class="menu-item"> {{-- {{ url()->current() == route('rekrutmen.index') ? 'active' : '' }} --}}
+            <a href="#" class="menu-link">
+                <i class='menu-icon bx bx-user-check'></i>
+                <div data-i18n="Analytics">Menu Aprove Cuti</div>
+            </a>
+        </li>
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Menu User</span>
@@ -79,7 +85,7 @@
                 </li>
                 <li class="menu-item {{ request()->routeIs('cuti.*') ? 'active' : '' }}">
                     <a href="{{ route('cuti.index') }}" class="menu-link">
-                        <div data-i18n="Basic">Cuti</div>
+                        <div data-i18n="Basic">Ajukan Cuti</div>
                     </a>
                 </li>
             </ul>
