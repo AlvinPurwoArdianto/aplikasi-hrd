@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class PegawaiController extends Controller
 {
@@ -16,14 +17,28 @@ class PegawaiController extends Controller
      */
     public function index()
     {
+        // Mengambil data provinsi dari API Wilayah Indonesia
+        $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        $provinces = $response->json(); // Mengubah response menjadi array
+
         // Mengambil data pegawai yang bukan admin dan menghitung umur
-        $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
+        $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) use ($provinces) {
+            // Menghitung umur pegawai
             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+
+            // Mencari nama provinsi berdasarkan ID provinsi
+            $provinsi = collect($provinces)->firstWhere('id', (string) $pegawai->provinsi);
+            $pegawai->nama_provinsi = $provinsi ? $provinsi['name'] : 'Provinsi tidak ditemukan';
+
             return $pegawai;
+            // dd($pegawai->nama_provinsi);
         });
 
+        // dd($provinces);
         // Mengambil data jabatan
         $jabatan = Jabatan::all();
+
+        // Menampilkan konfirmasi penghapusan
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
 
         // Pass data ke view

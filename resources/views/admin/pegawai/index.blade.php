@@ -189,7 +189,7 @@
                                             <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
                                             <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
 
-                                            <p><strong>Provinsi:</strong>{{ $data->provinsi ?? 'Tidak Ada' }}
+                                            <p><strong>Provinsi:</strong>{{ $data->nama_provinsi ?? 'Tidak Ada' }}
                                             </p>
                                             <p><strong>Kota/Kabupaten:</strong> {{ $data->kabupaten ?? 'Tidak Ada' }}
                                             </p>
