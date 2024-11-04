@@ -193,8 +193,8 @@
                                             </p>
                                             <p><strong>Kota/Kabupaten:</strong> {{ $data->nama_kota ?? 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Kecamatan:</strong> {{ $data->kecamatan ?? 'Tidak Ada' }} </p>
-                                            <p><strong>Kelurahan:</strong> {{ $data->kelurahan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kecamatan:</strong> {{ $data->nama_kecamatan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kelurahan:</strong> {{ $data->nama_kelurahan ?? 'Tidak Ada' }} </p>
 
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)

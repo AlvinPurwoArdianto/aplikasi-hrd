@@ -38,6 +38,22 @@ class PegawaiController extends Controller
             $kota = collect($kotas)->firstWhere('id', (string) $pegawai->kabupaten);
             $pegawai->nama_kota = $kota ? $kota['name'] : 'Kota tidak ditemukan';
 
+            // Mengambil data kecamatan berdasarkan ID kabupaten
+            $responseKecamatan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/{$pegawai->kabupaten}.json");
+            $kecamatans = $responseKecamatan->json(); // Mengubah response menjadi array
+
+            // Mencari nama kecamatan berdasarkan ID kecamatan pegawai
+            $kecamatan = collect($kecamatans)->firstWhere('id', (string) $pegawai->kecamatan);
+            $pegawai->nama_kecamatan = $kecamatan ? $kecamatan['name'] : 'Kecamatan tidak ditemukan';
+
+            // Mengambil data kecamatan berdasarkan ID kabupaten
+            $responseKelurahan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/{$pegawai->kecamatan}.json");
+            $kelurahans = $responseKelurahan->json(); // Mengubah response menjadi array
+
+            // Mencari nama kecamatan berdasarkan ID kecamatan pegawai
+            $kelurahan = collect($kelurahans)->firstWhere('id', (string) $pegawai->kelurahan);
+            $pegawai->nama_kelurahan = $kelurahan ? $kelurahan['name'] : 'Kelurahan tidak ditemukan';
+
             return $pegawai;
         });
 
