@@ -8,6 +8,7 @@ use App\Models\Jabatan;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LaporanController extends Controller
 {
@@ -25,7 +26,10 @@ class LaporanController extends Controller
         $tanggalAkhir = $request->input('tanggal_akhir');
 
         if (!$tanggalAwal || !$tanggalAkhir) {
-            $pegawai = User::all();
+            $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
+                $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+            });
+
         } else {
             $pegawai = User::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get();
         }

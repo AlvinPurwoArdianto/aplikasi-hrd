@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jabatan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,9 +16,17 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $pegawai = User::where('is_admin', 0)->get();
+        // Mengambil data pegawai yang bukan admin dan menghitung umur
+        $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
+            $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+            return $pegawai;
+        });
+
+        // Mengambil data jabatan
         $jabatan = Jabatan::all();
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
+
+        // Pass data ke view
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
     }
 
@@ -42,27 +51,31 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_pegawai' => 'required|unique:pegawais,nama_pegawai',
-            'tanggal_lahir' => 'required',
-            'jenis_kelamin' => 'required',
-            'alamat' => 'required',
-            'email' => 'required',
-            'tanggal_masuk' => 'required',
-            'umur' => 'required',
-            'status' => 'nullable',
-            'id_jabatan' => 'required',
-        ], [
-            'nama_pegawai.unique' => 'Nama jabatan sudah ada!',
-            'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
-            'jenis_kelamin.required' => 'Tanggal Lahir Harus Diisi!',
-            'alamat.required' => 'Tanggal Lahir Harus Diisi!',
-            'email.required' => 'Tanggal Lahir Harus Diisi!',
-            'tanggal_masuk.required' => 'Tanggal Lahir Harus Diisi!',
-            'umur.required' => 'Tanggal Lahir Harus Diisi!',
-            'id_jabatan.required' => 'Jabatan Harus Diisi!',
-        ]
-        );
+        // $request->validate([
+        //     'nama_pegawai' => 'required|unique:pegawais,nama_pegawai',
+        //     'tanggal_lahir' => 'required',
+        //     'jenis_kelamin' => 'required',
+        //     'alamat' => 'required',
+        //     'email' => 'required',
+        //     'tanggal_masuk' => 'required',
+        //     'status' => 'nullable',
+        //     'id_jabatan' => 'required',
+        //     'provinsi' => 'required',
+        //     'kota' => 'required',
+        //     'kabupaten' => 'required',
+        //     'kecamatan' => 'required',
+        //     'kelurahan' => 'required',
+        // ], [
+        //     'nama_pegawai.unique' => 'Nama jabatan sudah ada!',
+        //     'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'jenis_kelamin.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'alamat.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'email.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'tanggal_masuk.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'umur.required' => 'Tanggal Lahir Harus Diisi!',
+        //     'id_jabatan.required' => 'Jabatan Harus Diisi!',
+        // ]
+        // );
 
         $pegawai = new User();
         $pegawai->nama_pegawai = $request->nama_pegawai;
@@ -73,10 +86,14 @@ class PegawaiController extends Controller
         $pegawai->email = $request->email;
         $pegawai->password = Hash::make($request->password);
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
-        $pegawai->umur = $request->umur;
         $pegawai->gaji = $request->gaji;
         $pegawai->status_pegawai = $request->status_pegawai;
         $pegawai->id_jabatan = $request->id_jabatan;
+
+        $pegawai->provinsi = $request->provinsi;
+        $pegawai->kabupaten = $request->kabupaten;
+        $pegawai->kecamatan = $request->kecamatan;
+        $pegawai->kelurahan = $request->kelurahan;
 
         $pegawai->save();
         return redirect()->route('pegawai.index')->with('success', 'pegawai berhasil ditambahkan!');

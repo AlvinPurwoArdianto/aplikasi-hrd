@@ -197,8 +197,16 @@
                                             <p><strong>Tanggal Masuk:</strong>
                                                 {{ $data->tanggal_masuk ? \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Umur:</strong> {{ $data->umur ?? 'Tidak Ada' }} Tahun </p>
+                                            <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
                                             <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
+
+                                            <p><strong>Provinsi:</strong> {{ $data->provinsi ?? 'Tidak Ada' }}
+                                            </p>
+                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->kabupaten ?? 'Tidak Ada' }}
+                                            </p>
+                                            <p><strong>Kecamatan:</strong> {{ $data->kecamatan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kelurahan:</strong> {{ $data->kelurahan ?? 'Tidak Ada' }} </p>
+
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)
                                                     <span class="badge bg-label-info">— Pegawai Aktif —</span>

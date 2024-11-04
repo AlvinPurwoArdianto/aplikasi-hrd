@@ -21,15 +21,6 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Umur</label>
-                        <div class="col-sm-10">
-                            <div class="input-group input-group-merge">
-                                <input type="number" class="form-control" id="basic-icon-default-fullname"
-                                    placeholder="Masukan Umur Anda" name="umur" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Jabatan</label>
                         <div class="col-sm-10">
                             <select name="id_jabatan" class="form-control">
@@ -120,16 +111,40 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Status Pegawai</label>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="provinsi">Lokasi yang akan ditempatkan</label>
                         <div class="col-sm-10">
-                            <select name="status_pegawai" id="" class="form-control">
-                                <option selected disabled>-- Pilih Status Pegawai --</option>
-                                <option value="1">Aktif</option>
-                                <option value="0">Tidak Aktif</option>
+                            <select id="provinsi" name="provinsi" class="form-control">
+                                <option value="" selected disabled>-- Pilih Provinsi --</option>
                             </select>
                         </div>
-                    </div> --}}
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10 offset-sm-2">
+                            <select id="kabupaten" name="kabupaten" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kabupaten --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10 offset-sm-2">
+                            <select id="kecamatan" name="kecamatan" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kecamatan --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10 offset-sm-2">
+                            <select id="kelurahan" name="kelurahan" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kelurahan --</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
                             <a href="{{ route('pegawai.index') }} " class="btn btn-primary">Kembali</a>
@@ -141,3 +156,84 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const apiBaseUrl = 'https://www.emsifa.com/api-wilayah-indonesia/api';
+
+            const provinsiSelect = document.getElementById('provinsi');
+            const kabupatenSelect = document.getElementById('kabupaten');
+            const kecamatanSelect = document.getElementById('kecamatan');
+            const kelurahanSelect = document.getElementById('kelurahan');
+
+            // Fetch data provinsi
+            fetch(`${apiBaseUrl}/provinces.json`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(provinsi => {
+                        provinsiSelect.innerHTML +=
+                            `<option value="${provinsi.id}">${provinsi.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error fetching provinces:', error));
+
+            // Event listener untuk kabupaten ketika provinsi dipilih
+            provinsiSelect.addEventListener('change', () => {
+                const provinsiId = provinsiSelect.value;
+                kabupatenSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kabupaten --</option>';
+                kecamatanSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kecamatan --</option>';
+                kelurahanSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
+
+                fetch(`${apiBaseUrl}/regencies/${provinsiId}.json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(kabupaten => {
+                            kabupatenSelect.innerHTML +=
+                                `<option value="${kabupaten.id}">${kabupaten.name}</option>`;
+                        });
+                    })
+                    .catch(error => console.error('Error fetching regencies:', error));
+            });
+
+            // Event listener untuk kecamatan ketika kabupaten dipilih
+            kabupatenSelect.addEventListener('change', () => {
+                const kabupatenId = kabupatenSelect.value;
+                kecamatanSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kecamatan --</option>';
+                kelurahanSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
+
+                fetch(`${apiBaseUrl}/districts/${kabupatenId}.json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(kecamatan => {
+                            kecamatanSelect.innerHTML +=
+                                `<option value="${kecamatan.id}">${kecamatan.name}</option>`;
+                        });
+                    })
+                    .catch(error => console.error('Error fetching districts:', error));
+            });
+
+            // Event listener untuk kelurahan ketika kecamatan dipilih
+            kecamatanSelect.addEventListener('change', () => {
+                const kecamatanId = kecamatanSelect.value;
+                kelurahanSelect.innerHTML =
+                    '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
+
+                fetch(`${apiBaseUrl}/villages/${kecamatanId}.json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(kelurahan => {
+                            kelurahanSelect.innerHTML +=
+                                `<option value="${kelurahan.id}">${kelurahan.name}</option>`;
+                        });
+                    })
+                    .catch(error => console.error('Error fetching villages:', error));
+            });
+        });
+    </script>
+@endpush

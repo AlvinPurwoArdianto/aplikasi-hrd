@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+]);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
