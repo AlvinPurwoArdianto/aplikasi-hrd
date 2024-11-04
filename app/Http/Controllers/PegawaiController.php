@@ -38,10 +38,8 @@ class PegawaiController extends Controller
         // Mengambil data jabatan
         $jabatan = Jabatan::all();
 
-        // Menampilkan konfirmasi penghapusan
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
 
-        // Pass data ke view
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
     }
 
