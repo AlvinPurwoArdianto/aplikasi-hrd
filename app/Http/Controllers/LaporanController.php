@@ -28,6 +28,7 @@ class LaporanController extends Controller
         if (!$tanggalAwal || !$tanggalAkhir) {
             $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
                 $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+                return $pegawai;
             });
 
         } else {
