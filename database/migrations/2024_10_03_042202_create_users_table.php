@@ -19,12 +19,16 @@ return new class extends Migration
             $table->string('jenis_kelamin')->nullable();
             $table->text('alamat')->nullable();
             $table->date('tanggal_masuk')->nullable();
-            $table->integer('umur')->nullable();
             $table->integer('gaji')->nullable()->default(0);
             $table->boolean('status_pegawai')->default(0)->nullable();
 
             $table->unsignedBigInteger('id_jabatan')->nullable();
             $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('restrict');
+
+            $table->string('provinsi')->nullable();
+            $table->string('kabupaten')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kelurahan')->nullable();
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

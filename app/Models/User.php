@@ -32,6 +32,11 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'id_jabatan',
+        'provinsi',
+        'kota',
+        'kabupaten',
+        'kecamatan',
+        'kelurahan',
     ];
 
     /**
