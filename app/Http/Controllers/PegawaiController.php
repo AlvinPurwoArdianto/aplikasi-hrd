@@ -18,23 +18,29 @@ class PegawaiController extends Controller
     public function index()
     {
         // Mengambil data provinsi dari API Wilayah Indonesia
-        $response = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-        $provinces = $response->json(); // Mengubah response menjadi array
+        $responseProvinsi = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        $provinsis = $responseProvinsi->json(); // Mengubah response menjadi array
 
         // Mengambil data pegawai yang bukan admin dan menghitung umur
-        $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) use ($provinces) {
+        $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) use ($provinsis) {
             // Menghitung umur pegawai
             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
 
             // Mencari nama provinsi berdasarkan ID provinsi
-            $provinsi = collect($provinces)->firstWhere('id', (string) $pegawai->provinsi);
+            $provinsi = collect($provinsis)->firstWhere('id', (string) $pegawai->provinsi);
             $pegawai->nama_provinsi = $provinsi ? $provinsi['name'] : 'Provinsi tidak ditemukan';
 
+            // Mengambil data kota berdasarkan ID provinsi
+            $responseKota = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/{$pegawai->provinsi}.json");
+            $kotas = $responseKota->json(); // Mengubah response menjadi array
+
+            // Mencari nama kota berdasarkan ID kota pegawai
+            $kota = collect($kotas)->firstWhere('id', (string) $pegawai->kabupaten);
+            $pegawai->nama_kota = $kota ? $kota['name'] : 'Kota tidak ditemukan';
+
             return $pegawai;
-            // dd($pegawai->nama_provinsi);
         });
 
-        // dd($provinces);
         // Mengambil data jabatan
         $jabatan = Jabatan::all();
 

@@ -191,7 +191,7 @@
 
                                             <p><strong>Provinsi:</strong>{{ $data->nama_provinsi ?? 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->kabupaten ?? 'Tidak Ada' }}
+                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->nama_kota ?? 'Tidak Ada' }}
                                             </p>
                                             <p><strong>Kecamatan:</strong> {{ $data->kecamatan ?? 'Tidak Ada' }} </p>
                                             <p><strong>Kelurahan:</strong> {{ $data->kelurahan ?? 'Tidak Ada' }} </p>
