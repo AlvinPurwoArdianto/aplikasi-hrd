@@ -50,7 +50,8 @@
                                 class="btn btn-info form-control">Buat PDF</a>
                         </div>
                         <div class="col-4">
-                            <button class="btn btn-success form-control" type="submit">Buat EXCEL</button>
+                            <a href="{{ route('laporan.pegawai', ['download_excel' => true]) }}"
+                                class="btn btn-success form-control" type="submit">Buat EXCEL</a>
                         </div>
                     @endif
                 </div>

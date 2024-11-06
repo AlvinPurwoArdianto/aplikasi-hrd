@@ -60,10 +60,22 @@
                 <div data-i18n="Analytics">Rekrutmen</div>
             </a>
         </li>
-        <li class="menu-item"> {{-- {{ url()->current() == route('rekrutmen.index') ? 'active' : '' }} --}}
-            <a href="#" class="menu-link">
+        <li class="menu-item  {{ url()->current() == route('cuti.menu') ? 'active' : '' }}">
+            <a href="{{ route('cuti.menu') }}" class="menu-link">
                 <i class='menu-icon bx bx-user-check'></i>
-                <div data-i18n="Analytics">Menu Aprove Cuti</div>
+                <div data-i18n="Analytics" style="display: flex; gap: 61px">
+                    Aprove Cuti
+                    <span id="notification-count" class="badge bg-danger">
+                        {{ $cutiNotifications->count() }}
+                    </span>
+                </div>
+            </a>
+        </li>
+        <li class="menu-item
+                        {{ url()->current() == route('berkas.index') ? 'active' : '' }}">
+            <a href="{{ route('berkas.index') }}" class="menu-link">
+                <i class='menu-icon bx bx-paperclip'></i>
+                <div data-i18n="Analytics">Berkas Pribadi</div>
             </a>
         </li>
 
@@ -72,7 +84,7 @@
         </li>
 
         <li
-            class="menu-item {{ request()->routeIs('absensi.*') || request()->routeIs('cuti.*') ? 'active menu-open' : '' }}">
+            class="menu-item {{ request()->routeIs('absensi.*') || request()->routeIs('cuti.index') ? 'active menu-open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tmenu-icon tf-icons bx bx-calendar" class="menu-item "></i>
                 <div data-i18n="Authentications">Menu Absensi</div>
@@ -83,7 +95,7 @@
                         <div data-i18n="Analytics">Absen</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('cuti.*') ? 'active' : '' }}">
+                <li class="menu-item {{ request()->routeIs('cuti.index') ? 'active' : '' }}">
                     <a href="{{ route('cuti.index') }}" class="menu-link">
                         <div data-i18n="Basic">Ajukan Cuti</div>
                     </a>

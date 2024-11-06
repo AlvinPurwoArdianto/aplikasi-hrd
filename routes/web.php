@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
@@ -83,6 +84,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     //Route cuti
     // Route::resource('cuti', CutisController::class);
     // Route cuti Tanpa Resource
+    Route::get('cuti/menu', [CutisController::class, 'menu'])->name('cuti.menu');
     Route::get('cuti', [CutisController::class, 'index'])->name('cuti.index');
     Route::get('cuti/create', [CutisController::class, 'create'])->name('cuti.create');
     Route::post('cuti', [CutisController::class, 'store'])->name('cuti.store');
@@ -91,6 +93,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
     Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
     Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
+
+    //Route berkas
+    // Route::resource('berkas', BerkasController::class);
+    Route::get('berkas', [BerkasController::class, 'index'])->name('berkas.index');
+    Route::get('berkas/create', [BerkasController::class, 'create'])->name('berkas.create');
+    Route::post('berkas', [BerkasController::class, 'store'])->name('berkas.store');
+    Route::get('berkas/{id}', [BerkasController::class, 'show'])->name('berkas.show');
+    Route::get('berkas/{id}/edit', [BerkasController::class, 'edit'])->name('berkas.edit');
+    Route::put('berkas/{id}', [BerkasController::class, 'update'])->name('berkas.update');
+    Route::delete('berkas/{id}', [BerkasController::class, 'destroy'])->name('berkas.destroy');
 
     //Route laporan
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');

@@ -36,8 +36,6 @@ class RekrutmenController extends Controller
             'tanggal_lamaran' => 'required',
         ]);
 
-        // $filePath = $request->file('cv')->store('public/cv');
-
         $rekrutmen = new Rekrutmen();
         $rekrutmen->nama = $request->nama;
         $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
@@ -45,7 +43,6 @@ class RekrutmenController extends Controller
         // Proses upload file CV
         if ($request->hasFile('cv')) {
             $file = $request->file('cv');
-            // Simpan file ke storage/cv
             $filePath = $file->store('cv', 'public'); // Menggunakan disk public
             $rekrutmen->cv = $filePath;
         }
@@ -90,7 +87,9 @@ class RekrutmenController extends Controller
     public function destroy($id)
     {
         $rekrutmen = Rekrutmen::findOrFail($id);
-        $rekrutmen->deleteCV();
+        if ($rekrutmen->cv && Storage::disk('public')->exists($rekrutmen->cv)) {
+            Storage::disk('public')->delete($rekrutmen->cv);
+        }
         $rekrutmen->delete();
         return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil dihapus.');
     }

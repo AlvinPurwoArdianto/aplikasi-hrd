@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CutiExport;
+use App\Exports\PegawaiExport;
 use App\Models\Absensi;
 use App\Models\Cutis;
 use App\Models\Jabatan;
@@ -9,6 +11,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
@@ -46,6 +49,11 @@ class LaporanController extends Controller
             return $pdf->download('laporan_pegawai.pdf'); //ini buat download pdf
         }
 
+        // download excel
+        if ($request->has('download_excel')) {
+            return Excel::download(new PegawaiExport($pegawai), 'laporan_pegawai.xlsx');
+        }
+
         return view('admin.laporan.pegawai', compact('pegawai'));
     }
 
@@ -70,6 +78,11 @@ class LaporanController extends Controller
             $cuti = Cutis::with(['pegawai.jabatan'])
                 ->whereBetween('tanggal_mulai', [$tanggalAwal, $tanggalAkhir])
                 ->get();
+        }
+
+        /// Export ke Excel
+        if ($request->has('download_excel')) {
+            return Excel::download(new CutiExport($tanggalAwal, $tanggalAkhir), 'laporan_cuti.xlsx');
         }
 
         // Hitung total hari cuti untuk setiap record cuti

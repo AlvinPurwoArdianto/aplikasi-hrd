@@ -79,4 +79,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cutis::class, 'id_user');
     }
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'id_user');
+    }
 }

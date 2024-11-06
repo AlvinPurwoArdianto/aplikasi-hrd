@@ -21,7 +21,6 @@
             </div>
         </div>
 
-
         <!-- Toast Untuk Success -->
         @if (session('success'))
             <div class="bs-toast toast toast-placement-ex m-2 bg-success top-0 end-0 fade show toast-custom" role="alert"
@@ -200,12 +199,16 @@
                                             <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
                                             <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
 
-                                            <p><strong>Provinsi:</strong>{{ $data->provinsi ?? 'Tidak Ada' }}
+                                            {{-- <p><strong>Provinsi:</strong>{{ $data->nama_provinsi ?? 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->kabupaten ?? 'Tidak Ada' }}
+                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->nama_kota ?? 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Kecamatan:</strong> {{ $data->kecamatan ?? 'Tidak Ada' }} </p>
-                                            <p><strong>Kelurahan:</strong> {{ $data->kelurahan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kecamatan:</strong> {{ $data->nama_kecamatan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kelurahan:</strong> {{ $data->nama_kelurahan ?? 'Tidak Ada' }} </p> --}}
+
+                                            <p><strong>Ditempatkan
+                                                    di:</strong>{{ $data->nama_provinsi . ', ' . $data->nama_kota . ', ' . $data->nama_kecamatan . ', ' . $data->nama_kelurahan }}
+                                            </p>
 
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)
