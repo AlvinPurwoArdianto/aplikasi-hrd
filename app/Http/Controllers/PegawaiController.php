@@ -17,13 +17,10 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        // Mengambil data provinsi dari API Wilayah Indonesia
         $responseProvinsi = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
         $provinsis = $responseProvinsi->json(); // Mengubah response menjadi array
 
-        // Mengambil data pegawai yang bukan admin dan menghitung umur
         $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) use ($provinsis) {
-            // Menghitung umur pegawai
             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
 
             // Mencari nama provinsi berdasarkan ID provinsi
@@ -57,9 +54,7 @@ class PegawaiController extends Controller
             return $pegawai;
         });
 
-        // Mengambil data jabatan
         $jabatan = Jabatan::all();
-
         confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
 
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));

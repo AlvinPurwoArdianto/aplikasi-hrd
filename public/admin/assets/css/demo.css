@@ -61,7 +61,7 @@
 
 /* BUAT NOTIFIKASI MENJADI BULAT */
 #notification-count {
-    border-radius: 50%;
+    border-radius: 100%;
 }
 
 

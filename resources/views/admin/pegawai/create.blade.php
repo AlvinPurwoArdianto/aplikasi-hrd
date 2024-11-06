@@ -1,4 +1,7 @@
 @extends('layouts.admin.template')
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Management Karyawan /</span> <span
@@ -158,6 +161,13 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        // In your Javascript(external.js resource or <script script script > tag)
+        // $(document).ready(function() {
+        //     $('#provinsi').select2();
+        // });
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiBaseUrl = 'https://www.emsifa.com/api-wilayah-indonesia/api';

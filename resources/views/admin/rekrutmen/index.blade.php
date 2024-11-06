@@ -122,7 +122,7 @@
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                             data-bs-placement="left" data-bs-html="true" title="Lihat CV"></i>
-                                        Lihat
+
                                     </a>
                                 </td>
                                 <td>
@@ -142,7 +142,6 @@
                                                 <i class="bi bi-pencil-square" data-bs-toggle="tooltip"
                                                     data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true"
                                                     title="Edit rekrutmen"></i>
-                                                Edit
                                             </a>
                                         @else
                                             <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
@@ -151,7 +150,6 @@
                                                 <i class="bi bi-pencil-square" data-bs-toggle="tooltip"
                                                     data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true"
                                                     title="Edit rekrutmen"></i>
-                                                Edit
                                             </a>
                                         @endif
                                         <a href="{{ route('rekrutmen.destroy', $data->id) }}"
@@ -160,7 +158,6 @@
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="right" data-bs-html="true"
                                                 title="Delete rekrutmen"></i>
-                                            Delete
                                         </a>
                                     </form>
                                 </td>

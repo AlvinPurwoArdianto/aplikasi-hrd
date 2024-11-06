@@ -17,6 +17,21 @@ class CutisController extends Controller
         return view('admin.cuti.index', compact('cuti', 'pegawai', 'cutiNotifications'));
     }
 
+    public function menu()
+    {
+        $cuti = Cutis::all();
+        $cutiNotifications = Cutis::where('status_cuti', 0)->get();
+
+        // Hitung total hari cuti untuk setiap record cuti
+        foreach ($cuti as $item) {
+            $tanggalMulai = \Carbon\Carbon::parse($item->tanggal_mulai);
+            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_selesai);
+            $item->total_hari_cuti = $tanggalMulai->diffInDays($tanggalAkhir) + 1; // +1 agar tanggal mulai juga terhitung
+        }
+
+        return view('admin.cuti.menu', compact('cuti', 'cutiNotifications'));
+    }
+
     public function create()
     {
         $pegawai = User::where('is_admin', 0)->get();
