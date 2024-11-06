@@ -9,13 +9,14 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes([
     'register' => false,
@@ -116,3 +117,37 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
 Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
+
+Auth::routes();
+
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
+    Route::get('dashboard', function () {
+        return view('user.dashboard.index');
+    });
+
+    Route::get('absensi', [WelcomeController::class, 'index'])->name('welcome.index');
+    Route::resource('/absensi', WelcomeController::class)->names('welcome');
+    Route::put('/{id}/update', [WelcomeController::class, 'update'])->name('welcome.update');
+    Route::get('absensi/create', [WelcomeController::class, 'create'])->name('welcome.create');
+    Route::post('absensi', [WelcomeController::class, 'store'])->name('welcome.store');
+    Route::get('absensi/{id}/edit', [WelcomeController::class, 'edit'])->name('welcome.edit');
+    Route::post('absensi/{id}', [WelcomeController::class, 'update'])->name('welcome.update');
+
+    Route::get('penggajian', [PenggajianController::class, 'index1'])->name('penggajian.index1');
+    Route::get('penggajian/create', [PenggajianController::class, 'create1'])->name('penggajian.create1');
+    Route::post('penggajian', [PenggajianController::class, 'store1'])->name('penggajian.store1');
+    Route::get('penggajian/{id}', [PenggajianController::class, 'show1'])->name('penggajian.show1');
+    Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit1'])->name('penggajian.edit1');
+    Route::put('penggajian/{id}', [PenggajianController::class, 'update1'])->name('penggajian.update1');
+    Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy1'])->name('penggajian.destroy1');
+
+    Route::get('profile', function () {
+        return view('user.profile.index');
+    });
+
+    Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
+    Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');
+    Route::patch('/cuti/update-status/{id}', [CutisController::class, 'updateStatus'])->name('cuti.updateStatus');
+
+});
+
