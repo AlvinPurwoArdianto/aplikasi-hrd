@@ -10,39 +10,14 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- Place this tag where you want the button to render. -->
-            <li class="nav-item dropdown-notifications dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <i class="bx bx-bell fs-4 lh-0"></i>
-                    <span id="notification-count" class="badge bg-danger">
-                        {{ $cutiNotifications->count() }}
-                    </span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <h6 class="dropdown-header">Pengajuan Cuti Baru</h6>
-                    </li>
-                    @foreach ($cutiNotifications as $notification)
-                        <li class="dropdown-item">
-                            <div class="d-flex justify-content-between align-items-center gap-2">
-                                <span>{{ $notification->pegawai->nama_pegawai }} mengajukan cuti</span>
-                                <form action="{{ route('cuti.confirm', $notification->id) }}" method="POST"
-                                    class="d-inline ml-4">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-sm btn-success">Terima</button>
-                                </form>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </li>
 
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ asset('admin/assets/img/avatars/1.png') }}" alt
+                            class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
