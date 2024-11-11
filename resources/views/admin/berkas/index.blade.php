@@ -114,34 +114,38 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
-                                <td><a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                <td>
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#viewCVModal{{ $data->id }}"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                             data-bs-placement="left" data-bs-html="true" title="Lihat CV"></i>
-
-                                    </a></td>
-                                <td><a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#viewKKModal{{ $data->id }}"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                             data-bs-placement="left" data-bs-html="true" title="Lihat KK"></i>
-
-                                    </a></td>
-                                <td><a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
                                         data-bs-toggle="modal" data-bs-target="#viewKTPModal{{ $data->id }}"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                             data-bs-placement="left" data-bs-html="true" title="Lihat KTP"></i>
-
-                                    </a></td>
-                                <td><a href="javascript:void(0)" class="btn rounded-pill btn-primary"
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
                                         data-bs-toggle="modal" data-bs-target="#viewAKTEModal{{ $data->id }}"
                                         style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                         <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                             data-bs-placement="left" data-bs-html="true" title="Lihat AKTE"></i>
-
-                                    </a></td>
+                                    </a>
+                                </td>
                                 <td>
                                     <form action="{{ route('berkas.destroy', $data->id) }}" method="POST">
                                         @csrf

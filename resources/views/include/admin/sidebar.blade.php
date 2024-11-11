@@ -63,7 +63,7 @@
         <li class="menu-item  {{ url()->current() == route('cuti.menu') ? 'active' : '' }}">
             <a href="{{ route('cuti.menu') }}" class="menu-link">
                 <i class='menu-icon bx bx-user-check'></i>
-                <div data-i18n="Analytics" style="display: flex; gap: 61px">
+                <div data-i18n="Analytics" style="display: flex; gap: 59px">
                     Aprove Cuti
                     <span id="notification-count" class="badge bg-danger">
                         {{ $cutiNotifications->count() }}

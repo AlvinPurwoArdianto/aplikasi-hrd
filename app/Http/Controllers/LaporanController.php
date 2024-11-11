@@ -23,38 +23,89 @@ class LaporanController extends Controller
     // }
 
     // LAPORAN BUAT PEGAWAI DAN FILTER
+    // public function pegawai(Request $request)
+    // {
+    //     $jabatan = Jabatan::all();
+    //     $tanggalAwal = $request->input('tanggal_awal');
+    //     $tanggalAkhir = $request->input('tanggal_akhir');
+    //     $jabatanId = $request->input('jabatan');
+
+    //     if (!$tanggalAwal || !$tanggalAkhir) {
+    //         $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
+    //             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+    //             return $pegawai;
+    //         });
+    //     } else {
+    //         $pegawai = User::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get('*')->map(function ($pegawai) {
+    //             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+    //             return $pegawai;
+    //         });
+    //     }
+
+    //     // tampil pdf
+    //     if ($request->has('pdf')) {
+    //         $pdf = PDF::loadView('admin.laporan.pdf_pegawai', compact('pegawai'));
+    //         return $pdf->stream('laporan_pegawai.pdf'); //ini buat show pdf
+    //     }
+    //     // download pdf
+    //     if ($request->has('download_pdf')) {
+    //         $pdf = PDF::loadView('admin.laporan.pdf_pegawai', compact('pegawai'));
+    //         return $pdf->download('laporan_pegawai.pdf'); //ini buat download pdf
+    //     }
+
+    //     // download excel
+    //     if ($request->has('download_excel')) {
+    //         return Excel::download(new PegawaiExport($pegawai), 'laporan_pegawai.xlsx');
+    //     }
+
+    //     return view('admin.laporan.pegawai', compact('pegawai', 'jabatan'));
+    // }
+
     public function pegawai(Request $request)
     {
+        $jabatan = Jabatan::all();
         $tanggalAwal = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
+        $jabatanId = $request->input('jabatan');
 
         if (!$tanggalAwal || !$tanggalAkhir) {
-            $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) {
-                $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
-                return $pegawai;
-            });
-
+            $pegawai = User::where('is_admin', 0)
+                ->when($jabatanId, function ($query) use ($jabatanId) {
+                    return $query->where('id_jabatan', $jabatanId);
+                })
+                ->get()
+                ->map(function ($pegawai) {
+                    $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+                    return $pegawai;
+                });
         } else {
-            $pegawai = User::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])->get();
+            $pegawai = User::whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir])
+                ->when($jabatanId, function ($query) use ($jabatanId) {
+                    return $query->where('id_jabatan', $jabatanId);
+                })
+                ->get()
+                ->map(function ($pegawai) {
+                    $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
+                    return $pegawai;
+                });
         }
 
-        // tampil pdf
+        // Tampilkan atau unduh PDF
         if ($request->has('pdf')) {
             $pdf = PDF::loadView('admin.laporan.pdf_pegawai', compact('pegawai'));
-            return $pdf->stream('laporan_pegawai.pdf'); //ini buat show pdf
+            return $pdf->stream('laporan_pegawai.pdf');
         }
-        // download pdf
         if ($request->has('download_pdf')) {
             $pdf = PDF::loadView('admin.laporan.pdf_pegawai', compact('pegawai'));
-            return $pdf->download('laporan_pegawai.pdf'); //ini buat download pdf
+            return $pdf->download('laporan_pegawai.pdf');
         }
 
-        // download excel
+        // Unduh Excel
         if ($request->has('download_excel')) {
             return Excel::download(new PegawaiExport($pegawai), 'laporan_pegawai.xlsx');
         }
 
-        return view('admin.laporan.pegawai', compact('pegawai'));
+        return view('admin.laporan.pegawai', compact('pegawai', 'jabatan'));
     }
 
     // LAPORAN BUAT ABSENSI DAN FILTER
