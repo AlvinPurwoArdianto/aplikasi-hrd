@@ -120,8 +120,10 @@ class LaporanController extends Controller
     //LAPORAN BUAT CUTI DAN FILTER
     public function cuti(Request $request)
     {
+        $jabatan = Jabatan::all();
         $tanggalAwal = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
+        $jabatanId = $request->input('jabatan');
 
         if (!$tanggalAwal || !$tanggalAkhir) {
             $cuti = Cutis::with(['pegawai.jabatan'])->get();
@@ -155,6 +157,6 @@ class LaporanController extends Controller
             return $pdf->download('laporan_cuti.pdf'); // untuk mendownload PDF
         }
 
-        return view('admin.laporan.cuti', compact('cuti'));
+        return view('admin.laporan.cuti', compact('cuti', 'jabatan'));
     }
 }
