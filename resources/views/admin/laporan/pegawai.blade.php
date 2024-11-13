@@ -41,7 +41,8 @@
                     <div class="row mt-3">
                         <div class="col-9">
                             <select id="jabatan" name="jabatan" class="form-control">
-                                <option value="" disabled {{ request('jabatan') ? '' : 'selected' }}>
+                                <option class="text-center" value="" disabled
+                                    {{ request('jabatan') ? '' : 'selected' }}>
                                     -- Pilih Jabatan--
                                 </option>
                                 @foreach ($jabatan as $data)
