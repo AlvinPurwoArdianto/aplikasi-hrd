@@ -16,7 +16,7 @@ class AbsensiController extends Controller
     public function index()
     {
         $absensi = Absensi::latest()->get();
-        $pegawai = User::all();
+        $pegawai = User::latest()->get();
         return view('admin.absensi.index', compact('absensi', 'pegawai'));
     }
 

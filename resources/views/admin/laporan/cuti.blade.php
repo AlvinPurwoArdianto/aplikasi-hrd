@@ -25,17 +25,36 @@
                     <div class="row">
                         <div class="col-4">
                             <input type="date" class="form-control" name="tanggal_awal"
-                                value="{{ request('tanggal_awal') }}" required>
+                                value="{{ request('tanggal_awal') }}">
                         </div>
                         <div class="col-4">
                             <input type="date" class="form-control" name="tanggal_akhir"
-                                value="{{ request('tanggal_akhir') }}" required>
+                                value="{{ request('tanggal_akhir') }}">
                         </div>
                         <div class="col-2">
                             <button class="btn btn-primary form-control" type="submit">Filter</button>
                         </div>
                         <div class="col-2">
                             <a href="{{ route('laporan.cuti') }}" class="btn btn-danger form-control">Reset</a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-9">
+                            <select id="jabatan" name="jabatan" class="form-control">
+                                <option value="" disabled {{ request('jabatan') ? '' : 'selected' }}>
+                                    -- Pilih Jabatan--
+                                </option>
+                                @foreach ($jabatan as $data)
+                                    <option value="{{ $data->id }}"
+                                        {{ request('jabatan') == $data->id ? 'selected' : '' }}>
+                                        {{ $data->nama_jabatan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
+                                type="submit">Reset Filter Jabatan</a>
                         </div>
                     </div>
                 </form>
@@ -59,7 +78,7 @@
             <div class="card-body">
                 @if ($cuti->isEmpty())
                     <div class="alert alert-warning" role="alert">
-                        Tidak ada data pegawai yang cuti ditemukan untuk tanggal yang dipilih.
+                        Tidak ada data pegawai yang cuti ditemukan untuk tanggal yang dipilih atau jabatan yang dipilih.
                     </div>
                 @else
                     <div class="table-responsive text-nowrap">
