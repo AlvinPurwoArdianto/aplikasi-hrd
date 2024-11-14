@@ -138,6 +138,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
         return view('user.profile.index');
     });
 
+    Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
+
     Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
     // Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');d
     Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');

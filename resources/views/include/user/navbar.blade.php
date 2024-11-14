@@ -12,26 +12,29 @@
             <h6 class="font-weight-bolder text-white mb-0">User</h6>
         </nav>
 
-        {{-- <ul class="navbar-nav justify-content-end align-items-center">
-            <!-- User Dropdown -->
-            <li class="nav-item dropdown ms-3">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                        <img src="{{ asset('user/assets/img/user-circle-solid-24.png') }}" alt="User Avatar"
-                            class="w-px-40 h-auto rounded-circle" />
+        <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <span class="nav-link-text ms-1 text-center">Logout</span>
                     </div>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" data-bs-auto-close="outside">
-                    <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </li>
-                </ul> --}}
+            </li>
+            <li class="nav-item d-xl-none ps-3 pe-0 d-flex align-items-center">
+                <a href="javascript:void(0);" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+                <a href="javascript:void(0);" class="nav-link text-white p-0"></a>
+                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                </a>
             </li>
         </ul>
     </div>

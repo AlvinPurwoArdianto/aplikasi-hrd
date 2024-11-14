@@ -19,10 +19,12 @@ class WelcomeController extends Controller
             ->whereDate('tanggal_absen', Carbon::today())
             ->orderBy('jam_masuk', 'desc')
             ->get();
+        $izinSakit = Absensi::where('status', 'sakit')->get();
+        $izinSakitCount = $izinSakit->count();
 
         $pegawai = User::all();
 
-        return view('user.absensi.index', compact('absensi', 'pegawai'));
+        return view('user.absensi.index', compact('absensi', 'pegawai', 'izinSakit', 'izinSakitCount'));
 
     }
 
@@ -212,14 +214,15 @@ class WelcomeController extends Controller
         // Cek apakah sudah ada absen di tanggal ini
         $absensi = Absensi::where('id_user', $id_user)->where('tanggal_absen', $tanggal_absen)->first();
 
-        // if ($absensi) {
-        //     return redirect()->back()->with('error', 'Anda sudah absen hari ini');
-        // }
+        if ($absensi) {
+            return redirect()->back()->with('error', 'Anda sudah absen hari ini');
+        }
 
         // Simpan absen sakit
         $absensi = new Absensi();
         $absensi->id_user = $id_user;
         $absensi->tanggal_absen = $tanggal_absen;
+        $absensi->status = 'sakit';
         $absensi->note = $request->note;
 
         if ($request->hasFile('foto')) {
@@ -231,6 +234,54 @@ class WelcomeController extends Controller
         $absensi->save();
 
         return redirect()->back()->with('success', 'Absen sakit berhasil disimpan');
+    }
+
+//     public function absenSakit(Request $request)
+// {
+//     $id_user = Auth::user()->id;
+//     $tanggal_absen = \Carbon\Carbon::today('Asia/Jakarta')->format('Y-m-d');
+
+//     // Cek apakah sudah ada absen di tanggal ini
+//     $absensi = Absensi::where('id_user', $id_user)->where('tanggal_absen', $tanggal_absen)->first();
+
+//     if ($absensi) {
+//         return redirect()->back()->with('error', 'Anda sudah absen hari ini');
+//     }
+
+//     // Simpan absen sakit
+//     $absensi = new Absensi();
+//     $absensi->id_user = $id_user;
+//     $absensi->tanggal_absen = $tanggal_absen;
+//     $absensi->status = 'sakit';
+//     $absensi->note = $request->note;
+
+//     if ($request->hasFile('foto')) {
+//         $file = $request->file('foto');
+//         $filename = time() . '.' . $file->getClientOriginalExtension();
+//         $file->move(public_path('img/surat-sakit'), $filename); // Simpan ke folder public/photos
+//         $absensi->photo = $filename; // Simpan nama file ke database
+//     }
+//     $absensi->save();
+
+//     return redirect()->back()->with('success', 'Absen sakit berhasil disimpan');
+// }
+
+    public function izinSakit(Request $request)
+    {
+        // Mengambil data pegawai
+        $pegawai = User::all();
+        //mengambil data absensi
+        $absensi = Absensi::all();
+        // Mengambil data absensi dengan status 'sakit', diurutkan secara descending berdasarkan tanggal
+        $izinSakit = Absensi::where('status', 'sakit')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Menghitung jumlah izin sakit yang belum ada
+        $izinSakitCount = Absensi::where('status', 'sakit')->count();
+
+        // Mengirim data izin sakit dan count ke view
+        return view('user.izin.sakit', compact('izinSakit', 'izinSakitCount', 'absensi', 'pegawai'));
     }
 
     /**
