@@ -201,8 +201,10 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <label class="col col-form-label" for="basic-default-name">Alasan</label>
-                            <textarea name="alasan" class="form-control"></textarea>
+                            <label class="" for="basic-default-name">Alasan</label>
+                            <div class="col mt-2">
+                                <textarea name="alasan" class="form-control"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

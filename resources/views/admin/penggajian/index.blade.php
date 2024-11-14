@@ -131,7 +131,7 @@
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="left" data-bs-html="true" title="Edit penggajian"></i>
-                                            Edit
+
                                         </a>
 
                                         <a href="{{ route('penggajian.destroy', $data->id) }}"
@@ -140,7 +140,7 @@
                                             <i class="bi bi-trash-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="right" data-bs-html="true"
                                                 title="Delete penggajian"></i>
-                                            Delete
+
                                         </a>
                                     </form>
                                 </td>

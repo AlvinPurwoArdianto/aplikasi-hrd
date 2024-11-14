@@ -22,8 +22,7 @@ class JabatanController extends Controller
      */
     public function create()
     {
-        $jabatan = Jabatan::all();
-        return view('admin.jabatan.create', compact('jabatan'));
+        //
     }
 
     /**
@@ -72,8 +71,7 @@ class JabatanController extends Controller
      */
     public function edit($id)
     {
-        $jabatan = Jabatan::find($id);
-        return view('admin.jabatan.edit', compact('jabatan'));
+        //
     }
 
     /**

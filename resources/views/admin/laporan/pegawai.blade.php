@@ -24,11 +24,11 @@
                     <div class="row">
                         <div class="col-4">
                             <input type="date" class="form-control" name="tanggal_awal"
-                                value="{{ request('tanggal_awal') }}" required>
+                                value="{{ request('tanggal_awal') }}">
                         </div>
                         <div class="col-4">
                             <input type="date" class="form-control" name="tanggal_akhir"
-                                value="{{ request('tanggal_akhir') }}" required>
+                                value="{{ request('tanggal_akhir') }}">
                         </div>
                         <div class="col-2">
                             <button class="btn btn-primary form-control" type="submit">Filter</button>
@@ -36,6 +36,47 @@
                         <div class="col-2">
                             <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
                                 type="submit">Reset</a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-9">
+                            <select id="jabatan" name="jabatan" class="form-control">
+                                <option value="" disabled {{ request('jabatan') ? '' : 'selected' }}>
+                                    -- Pilih Jabatan--
+                                </option>
+                                @foreach ($jabatan as $data)
+                                    <option value="{{ $data->id }}"
+                                        {{ request('jabatan') == $data->id ? 'selected' : '' }}>
+                                        {{ $data->nama_jabatan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
+                                type="submit">Reset Filter Jabatan</a>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <select id="provinsi" name="provinsi" class="form-control">
+                                <option value="" selected disabled>-- Pilih Provinsi --</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select id="kota" name="kota" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kota --</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select id="kecamatan" name="kecamatan" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kecamatan --</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select id="kelurahan" name="kelurahan" class="form-control">
+                                <option value="" selected disabled>-- Pilih Kelurahan --</option>
+                            </select>
                         </div>
                     </div>
                 </form>
@@ -46,11 +87,12 @@
                                 data-bs-target="#pdfModal">Lihat PDF</button>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')]) }}"
+                            <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
                                 class="btn btn-info form-control">Buat PDF</a>
                         </div>
                         <div class="col-4">
-                            <button class="btn btn-success form-control" type="submit">Buat EXCEL</button>
+                            <a href="{{ route('laporan.pegawai', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
+                                class="btn btn-success form-control" type="submit">Buat EXCEL</a>
                         </div>
                     @endif
                 </div>
@@ -58,7 +100,7 @@
             <div class="card-body">
                 @if ($pegawai->isEmpty())
                     <div class="alert alert-warning" role="alert">
-                        Tidak ada data pegawai ditemukan untuk tanggal yang dipilih.
+                        Tidak ada data pegawai ditemukan untuk tanggal yang dipilih atau jabatan yang dipilih.
                     </div>
                 @else
                     <div class="table-responsive text-nowrap">
@@ -72,6 +114,7 @@
                                     <th>Umur</th>
                                     <th>Email</th>
                                     <th>Gaji</th>
+                                    <th>Di Tempatkan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,6 +133,9 @@
                                             <td>{{ $item->umur }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ 'Rp ' . number_format($item->gaji, 0, ',', '.') }}</td>
+                                            <td>
+                                                {{ $item->nama_provinsi . ', ' . $item->nama_kota . ', ' . $item->nama_kecamatan . ', ' . $item->nama_kelurahan }}
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -124,10 +170,13 @@
             // Ambil tanggal awal dan tanggal akhir dari request
             var tanggalAwal = '{{ request('tanggal_awal') }}';
             var tanggalAkhir = '{{ request('tanggal_akhir') }}';
+            var jabatan = '{{ request('jabatan') }}';
 
             // Buat URL untuk iframe
-            var url = "{{ route('laporan.pegawai', ['view_pdf' => true]) }}&tanggal_awal=" + tanggalAwal +
-                "&tanggal_akhir=" + tanggalAkhir;
+            var url = "{{ route('laporan.pegawai', ['view_pdf' => true]) }}" +
+                "&tanggal_awal=" + tanggalAwal +
+                "&tanggal_akhir=" + tanggalAkhir +
+                "&jabatan=" + jabatan;
 
             // Set URL ke iframe
             document.getElementById('pdfFrame').src = url;

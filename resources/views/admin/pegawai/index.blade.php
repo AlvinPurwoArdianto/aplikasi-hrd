@@ -21,7 +21,6 @@
             </div>
         </div>
 
-
         <!-- Toast Untuk Success -->
         @if (session('success'))
             <div class="bs-toast toast toast-placement-ex m-2 bg-success top-0 end-0 fade show toast-custom" role="alert"
@@ -118,7 +117,6 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->nama_pegawai }}</td>
-                                {{-- <td>{{ $data->jabatan->nama_jabatan }}</td> --}}
                                 <td>{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}</td>
                                 <td>
                                     {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak ada tanggal lahir' }}
@@ -146,10 +144,12 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal"
                                                     data-bs-target="#pegawaiDetailModal{{ $data->id }}">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
-                                                <a class="dropdown-item" data-confirm-delete="true"
-                                                    href="{{ route('pegawai.destroy', $data->id) }}"><i
-                                                        class="bx bx-trash me-1"></i> Delete</a>
+                                                <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"
+                                                    class="dropdown-item" data-confirm-delete="true"><i
+                                                        class="bx bx-trash me-1"></i>
+                                                    Delete</a>
                                             </div>
+                                        </div>
                                     </form>
                                 </td>
                             </tr>
@@ -184,8 +184,20 @@
                                             <p><strong>Tanggal Masuk:</strong>
                                                 {{ $data->tanggal_masuk ? \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') : 'Tidak Ada' }}
                                             </p>
-                                            <p><strong>Umur:</strong> {{ $data->umur ?? 'Tidak Ada' }} Tahun </p>
+                                            <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
                                             <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
+
+                                            {{-- <p><strong>Provinsi:</strong>{{ $data->nama_provinsi ?? 'Tidak Ada' }}
+                                            </p>
+                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->nama_kota ?? 'Tidak Ada' }}
+                                            </p>
+                                            <p><strong>Kecamatan:</strong> {{ $data->nama_kecamatan ?? 'Tidak Ada' }} </p>
+                                            <p><strong>Kelurahan:</strong> {{ $data->nama_kelurahan ?? 'Tidak Ada' }} </p> --}}
+
+                                            <p><strong>Ditempatkan
+                                                    di:</strong>{{ $data->nama_provinsi . ', ' . $data->nama_kota . ', ' . $data->nama_kecamatan . ', ' . $data->nama_kelurahan }}
+                                            </p>
+
                                             <p><strong>Status:</strong>
                                                 @if ($data->status_pegawai == 1)
                                                     <span class="badge bg-label-info">— Pegawai Aktif —</span>

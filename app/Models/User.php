@@ -32,6 +32,11 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'id_jabatan',
+        'provinsi',
+        'kota',
+        'kabupaten',
+        'kecamatan',
+        'kelurahan',
     ];
 
     /**
@@ -73,5 +78,9 @@ class User extends Authenticatable
     public function cuti()
     {
         return $this->hasMany(Cutis::class, 'id_user');
+    }
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'id_user');
     }
 }
