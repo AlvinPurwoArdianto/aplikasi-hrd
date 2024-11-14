@@ -150,7 +150,6 @@
                                                     Delete</a>
                                             </div>
                                         </div>
-
                                     </form>
                                 </td>
                             </tr>

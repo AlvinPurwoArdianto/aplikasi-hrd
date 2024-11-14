@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cutis;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CutisController extends Controller
 {
@@ -15,6 +16,13 @@ class CutisController extends Controller
         $cutiNotifications = Cutis::where('status_cuti', 0)->get();
         confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
         return view('admin.cuti.index', compact('cuti', 'pegawai', 'cutiNotifications'));
+    }
+    public function index1()
+    {
+        $pegawai = User::all();
+        $cuti = Cutis::with(['pegawai.jabatan'])->get();
+        confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
+        return view('user.cuti.index', compact('cuti', 'pegawai'));
     }
 
     public function menu()
@@ -36,6 +44,38 @@ class CutisController extends Controller
     {
         $pegawai = User::where('is_admin', 0)->get();
         return view('cuti.create', compact('pegawai')); // Form untuk membuat cuti
+    }
+
+    // Di dalam CutisController.php
+
+    public function store1(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'tanggal_cuti' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_cuti',
+            'alasan' => 'required|string',
+        ]);
+
+        // Simpan data cuti ke database
+        Cutis::create([
+            'id_user' => Auth::id(),
+            'tanggal_mulai' => $validated['tanggal_cuti'], // Menyimpan tanggal mulai
+            'tanggal_selesai' => $validated['tanggal_selesai'], // Menyimpan tanggal selesai
+            'alasan' => $validated['alasan'], // Menyimpan alasan
+            'status_cuti' => 0, // Status "Menunggu Konfirmasi"
+        ]);
+
+        return redirect()->route('cuti.index1')->with('success', 'Pengajuan cuti berhasil diajukan!');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $cuti = Cutis::findOrFail($id);
+        $cuti->status = $request->status;
+        $cuti->save();
+
+        return redirect()->back()->with('success', 'Status cuti berhasil diperbarui.');
     }
 
     public function store(Request $request)

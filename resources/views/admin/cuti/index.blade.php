@@ -110,6 +110,7 @@
                             <th>Alasan Cuti</th>
                             <th>Status</th>
                             <th>Aksi</th>
+                            {{-- <th>Verifikasi</th> --}}
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
