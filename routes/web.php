@@ -93,6 +93,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
     Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
     Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
+    Route::put('/cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
+
+    
 
     //Route berkas
     // Route::resource('berkas', BerkasController::class);
