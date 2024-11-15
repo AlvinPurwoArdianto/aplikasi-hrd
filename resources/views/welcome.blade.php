@@ -67,7 +67,7 @@
             </div>
         @endif
         <div class="header-title text-center mb-4">
-            <h2>PT. Trirama - Sistem Absensi</h2>
+            <h2>Gibran Gsnteng</h2>
         </div>
 
         <!-- Toast Untuk Success -->

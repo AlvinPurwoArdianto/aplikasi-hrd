@@ -20,6 +20,7 @@ class AbsensiController extends Controller
         return view('admin.absensi.index', compact('absensi', 'pegawai'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */

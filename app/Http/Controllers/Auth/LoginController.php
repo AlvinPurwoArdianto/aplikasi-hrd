@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = 'admin/dashboard';
+    protected function redirectTo()
+    {
+        if (Auth::user()->is_admin === 1) {
+            return 'admin/dashboard';
+        } else {
+            return 'user/dashboard';
+        }
+    }
 
     public function __construct()
     {
@@ -18,10 +26,8 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    // Tambahkan notifikasi setelah login berhasil
     protected function authenticated(Request $request, $user)
     {
-        // Menambahkan pesan flash untuk login sukses
         session()->flash('success', 'Login berhasil! Selamat datang, ' . $user->nama_pegawai);
     }
 }
