@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
+    /**
+     * Redirect users after login based on their role.
+     */
     protected function redirectTo()
     {
         if (Auth::user()->is_admin === 1) {
@@ -20,14 +24,38 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * Constructor for LoginController.
+     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
 
+    /**
+     * Handle user after successful authentication.
+     */
     protected function authenticated(Request $request, $user)
     {
-        session()->flash('success', 'Login berhasil! Selamat datang, ' . $user->nama_pegawai);
+        // Periksa apakah status_pegawai aktif
+        if ($user->status_pegawai === 0) {
+            Auth::logout();
+            Alert::error('Login Gagal', 'Akun Anda tidak aktif. Silakan hubungi admin.');
+            return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi admin.');
+        }
+
+    }
+
+    /**
+     * Override credentials to add status_pegawai validation.
+     */
+    protected function credentials(Request $request)
+    {
+        return [
+            'email' => $request->email,
+            'password' => $request->password,
+            'status_pegawai' => 1, // Hanya pengguna dengan status aktif
+        ];
     }
 }

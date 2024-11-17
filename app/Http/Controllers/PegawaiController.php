@@ -189,7 +189,7 @@ class PegawaiController extends Controller
         $pegawai->alamat = $request->alamat;
         $pegawai->email = $request->email;
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
-        $pegawai->umur = $request->umur;
+        // $pegawai->umur = $request->umur;
         $pegawai->gaji = $request->gaji;
         $pegawai->status_pegawai = $request->status_pegawai;
         $pegawai->id_jabatan = $request->id_jabatan;
