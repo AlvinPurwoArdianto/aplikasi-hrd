@@ -122,5 +122,13 @@ class CutisController extends Controller
 
         return redirect()->back()->with('success', 'Pengajuan cuti diterima.');
     }
+    public function approve($id)
+    {
+        $cuti = Cutis::findOrFail($id);
+        $cuti->status_cuti = 1; // Assuming 1 indicates approved
+        $cuti->save();
+
+        return redirect()->back()->with('success', 'Cuti approved successfully.');
+    }
 
 }

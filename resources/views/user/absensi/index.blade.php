@@ -29,8 +29,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="sickLeaveFile" class="form-label">Upload File Surat Sakit</label>
-                                <input type="file" class="form-control" id="foto" name="foto"
-                                    required>
+                                <input type="file" class="form-control" id="foto" name="foto" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -180,19 +179,19 @@
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $data->user->nama_pegawai }}</td>
-                            <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
                             <td>
                                 @if ($data->status === 'sakit')
                                     Sakit
                                 @else
-                                    {{ $data->jam_masuk ?? 'Belum Absen Masuk' }}
+                                    {{ \Carbon\Carbon::parse($data->jam_masuk)->format('H.i') ?? 'Belum Absen Masuk' }}
                                 @endif
                             </td>
                             <td>
                                 @if ($data->status === 'sakit')
                                     Sakit
                                 @else
-                                    {{ $data->jam_keluar ?? 'Belum Absen Pulang' }}
+                                    {{ \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') ?? 'Belum Absen Pulang' }}
                                 @endif
                             </td>
                             <td>

@@ -229,6 +229,9 @@
         </div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <script>
         const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");
@@ -244,17 +247,7 @@
         });
     </script>
 
-    @include('sweetalert::alert')
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                title: 'Login Gagal',
-                text: "{{ session('error') }}",
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
+
 </body>
 
 </html>

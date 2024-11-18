@@ -153,50 +153,33 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        // Validate the request data
+        $request->validate([
+            'nama_pegawai' => 'required|string|max:255',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|string',
+            'alamat' => 'required|string',
+            'email' => 'required|email|max:255',
+            'tanggal_masuk' => 'required|date',
+            'gaji' => 'required|numeric',
+            'status_pegawai' => 'required|boolean',
+            'id_jabatan' => 'required|exists:jabatans,id',
+        ]);
 
-        // $request->validate([
-        //     'nama_pegawai' => 'required',
-        //     'tempat_lahir' => 'required',
-        //     'tanggal_lahir' => 'required',
-        //     'jenis_kelamin' => 'required',
-        //     'alamat' => 'required',
-        //     'email' => 'required',
-        //     'tanggal_masuk' => 'required',
-        //     'umur' => 'required',
-        //     'gaji' => 'required',
-        //     // 'status_pegawai' => 'boolean',
-        //     'id_jabatan' => 'required',
-        // ], [
-        //     'nama_pegawai.required' => 'Nama jabatan sudah ada!',
-        //     'tempat_lahir.required' => 'Tempat Lahir Harus Diisi!',
-        //     'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'jenis_kelamin.required' => 'Jenis Kelamin Harus Diisi!',
-        //     'alamat.required' => 'Alamat Harus Diisi!',
-        //     'email.required' => 'Email Harus Diisi!',
-        //     'tanggal_masuk.required' => 'Tanggal Masuk Harus Diisi!',
-        //     'umur.required' => 'Umur Harus Diisi!',
-        //     'gaji.required' => 'Gaji Harus Diisi!',
-        //     'id_jabatan.required' => 'Jabatan Harus Diisi!',
-        // ]
-        // );
+        // Select only the fields you want to update, excluding 'umur'
+        $data = $request->only([
+            'nama_pegawai', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin',
+            'alamat', 'email', 'tanggal_masuk', 'gaji', 'status_pegawai', 'id_jabatan',
+            'provinsi', 'kabupaten', 'kecamatan', 'kelurahan',
+        ]);
 
+        // Find the Pegawai record and update it
         $pegawai = User::findOrFail($id);
-        $pegawai->nama_pegawai = $request->nama_pegawai;
-        $pegawai->tempat_lahir = $request->tempat_lahir;
-        $pegawai->tanggal_lahir = $request->tanggal_lahir;
-        $pegawai->jenis_kelamin = $request->jenis_kelamin;
-        $pegawai->alamat = $request->alamat;
-        $pegawai->email = $request->email;
-        $pegawai->tanggal_masuk = $request->tanggal_masuk;
-        // $pegawai->umur = $request->umur;
-        $pegawai->gaji = $request->gaji;
-        $pegawai->status_pegawai = $request->status_pegawai;
-        $pegawai->id_jabatan = $request->id_jabatan;
+        $pegawai->update($data);
 
-        $pegawai->save();
-        return redirect()->route('pegawai.index')->with('warning', 'pegawai berhasil diubah!');
-
+        // Redirect back with a success message
+        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil diubah!');
     }
 
     /**

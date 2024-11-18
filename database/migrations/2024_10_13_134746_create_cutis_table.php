@@ -17,7 +17,7 @@ class CreateCutisTable extends Migration
             $table->boolean('status_cuti')->default(0);
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

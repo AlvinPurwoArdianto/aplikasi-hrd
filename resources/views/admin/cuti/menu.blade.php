@@ -99,14 +99,13 @@
             <!-- Table for cuti menu Data -->
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered2w">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Pegawai</th>
-                            <th>Total Cuti</th>
-                            <th>Alasan</th>
-                            <th>Aksi</th>
-                        </tr>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pegawai</th>
+                        <th>Total Cuti</th>
+                        <th>Alasan</th>
+                        <th>Aksi</th>
+                    </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @foreach ($cuti as $data)
@@ -116,28 +115,35 @@
                                 <td>{{ $data->total_hari_cuti }} Hari</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @foreach ($cutiNotifications as $notification)
-                                        <form action="{{ route('cuti.confirm', $notification->id) }}" method="POST">
+                                    @if ($data->status_cuti == 1)
+                                        <!-- Display a disabled button for confirmed requests -->
+                                        <button type="button" class="btn rounded-pill btn-success" disabled>
+                                            Sudah Dikonfirmasi
+                                        </button>
+                                    @else
+                                        <!-- Action buttons for pending confirmation -->
+                                        <form action="{{ route('cuti.confirm', $data->id) }}" method="POST"
+                                            style="display: inline;">
                                             @csrf
                                             @method('PUT')
-                                            <button class="btn rounded-pill btn-danger" type="submit"
-                                                style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                                <i class="bi bi-x-circle-fill" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                                    data-bs-placement="left" data-bs-html="true" title="Tolak"></i>
-
-                                            </button>
-                                            <button class="btn rounded-pill btn-success" type="submit"
-                                                style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                                <i class="bi bi-check-circle-fill" data-bs-toggle="tooltip"
-                                                    data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true"
-                                                    title="Terima"></i>
+                                            <button class="btn rounded-pill btn-danger mx-1" type="submit">
+                                                <i class="bi bi-x-circle-fill" title="Tolak"></i>
                                             </button>
                                         </form>
-                                    @endforeach
+                                        <form action="{{ route('cuti.approve', $data->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn rounded-pill btn-success mx-1" type="submit">
+                                                <i class="bi bi-check-circle-fill" title="Terima"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
         </div>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('potongan')->nullable()->default(0);
             $table->unsignedBigInteger('id_user');
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
