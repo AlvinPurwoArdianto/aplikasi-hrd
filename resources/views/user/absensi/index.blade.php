@@ -29,7 +29,8 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="sickLeaveFile" class="form-label">Upload File Surat Sakit</label>
-                                <input type="file" class="form-control" id="foto" name="foto" required>
+                                <input type="file" class="form-control" id="foto" name="foto" required
+                                    accept="image/*">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -87,20 +88,9 @@
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="absenMasukLabel">Absen Masuk</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <input type="hidden" name="id_user" value="{{ Auth::user()->id }}">
-                                {{-- <div class="mb-3">
-                                <label for="pegawai" class="form-label">Pegawai</label>
-                                <select name="id_pegawai" class="form-control" required>
-                                    <option selected disabled>-- Pilih Nama Pegawai --</option>
-                                    @foreach ($pegawai as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama_pegawai }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
                             </div>
                             <div class="mb-3">
                                 <table class="table table-hover text-center">
@@ -112,14 +102,6 @@
                                                 Masuk</button>
                                         </form>
                                     </td>
-                                    {{-- <td>
-                                    <!-- Tombol Reset Semua Data -->
-                                    <form action="{{ route('welcome.reset') }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger">Reset Semua Data</button>
-                                    </form>
-                                </td> --}}
                                     <td>
                                         @php
                                             $today = \Carbon\Carbon::today('Asia/Jakarta')->format('Y-m-d');
@@ -191,7 +173,8 @@
                                 @if ($data->status === 'sakit')
                                     Sakit
                                 @else
-                                    {{ \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') ?? 'Belum Absen Pulang' }}
+                                    {{-- {{ \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') ?? 'Belum Absen Pulang' }} --}}
+                                    {{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') : 'Belum Absen Pulang' }}
                                 @endif
                             </td>
                             <td>

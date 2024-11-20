@@ -88,7 +88,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('cuti.store1') }}" method="POST">
+                    <form action="{{ route('cuti.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id_user" value="{{ Auth::id() }}">
 

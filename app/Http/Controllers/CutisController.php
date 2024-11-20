@@ -56,7 +56,7 @@ class CutisController extends Controller
             'status_cuti' => 'Menunggu', // Status "Menunggu Konfirmasi"
         ]);
 
-        return redirect()->route('cuti.index1')->with('success', 'Pengajuan cuti berhasil diajukan!');
+        return redirect()->route('cuti.index')->with('success', 'Pengajuan cuti berhasil diajukan!');
     }
     public function approve($id)
     {

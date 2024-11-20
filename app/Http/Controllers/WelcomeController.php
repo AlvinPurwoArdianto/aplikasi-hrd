@@ -125,19 +125,19 @@ class WelcomeController extends Controller
         }
 
         // Check if it's the correct time to perform check-out
-        if ($currentTime->between(Carbon::createFromTime(15, 0, 0), Carbon::createFromTime(16, 0, 0))) {
-            // Update only if `jam_keluar` is not already set
-            if (is_null($absensi->jam_keluar)) {
-                $absensi->jam_keluar = $currentTime->toTimeString();
-                $absensi->save();
+        // if ($currentTime->between(Carbon::createFromTime(15, 0, 0), Carbon::createFromTime(16, 0, 0))) {
+        // Update only if `jam_keluar` is not already set
+        if (is_null($absensi->jam_keluar)) {
+            $absensi->jam_keluar = $currentTime->toTimeString();
+            $absensi->save();
 
-                return redirect()->back()->with('success', 'Absen pulang berhasil disimpan!');
-            } else {
-                return redirect()->back()->with('error', 'Anda sudah melakukan absen pulang hari ini.');
-            }
+            return redirect()->back()->with('success', 'Absen pulang berhasil disimpan!');
         } else {
-            return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan antara 15:00 dan 16:00.');
+            return redirect()->back()->with('error', 'Anda sudah melakukan absen pulang hari ini.');
         }
+        // } else {
+        //     return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan antara 15:00 dan 16:00.');
+        // }
     }
 
     public function absenSakit(Request $request)
