@@ -55,33 +55,6 @@
                 </a>
             </li>
 
-            <!-- New Izin Sakit Menu Item -->
-            {{-- <li class="nav-item {{ request()->routeIs('izin.sakit') ? 'active' : '' }}">
-                <a href="{{ route('izin.sakit') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-plus-medical"></i>
-                    <div data-i18n="Izin Sakit">Izin Sakit</div>
-
-                    <!-- Notification Badge for Pending Sakit Permits -->
-                    <span class="badge badge-center rounded-pill bg-danger ms-2">
-                        {{ $izin_sakit_count ?? 0 }}
-                    </span>
-                </a>
-            </li> --}}
-            <li class="nav-item {{ request()->routeIs('izin.sakit') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('izin.sakit') }}">
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="bx bx-plus-medical text-success text-sm opacity-10"></i>
-                    </div>
-                    <!-- Notification Badge for Pending Sakit Permits -->
-                    <span class="nav-link-text ms-1">Izin sakit</span>
-                    <span class="badge badge-center rounded-pill bg-danger ms-2">
-                        {{ $izinSakitCount ?? 0 }}
-                    </span>
-                </a>
-            </li>
-
-
             <!-- Billing Menu -->
             <li class="nav-item {{ request()->is('user/penggajian') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('user/penggajian') }}">
