@@ -89,14 +89,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     // Route::resource('cuti', CutisController::class);
     // Route cuti Tanpa Resource
     Route::get('cuti/menu', [CutisController::class, 'menu'])->name('cuti.menu');
-    Route::get('cuti', [CutisController::class, 'index'])->name('cuti.index');
-    Route::get('cuti/create', [CutisController::class, 'create'])->name('cuti.create');
-    Route::post('cuti', [CutisController::class, 'store'])->name('cuti.store');
-    Route::get('cuti/{id}', [CutisController::class, 'show'])->name('cuti.show');
-    Route::get('cuti/{id}/edit', [CutisController::class, 'edit'])->name('cuti.edit');
-    Route::put('cuti/{id}', [CutisController::class, 'update'])->name('cuti.update');
-    Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
-    Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
     Route::put('/cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
     Route::put('/cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
     Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
@@ -118,9 +110,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 });
 
 // LOGIN GOOGLE
-// Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
-// Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
-
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
 Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
@@ -157,9 +146,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
         return view('user.profile.index');
     });
 
-    Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
-    // Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');d
-    Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');
+    Route::get('cuti', [CutisController::class, 'index'])->name('cuti.index');
+    Route::post('/cuti/store', [CutisController::class, 'store'])->name('cuti.store');
 
     Route::patch('/cuti/update-status/{id}', [CutisController::class, 'updateStatus'])->name('cuti.updateStatus');
 

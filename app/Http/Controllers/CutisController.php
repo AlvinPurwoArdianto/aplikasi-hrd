@@ -11,14 +11,6 @@ class CutisController extends Controller
 {
     public function index()
     {
-        $pegawai = User::all();
-        $cuti = Cutis::with(['pegawai.jabatan'])->get();
-        $cutiNotifications = Cutis::where('status_cuti', 'Menunggu')->get();
-        confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
-        return view('admin.cuti.index', compact('cuti', 'pegawai', 'cutiNotifications'));
-    }
-    public function index1()
-    {
         $cuti = Cutis::with(['pegawai.jabatan'])->where('id_user', Auth::user()->id)->get();
         confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
         return view('user.cuti.index', compact('cuti'));
@@ -39,15 +31,7 @@ class CutisController extends Controller
         return view('admin.cuti.menu', compact('cuti', 'cutiNotifications'));
     }
 
-    public function create()
-    {
-        $pegawai = User::where('is_admin', 0)->get();
-        return view('cuti.create', compact('pegawai')); // Form untuk membuat cuti
-    }
-
-    // Di dalam CutisController.php
-
-    public function store1(Request $request)
+    public function store(Request $request)
     {
         // Validasi input
         $validated = $request->validate([
@@ -73,41 +57,6 @@ class CutisController extends Controller
         ]);
 
         return redirect()->route('cuti.index1')->with('success', 'Pengajuan cuti berhasil diajukan!');
-    }
-
-    public function updateStatus(Request $request, $id)
-    {
-        $cuti = Cutis::findOrFail($id);
-        $cuti->status = $request->status;
-        $cuti->save();
-
-        return redirect()->back()->with('success', 'Status cuti berhasil diperbarui.');
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        $cuti = Cutis::findOrFail($id);
-        $cuti->delete();
-        return redirect()->route('cuti.index')->with('success', 'Cuti berhasil dihapus.');
-    }
-
-    public function confirm($id)
-    {
-        $cuti = Cutis::findOrFail($id);
-        $cuti->status_cuti = 1;
-        $cuti->save();
-
-        return redirect()->back()->with('success', 'Pengajuan cuti diterima.');
     }
     public function approve($id)
     {
