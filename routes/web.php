@@ -1,14 +1,16 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CutisController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
@@ -108,19 +110,19 @@ Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.l
 Auth::routes();
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
-    Route::get('dashboard', function () {
-        return view('user.dashboard.index');
-    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('dashboard', [HomeController::class, 'index1'])->name('dashboard');
 
-    Route::get('absensi', [WelcomeController::class, 'index'])->name('welcome.index');
+    // Route::get('absensi', [WelcomeController::class, 'index'])->name('welcome.index');
+    Route::get('/absensi', [WelcomeController::class, 'index'])->middleware('auth');
     Route::resource('/absensi', WelcomeController::class)->names('welcome');
     Route::put('/{id}/update', [WelcomeController::class, 'update'])->name('welcome.update');
-    Route::get('absensi/create', [WelcomeController::class, 'create'])->name('welcome.create');
+    Route::get('absensi/create', [WelcomeController::class, 'create'])->name('welcome.create')->middleware('auth');
     Route::post('absensi', [WelcomeController::class, 'store'])->name('welcome.store');
     Route::get('absensi/{id}/edit', [WelcomeController::class, 'edit'])->name('welcome.edit');
     Route::post('absensi/{id}', [WelcomeController::class, 'update'])->name('welcome.update');
     Route::post('/absen-sakit', [WelcomeController::class, 'absenSakit'])->name('welcome.absenSakit');
-
+    Route::post('/absen-pulang', [WelcomeController::class, 'absenPulang'])->name('welcome.absenPulang');
 
     Route::get('penggajian', [PenggajianController::class, 'index1'])->name('penggajian.index1');
     Route::get('penggajian/create', [PenggajianController::class, 'create1'])->name('penggajian.create1');

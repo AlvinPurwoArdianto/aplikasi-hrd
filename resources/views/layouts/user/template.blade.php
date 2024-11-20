@@ -26,8 +26,6 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-
-
     <style>
         .bg-primary {
             background-color: #0d6efd !important;
@@ -36,7 +34,16 @@
         .text-white {
             color: #ffffff !important;
         }
-        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            width: 14.28%; /* 7 columns */
+            height: 50px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
     </style>
 
 
@@ -66,7 +73,7 @@
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
             {{-- <i class="fa fa-cog py-2"> </i> --}}
-            <i class='bx bxs-cog py-2' ></i>
+            <i class='bx bxs-cog py-2'></i>
         </a>
         <div class="card shadow-lg">
             <div class="card-header pb-0 pt-3 ">
@@ -83,26 +90,6 @@
             </div>
             <hr class="horizontal dark my-1">
             <div class="card-body pt-sm-3 pt-0 overflow-auto">
-                <!-- Sidebar Backgrounds -->
-                <div>
-                    <h6 class="mb-0">Sidebar Colors</h6>
-                </div>
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <div class="badge-colors my-2 text-start">
-                        <span class="badge filter bg-gradient-primary active" data-color="primary"
-                            onclick="sidebarColor(this)"></span>
-                        <span class="badge filter bg-gradient-dark" data-color="dark"
-                            onclick="sidebarColor(this)"></span>
-                        <span class="badge filter bg-gradient-info" data-color="info"
-                            onclick="sidebarColor(this)"></span>
-                        <span class="badge filter bg-gradient-success" data-color="success"
-                            onclick="sidebarColor(this)"></span>
-                        <span class="badge filter bg-gradient-warning" data-color="warning"
-                            onclick="sidebarColor(this)"></span>
-                        <span class="badge filter bg-gradient-danger" data-color="danger"
-                            onclick="sidebarColor(this)"></span>
-                    </div>
-                </a>
                 <!-- Sidenav Type -->
                 <div class="mt-3">
                     <h6 class="mb-0">Sidenav Type</h6>
@@ -237,75 +224,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('user/assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-    <script>
-        const calendar = document.getElementById('calendar');
-        let currentDate = new Date();
-        const today = new Date(); // Tanggal hari ini
-
-        // Fungsi untuk merender kalender
-        function renderCalendar(date) {
-            const month = date.getMonth();
-            const year = date.getFullYear();
-
-            // Menentukan jumlah hari dalam bulan
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const firstDayIndex = new Date(year, month, 1).getDay();
-
-            let calendarHTML = `<table class="table table-bordered text-center mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Minggu</th>
-                                        <th>Senin</th>
-                                        <th>Selasa</th>
-                                        <th>Rabu</th>
-                                        <th>Kamis</th>
-                                        <th>Jumat</th>
-                                        <th>Sabtu</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-
-            // Membuat baris tanggal
-            let day = 1;
-            for (let i = 0; i < 6; i++) {
-                calendarHTML += '<tr>';
-                for (let j = 0; j < 7; j++) {
-                    if (i === 0 && j < firstDayIndex) {
-                        calendarHTML += '<td></td>';
-                    } else if (day > daysInMonth) {
-                        calendarHTML += '<td></td>';
-                    } else {
-                        // Memeriksa apakah tanggal adalah hari ini
-                        const isToday = day === today.getDate() && month === today.getMonth() && year === today
-                            .getFullYear();
-                        const cellClass = isToday ? 'bg-primary text-white' : ''; // Kelas CSS untuk hari ini
-                        calendarHTML += `<td class="${cellClass}">${day}</td>`;
-                        day++;
-                    }
-                }
-                calendarHTML += '</tr>';
-            }
-            calendarHTML += '</tbody></table>';
-
-            calendar.innerHTML =
-                `<h5 class="text-center mb-3">${date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h5>` +
-                calendarHTML;
-        }
-
-        // Fungsi untuk berpindah bulan
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar(currentDate);
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar(currentDate);
-        });
-
-        // Render kalender awal
-        renderCalendar(currentDate);
-    </script>
 
 </body>
 
