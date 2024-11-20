@@ -57,7 +57,7 @@
                     </div>
                 </form>
                 <div class="row mt-3">
-                    <div class="col-6">
+                    <div class="col">
                         <select id="pegawai" name="pegawai" class="form-control">
                             <option value="" disabled {{ request('pegawai') ? '' : 'selected' }}>
                                 -- Pilih Sesuai Status --
@@ -123,10 +123,15 @@
                                             </td>
                                             <td>{{ $item->total_hari_cuti }} Hari</td>
                                             <td>
-                                                @if ($item->status_cuti === 1)
-                                                    <span class="badge bg-label-info">— Diterima —</span>
+                                                @if ($item->status_cuti === 'Diterima')
+                                                    <span class="badge bg-label-info" style="font-weight: bold;">—
+                                                        Diterima —</span>
+                                                @elseif ($item->status_cuti === 'Ditolak')
+                                                    <span class="badge bg-label-danger" style="font-weight: bold;">—
+                                                        Ditolak —</span>
                                                 @else
-                                                    <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
+                                                    <span class="badge bg-label-dark" style="font-weight: bold;">—
+                                                        Menunggu Konfirmasi —</span>
                                                 @endif
                                             </td>
                                             <td>{{ $item->alasan }}</td>
