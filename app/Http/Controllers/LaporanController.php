@@ -79,6 +79,7 @@ class LaporanController extends Controller
         $tanggalAwal = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
         $pegawaiId = $request->input('pegawai');
+        $statusCuti = $request->input('status_cuti');
 
         // Query untuk mengambil data cuti dengan filter
         $cutiQuery = Cutis::with(['pegawai.jabatan']);
@@ -91,6 +92,11 @@ class LaporanController extends Controller
         // Filter berdasarkan pegawai
         if ($pegawaiId) {
             $cutiQuery->where('id_user', $pegawaiId);
+        }
+
+        // Filter berdasarkan status cuti
+        if ($statusCuti) {
+            $cutiQuery->where('status_cuti', $statusCuti);
         }
 
         // Ambil data cuti

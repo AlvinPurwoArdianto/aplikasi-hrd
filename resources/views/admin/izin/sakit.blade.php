@@ -2,25 +2,20 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <h3 class="mb-4">Daftar Izin Sakit</h3>
-
-        <!-- Tampilkan notifikasi jika tidak ada izin sakit -->
-        @if ($izinSakitCount == 0)
-            <div class="alert alert-info" role="alert">
-                Belum ada izin sakit.
-            </div>
-        @endif
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> Izin Sakit</h4>
 
         <!-- Daftar izin sakit -->
-        <div class="card shadow-sm">
+        <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Data Izin Sakit</h5>
             </div>
             <div class="card-body">
-                @if ($izinSakit->isEmpty())
-                    <p class="text-muted">Tidak ada data izin sakit.</p>
-                @else
-                    <table class="table table-bordered table-hover text-nowrap text-center">
+                <table class="table table-bordered table-hover text-nowrap text-center">
+                    @if ($izinSakit->isEmpty())
+                        <div class="alert alert-warning" role="alert">
+                            Tidak ada data Izin Sakit.
+                        </div>
+                    @else
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
@@ -74,8 +69,8 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
-                @endif
+                    @endif
+                </table>
             </div>
         </div>
     </div>

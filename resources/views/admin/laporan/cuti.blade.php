@@ -55,19 +55,20 @@
                             <a href="{{ route('laporan.cuti') }}" class="btn btn-danger form-control">Reset</a>
                         </div>
                     </div>
-                </form>
-                <div class="row mt-3">
-                    <div class="col">
-                        <select id="pegawai" name="pegawai" class="form-control">
-                            <option value="" disabled {{ request('pegawai') ? '' : 'selected' }}>
-                                -- Pilih Sesuai Status --
-                            </option>
-                            <option value="0" {{ request('pegawai') == 'Diterima' ? 'selected' : '' }}>Diterima
-                            </option>
-                            <option value="1" {{ request('pegawai') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
-                        </select>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <select id="status_cuti" name="status_cuti" class="form-control">
+                                <option value="" disabled {{ request('status_cuti') ? '' : 'selected' }}>
+                                    -- Pilih Status Cuti --</option>
+                                <option value="Diterima" {{ request('status_cuti') == 'Diterima' ? 'selected' : '' }}>
+                                    Diterima
+                                </option>
+                                <option value="Ditolak" {{ request('status_cuti') == 'Ditolak' ? 'selected' : '' }}>Ditolak
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="row mt-3">
                     @if (!$cuti->isEmpty())
                         <div class="col-4">
@@ -75,11 +76,11 @@
                                 data-bs-target="#pdfModal">Lihat PDF</button>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai')]) }}"
+                            <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
                                 class="btn btn-info form-control">Buat PDF</a>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai')]) }}"
+                            <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
                                 class="btn btn-success form-control">Buat EXCEL</a>
                         </div>
                     @endif

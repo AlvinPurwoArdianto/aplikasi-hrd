@@ -115,7 +115,10 @@
                                     <th>Umur</th>
                                     <th>Email</th>
                                     <th>Gaji</th>
-                                    <th>Di Tempatkan</th>
+                                    <th>Provinsi</th>
+                                    <th>Kota</th>
+                                    <th>Kabupaten</th>
+                                    <th>Kelurahan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,7 +138,16 @@
                                             <td>{{ $item->email }}</td>
                                             <td>{{ 'Rp ' . number_format($item->gaji, 0, ',', '.') }}</td>
                                             <td>
-                                                {{ $item->nama_provinsi . ', ' . $item->nama_kota . ', ' . $item->nama_kecamatan . ', ' . $item->nama_kelurahan }}
+                                                {{ $item->pegawai ? $item->pegawai->nama_provinsi : 'Tidak ada provinsi' }}
+                                            </td>
+                                            <td>
+                                                {{ $item->pegawai ? $item->pegawai->nama_kota : 'Tidak ada kota' }}
+                                            </td>
+                                            <td>
+                                                {{ $item->pegawai ? $item->pegawai->nama_kabupaten : 'Tidak ada kabupaten' }}
+                                            </td>
+                                            <td>
+                                                {{ $item->pegawai ? $item->pegawai->nama_kelurahan : 'Tidak adakelurahan' }}
                                             </td>
                                         </tr>
                                     @endif

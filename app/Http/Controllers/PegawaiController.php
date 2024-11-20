@@ -59,7 +59,6 @@ class PegawaiController extends Controller
 
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
     }
-
     public function indexAdmin()
     {
         $pegawai = User::where('is_admin', 1)->get();
@@ -81,31 +80,18 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'nama_pegawai' => 'required|unique:pegawais,nama_pegawai',
-        //     'tanggal_lahir' => 'required',
-        //     'jenis_kelamin' => 'required',
-        //     'alamat' => 'required',
-        //     'email' => 'required',
-        //     'tanggal_masuk' => 'required',
-        //     'status' => 'nullable',
-        //     'id_jabatan' => 'required',
-        //     'provinsi' => 'required',
-        //     'kota' => 'required',
-        //     'kabupaten' => 'required',
-        //     'kecamatan' => 'required',
-        //     'kelurahan' => 'required',
-        // ], [
-        //     'nama_pegawai.unique' => 'Nama jabatan sudah ada!',
-        //     'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'jenis_kelamin.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'alamat.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'email.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'tanggal_masuk.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'umur.required' => 'Tanggal Lahir Harus Diisi!',
-        //     'id_jabatan.required' => 'Jabatan Harus Diisi!',
-        // ]
-        // );
+        $request->validate([
+            'nama_pegawai' => 'required|string|max:255',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|string',
+            'alamat' => 'required|string',
+            'email' => 'required|email|max:255',
+            'tanggal_masuk' => 'nullable|date',
+            'gaji' => 'nullable|numeric',
+            'status_pegawai' => 'nullable|boolean',
+            'id_jabatan' => 'required|exists:jabatans,id',
+        ]);
 
         $pegawai = new User();
         $pegawai->nama_pegawai = $request->nama_pegawai;
@@ -162,7 +148,7 @@ class PegawaiController extends Controller
             'alamat' => 'required|string',
             'email' => 'required|email|max:255',
             'tanggal_masuk' => 'required|date',
-            'gaji' => 'required|numeric',
+            'gaji' => 'nullable|numeric',
             'status_pegawai' => 'required|boolean',
             'id_jabatan' => 'required|exists:jabatans,id',
         ]);

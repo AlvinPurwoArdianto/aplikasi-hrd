@@ -115,13 +115,13 @@
                                 <td>{{ $data->total_hari_cuti }} Hari</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @if ($data->status_cuti == 'Diterima' || $data->status_cuti == 'Ditolak')
-                                        {{-- <button type="button" class="btn rounded-pill btn-success" disabled>
-                                            Sudah Dikonfirmasi
-                                        </button> --}}
-
+                                    @if ($data->status_cuti == 'Diterima')
                                         <button type="button" class="btn rounded-pill btn-success" disabled>
-                                            <i class="bi bi-check-circle-fill" title="Sudah Dikonfirmasi"></i>
+                                            <i class="bi bi-check-circle-fill" title="Terima"></i> Diterima
+                                        </button>
+                                    @elseif ($data->status_cuti == 'Ditolak')
+                                        <button type="button" class="btn rounded-pill btn-danger" disabled>
+                                            <i class="bi bi-x-circle-fill" title="Tolak"></i> Ditolak
                                         </button>
                                     @else
                                         <!-- Action buttons for pending confirmation -->
@@ -130,7 +130,7 @@
                                             @csrf
                                             @method('PUT')
                                             <button class="btn rounded-pill btn-danger mx-1" type="submit">
-                                                <i class="bi bi-x-circle-fill" title="Tolak"></i>
+                                                <i class="bi bi-x-circle-fill" title="Tolak"></i> Tolak
                                             </button>
                                         </form>
                                         <form action="{{ route('cuti.approve', $data->id) }}" method="POST"
@@ -138,7 +138,7 @@
                                             @csrf
                                             @method('PUT')
                                             <button class="btn rounded-pill btn-success mx-1" type="submit">
-                                                <i class="bi bi-check-circle-fill" title="Terima"></i>
+                                                <i class="bi bi-check-circle-fill" title="Terima"></i> Terima
                                             </button>
                                         </form>
                                     @endif
