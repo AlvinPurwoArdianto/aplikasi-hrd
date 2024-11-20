@@ -1,5 +1,7 @@
 @extends('layouts.admin.template')
-
+@section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     {{-- Toast Untuk Error --}}
     @if (session('error'))
@@ -23,6 +25,21 @@
             <div class="card-header">
                 <form action="{{ route('laporan.cuti') }}" method="GET">
                     <div class="row">
+                        <div class="col">
+                            <select id="pegawai" name="pegawai" class="form-control">
+                                <option value="" disabled {{ request('pegawai') ? '' : 'selected' }}>
+                                    -- Pilih Sesuai Nama Pegawai --
+                                </option>
+                                @foreach ($pegawai as $data)
+                                    <option value="{{ $data->id }}"
+                                        {{ request('pegawai') == $data->id ? 'selected' : '' }}>
+                                        {{ $data->nama_pegawai }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
                         <div class="col-4">
                             <input type="date" class="form-control" name="tanggal_awal"
                                 value="{{ request('tanggal_awal') }}">
@@ -38,26 +55,19 @@
                             <a href="{{ route('laporan.cuti') }}" class="btn btn-danger form-control">Reset</a>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-9">
-                            <select id="jabatan" name="jabatan" class="form-control">
-                                <option value="" disabled {{ request('jabatan') ? '' : 'selected' }}>
-                                    -- Pilih Jabatan--
-                                </option>
-                                @foreach ($jabatan as $data)
-                                    <option value="{{ $data->id }}"
-                                        {{ request('jabatan') == $data->id ? 'selected' : '' }}>
-                                        {{ $data->nama_jabatan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
-                                type="submit">Reset Filter Jabatan</a>
-                        </div>
-                    </div>
                 </form>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <select id="pegawai" name="pegawai" class="form-control">
+                            <option value="" disabled {{ request('pegawai') ? '' : 'selected' }}>
+                                -- Pilih Sesuai Status --
+                            </option>
+                            <option value="0" {{ request('pegawai') == 'Diterima' ? 'selected' : '' }}>Diterima
+                            </option>
+                            <option value="1" {{ request('pegawai') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="row mt-3">
                     @if (!$cuti->isEmpty())
                         <div class="col-4">
@@ -65,12 +75,12 @@
                                 data-bs-target="#pdfModal">Lihat PDF</button>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')]) }}"
+                            <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai')]) }}"
                                 class="btn btn-info form-control">Buat PDF</a>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')]) }}"
-                                class="btn btn-success form-control" type="submit">Buat EXCEL</a>
+                            <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai')]) }}"
+                                class="btn btn-success form-control">Buat EXCEL</a>
                         </div>
                     @endif
                 </div>
@@ -78,7 +88,7 @@
             <div class="card-body">
                 @if ($cuti->isEmpty())
                     <div class="alert alert-warning" role="alert">
-                        Tidak ada data pegawai yang cuti ditemukan untuk tanggal yang dipilih atau jabatan yang dipilih.
+                        Tidak ada data pegawai yang cuti ditemukan untuk tanggal yang dipilih
                     </div>
                 @else
                     <div class="table-responsive text-nowrap">
@@ -91,6 +101,7 @@
                                     <th>Tanggal Mulai Cuti</th>
                                     <th>Tanggal Akhir Cuti</th>
                                     <th>Total Cuti</th>
+                                    <th>Status</th>
                                     <th>Alasan</th>
                                 </tr>
                             </thead>
@@ -99,6 +110,7 @@
                                     $no = 1;
                                 @endphp
                                 @foreach ($cuti as $item)
+                                    {{-- @dd($item) <!-- Tambahkan ini untuk debugging --> --}}
                                     @if ($item->pegawai->is_admin == 0)
                                         <tr>
                                             <td>{{ $no++ }}</td>
@@ -110,6 +122,13 @@
                                             <td>{{ \Carbon\Carbon::parse($item->tanggal_selesai)->translatedFormat('d F Y') }}
                                             </td>
                                             <td>{{ $item->total_hari_cuti }} Hari</td>
+                                            <td>
+                                                @if ($item->status_cuti === 1)
+                                                    <span class="badge bg-label-info">— Diterima —</span>
+                                                @else
+                                                    <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $item->alasan }}</td>
                                         </tr>
                                     @endif
@@ -140,18 +159,29 @@
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <script>
-        document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
-            // Ambil tanggal awal dan tanggal akhir dari request
-            var tanggalAwal = '{{ request('tanggal_awal') }}';
-            var tanggalAkhir = '{{ request('tanggal_akhir') }}';
+        $(document).ready(function() {
+            $('#pegawai').select2({
+                allowClear: true
+            });
 
-            // Buat URL untuk iframe
-            var url = "{{ route('laporan.cuti', ['view_pdf' => true]) }}&tanggal_awal=" + tanggalAwal +
-                "&tanggal_akhir=" + tanggalAkhir;
+            document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
+                var pegawai = '{{ request('pegawai') }}';
+                var tanggalAwal = '{{ request('tanggal_awal') }}';
+                var tanggalAkhir = '{{ request('tanggal_akhir') }}';
 
-            // Set URL ke iframe
-            document.getElementById('pdfFrame').src = url;
+                // Buat URL untuk iframe
+                var url = "{{ route('laporan.cuti', ['view_pdf' => true]) }}" +
+                    "?pegawai=" + pegawai +
+                    "&tanggal_awal=" + tanggalAwal +
+                    "&tanggal_akhir=" + tanggalAkhir;
+
+                // Set URL ke iframe
+                document.getElementById('pdfFrame').src = url;
+            });
         });
     </script>
 @endpush

@@ -229,9 +229,6 @@
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
     <script>
         const togglePassword = document.querySelector("#togglePassword");
         const password = document.querySelector("#password");

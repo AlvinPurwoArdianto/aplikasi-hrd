@@ -1,4 +1,7 @@
 @extends('layouts.admin.template')
+@section('css')
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu Absensi /</span> cuti</h4>
@@ -125,8 +128,10 @@
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @if ($data->status_cuti == 1)
+                                    @if ($data->status_cuti === 'Diterima')
                                         <span class="badge bg-label-info">— Diterima —</span>
+                                    @elseif ($data->status_cuti === 'Ditolak')
+                                        <span class="badge bg-label-danger">— Ditolak —</span>
                                     @else
                                         <span class="badge bg-label-dark">— Menunggu Konfirmasi —</span>
                                     @endif
@@ -166,7 +171,7 @@
                         <div class="row">
                             <div class="col mb-0">
                                 <label for="nameBasic" class="form-label">Nama Pegawai</label>
-                                <select name="id_user" class="form-control" id="pegawai" required>
+                                <select name="id_user" class="form-control select2" id="pegawai" required>
                                     <option selected disabled>-- Nama pegawai --</option>
                                     @foreach ($pegawai as $data)
                                         @if ($data->is_admin == 0)
@@ -215,6 +220,24 @@
             </div>
         </div>
     </div>
-
 @endsection
-
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: null;
+                allowClear: false
+            });
+        });
+    </script>
+    <script>
+        $('#pegawai').on('change', function() {
+            let selectedOption = $(this).find(':selected');
+            let jabatan = selectedOption.data('jabatan');
+            $('#jabatan').html(`<option value="${jabatan}">${jabatan}</option>`).prop('disabled',
+                false);
+        });
+    </script>
+@endpush

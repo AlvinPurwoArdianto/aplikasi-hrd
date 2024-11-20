@@ -298,25 +298,21 @@
                         <div class="row mt-3">
                             <div class="col mb-0 mt-3">
                                 <label for="nameBasic" class="form-label">Masukan CV Anda</label>
-                                <input type="file" class="form-control" name="cv" required
-                                    accept="application/pdf">
+                                <input type="file" class="form-control" name="cv" accept="application/pdf">
                             </div>
                             <div class="col mb-0 mt-3">
                                 <label for="nameBasic" class="form-label">Masukan KK Anda</label>
-                                <input type="file" class="form-control" name="kk" required
-                                    accept="application/pdf">
+                                <input type="file" class="form-control" name="kk" accept="application/pdf">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col mb-0 mt-3">
                                 <label for="nameBasic" class="form-label">Masukan KTP Anda</label>
-                                <input type="file" class="form-control" name="ktp" required
-                                    accept="application/pdf">
+                                <input type="file" class="form-control" name="ktp" accept="application/pdf">
                             </div>
                             <div class="col mb-0 mt-3">
                                 <label for="nameBasic" class="form-label">Masukan AKTE Anda</label>
-                                <input type="file" class="form-control" name="akte" required
-                                    accept="application/pdf">
+                                <input type="file" class="form-control" name="akte" accept="application/pdf">
                             </div>
                         </div>
                     </div>

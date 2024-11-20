@@ -14,7 +14,7 @@ class CreateCutisTable extends Migration
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('alasan');
-            $table->boolean('status_cuti')->default(0);
+            $table->enum('status_cuti', ['Menunggu', 'Diterima', 'Ditolak'])->default('Menunggu');
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

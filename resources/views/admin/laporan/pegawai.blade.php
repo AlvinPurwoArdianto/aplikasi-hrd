@@ -84,7 +84,7 @@
                 <div class="row mt-3">
                     @if (!$pegawai->isEmpty())
                         <div class="col-4">
-                            <button id="lihatPdfButton" class="btn btn-secondary form-control" data-bs-toggle="modal"
+                            <button id="lihatPdfButtonPegawai" class="btn btn-secondary form-control" data-bs-toggle="modal"
                                 data-bs-target="#pdfModal">Lihat PDF</button>
                         </div>
                         <div class="col-4">
@@ -167,17 +167,16 @@
 
 @push('scripts')
     <script>
-        document.getElementById('lihatPdfButton').addEventListener('click', function() {
-            // Ambil tanggal awal dan tanggal akhir dari request
+        document.getElementById('lihatPdfButtonPegawai').addEventListener('click', function() {
+            var jabatan = '{{ request('jabatan') }}';
             var tanggalAwal = '{{ request('tanggal_awal') }}';
             var tanggalAkhir = '{{ request('tanggal_akhir') }}';
-            var jabatan = '{{ request('jabatan') }}';
 
-            // Buat URL untuk iframe
+            // Encode parameter untuk URL
             var url = "{{ route('laporan.pegawai', ['view_pdf' => true]) }}" +
-                "&tanggal_awal=" + tanggalAwal +
-                "&tanggal_akhir=" + tanggalAkhir +
-                "&jabatan=" + jabatan;
+                "?jabatan=" + encodeURIComponent(jabatan) +
+                "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
+                "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir);
 
             // Set URL ke iframe
             document.getElementById('pdfFrame').src = url;

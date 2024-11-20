@@ -115,14 +115,17 @@
                                 <td>{{ $data->total_hari_cuti }} Hari</td>
                                 <td>{{ $data->alasan }}</td>
                                 <td>
-                                    @if ($data->status_cuti == 1)
-                                        <!-- Display a disabled button for confirmed requests -->
-                                        <button type="button" class="btn rounded-pill btn-success" disabled>
+                                    @if ($data->status_cuti == 'Diterima' || $data->status_cuti == 'Ditolak')
+                                        {{-- <button type="button" class="btn rounded-pill btn-success" disabled>
                                             Sudah Dikonfirmasi
+                                        </button> --}}
+
+                                        <button type="button" class="btn rounded-pill btn-success" disabled>
+                                            <i class="bi bi-check-circle-fill" title="Sudah Dikonfirmasi"></i>
                                         </button>
                                     @else
                                         <!-- Action buttons for pending confirmation -->
-                                        <form action="{{ route('cuti.confirm', $data->id) }}" method="POST"
+                                        <form action="{{ route('cuti.reject', $data->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('PUT')

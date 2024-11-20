@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Berkas;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BerkasController extends Controller
 {
@@ -74,7 +75,7 @@ class BerkasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Berkas $berkas)
+    public function show($id)
     {
         //
     }
@@ -82,7 +83,7 @@ class BerkasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Berkas $berkas)
+    public function edit($id)
     {
         //
     }
@@ -90,7 +91,7 @@ class BerkasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Berkas $berkas)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -98,8 +99,22 @@ class BerkasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Berkas $berkas)
+    public function destroy($id)
     {
-        //
+        $berkas = Berkas::findOrFail($id);
+        if ($berkas->cv && Storage::disk('public')->exists($berkas->cv)) {
+            Storage::disk('public')->delete($berkas->cv);
+        }
+        if ($berkas->kk && Storage::disk('public')->exists($berkas->kk)) {
+            Storage::disk('public')->delete($berkas->kk);
+        }
+        if ($berkas->ktp && Storage::disk('public')->exists($berkas->ktp)) {
+            Storage::disk('public')->delete($berkas->ktp);
+        }
+        if ($berkas->akte && Storage::disk('public')->exists($berkas->akte)) {
+            Storage::disk('public')->delete($berkas->akte);
+        }
+        $berkas->delete();
+        return redirect()->route('rekrutmen.index')->with('success', 'Rekrutmen berhasil dihapus.');
     }
 }

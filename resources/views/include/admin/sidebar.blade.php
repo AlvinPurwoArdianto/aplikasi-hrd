@@ -65,42 +65,36 @@
                 <i class='menu-icon bx bx-user-check'></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 59px">
                     Aprove Cuti
-                    <span id="notification-count" class="badge bg-danger">
-                        {{ $cutiNotifications->count() }}
-                    </span>
+                    @if (isset($cutiNotifications) && $cutiNotifications->count() > 0)
+                        <span id="notification-count" class="badge bg-danger">
+                            {{ $cutiNotifications->count() }}
+                        </span>
+                    @endif
                 </div>
             </a>
         </li>
+
+        <li class="menu-item {{ request()->routeIs('izin.sakit') ? 'active' : '' }}">
+            <a href="{{ route('izin.sakit') }}" class="menu-link">
+                <i class="menu-icon bx bx-plus-medical"></i>
+                <div data-i18n="Analytics" style="display: flex; gap: 75px">
+                    Izin Sakit
+                    @if (isset($izinSakitCount) && $izinSakitCount > 0)
+                        <span id="notification-count" class="badge bg-danger">
+                            {{ $izinSakitCount }}
+                        </span>
+                    @endif
+                </div>
+            </a>
+        </li>
+
+
         <li class="menu-item
                         {{ url()->current() == route('berkas.index') ? 'active' : '' }}">
             <a href="{{ route('berkas.index') }}" class="menu-link">
                 <i class='menu-icon bx bx-paperclip'></i>
                 <div data-i18n="Analytics">Berkas Pribadi</div>
             </a>
-        </li>
-
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Menu User</span>
-        </li>
-
-        <li
-            class="menu-item {{ request()->routeIs('absensi.*') || request()->routeIs('cuti.index') ? 'active menu-open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tmenu-icon tf-icons bx bx-calendar" class="menu-item "></i>
-                <div data-i18n="Authentications">Menu Absensi</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
-                    <a href="{{ route('absensi.index') }}" class="menu-link">
-                        <div data-i18n="Analytics">Absen</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('cuti.index') ? 'active' : '' }}">
-                    <a href="{{ route('cuti.index') }}" class="menu-link">
-                        <div data-i18n="Basic">Ajukan Cuti</div>
-                    </a>
-                </li>
-            </ul>
         </li>
 
         <li class="menu-header small text-uppercase">

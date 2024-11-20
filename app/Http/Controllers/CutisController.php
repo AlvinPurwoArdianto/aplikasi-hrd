@@ -13,7 +13,7 @@ class CutisController extends Controller
     {
         $pegawai = User::all();
         $cuti = Cutis::with(['pegawai.jabatan'])->get();
-        $cutiNotifications = Cutis::where('status_cuti', 0)->get();
+        $cutiNotifications = Cutis::where('status_cuti', 'Menunggu')->get();
         confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
         return view('admin.cuti.index', compact('cuti', 'pegawai', 'cutiNotifications'));
     }
@@ -52,9 +52,16 @@ class CutisController extends Controller
     {
         // Validasi input
         $validated = $request->validate([
-            'tanggal_cuti' => 'required|date',
+            'tanggal_cuti' => [
+                'required',
+                'date',
+                'after_or_equal:today',
+            ],
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_cuti',
-            'alasan' => 'required|string',
+            'alasan' => 'required|string|max:255',
+        ], [
+            'tanggal_cuti.after_or_equal' => 'Tanggal yang di masukan tidak valid', // Pesan khusus
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai cuti harus setelah atau sama dengan tanggal mulai cuti.',
         ]);
 
         // Simpan data cuti ke database
@@ -63,7 +70,7 @@ class CutisController extends Controller
             'tanggal_mulai' => $validated['tanggal_cuti'], // Menyimpan tanggal mulai
             'tanggal_selesai' => $validated['tanggal_selesai'], // Menyimpan tanggal selesai
             'alasan' => $validated['alasan'], // Menyimpan alasan
-            'status_cuti' => 0, // Status "Menunggu Konfirmasi"
+            'status_cuti' => 'Menunggu', // Status "Menunggu Konfirmasi"
         ]);
 
         return redirect()->route('cuti.index1')->with('success', 'Pengajuan cuti berhasil diajukan!');
@@ -76,25 +83,6 @@ class CutisController extends Controller
         $cuti->save();
 
         return redirect()->back()->with('success', 'Status cuti berhasil diperbarui.');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_user' => 'required|exists:users,id',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'alasan' => 'required|string|max:255',
-        ]);
-
-        $cuti = new Cutis();
-        $cuti->id_user = $request->id_user;
-        $cuti->tanggal_mulai = $request->tanggal_mulai;
-        $cuti->tanggal_selesai = $request->tanggal_selesai;
-        $cuti->alasan = $request->alasan;
-        $cuti->save();
-
-        return redirect()->route('cuti.index')->with('success', 'Cuti berhasil diajukan.');
     }
 
     public function edit($id)
@@ -125,10 +113,18 @@ class CutisController extends Controller
     public function approve($id)
     {
         $cuti = Cutis::findOrFail($id);
-        $cuti->status_cuti = 1; // Assuming 1 indicates approved
+        $cuti->status_cuti = 'Diterima';
         $cuti->save();
 
         return redirect()->back()->with('success', 'Cuti approved successfully.');
     }
 
+    public function reject($id)
+    {
+        $cuti = Cutis::findOrFail($id);
+        $cuti->status_cuti = 'Ditolak';
+        $cuti->save();
+
+        return redirect()->back()->with('success', 'Cuti rejected successfully.');
+    }
 }

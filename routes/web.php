@@ -4,7 +4,6 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
@@ -21,13 +20,11 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 
-
 // Auth::routes();
 
 Auth::routes([
     'register' => false,
 ]);
-
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -101,8 +98,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('/cuti/confirm/{id}', [CutisController::class, 'confirm'])->name('cuti.confirm');
     Route::delete('cuti/{id}', [CutisController::class, 'destroy'])->name('cuti.destroy');
     Route::put('/cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
-
-    
+    Route::put('/cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
+    Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
 
     //Route berkas
     // Route::resource('berkas', BerkasController::class);
@@ -159,8 +156,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('profile', function () {
         return view('user.profile.index');
     });
-
-    Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
 
     Route::get('cuti', [CutisController::class, 'index1'])->name('cuti.index1');
     // Route::post('/cuti/store', [CutisController::class, 'store1'])->name('cuti.store1');d
