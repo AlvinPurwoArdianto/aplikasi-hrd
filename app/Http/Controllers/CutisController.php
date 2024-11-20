@@ -19,10 +19,9 @@ class CutisController extends Controller
     }
     public function index1()
     {
-        $pegawai = User::all();
-        $cuti = Cutis::with(['pegawai.jabatan'])->get();
+        $cuti = Cutis::with(['pegawai.jabatan'])->where('id_user', Auth::user()->id)->get();
         confirmDelete('Hapus Cuti!', 'Apakah Anda Yakin?');
-        return view('user.cuti.index', compact('cuti', 'pegawai'));
+        return view('user.cuti.index', compact('cuti'));
     }
 
     public function menu()

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class KaryawanSeeder extends Seeder
 {
@@ -12,6 +13,20 @@ class KaryawanSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        User::create([
+            'nama_pegawai' => 'Sample Karyawan',
+            'tempat_lahir' => 'Surabaya',
+            'tanggal_lahir' => '1990-01-01',
+            'jenis_kelamin' => 'Laki-laki',
+            'alamat' => 'Jl. Contoh, Surabaya',
+            'email' => 'Sample@gmail.com',
+            'password' => Hash::make('example'),
+            'tanggal_masuk' => '2022-01-01',
+            'gaji' => 5000000,
+            'status_pegawai' => 1,
+            'is_admin' => 0,
+            'google_id' => null,
+        ]);
+
     }
 }
