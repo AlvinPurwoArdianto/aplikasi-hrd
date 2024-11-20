@@ -25,7 +25,7 @@ class HomeController extends Controller
     {
         $pegawai = User::all();
 
-        $totalPegawai = User::count('id');
+        $totalPegawai = User::where('is_admin', 0)->count();
         $totalPenggajian = User::sum('gaji');
         // $fasilitas = Fasilitas::count('id');
         // $artikel = Artikel::count('id');
