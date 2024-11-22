@@ -85,16 +85,6 @@
         @endif
 
         <div class="card">
-            {{-- <h5 class="card-header">
-                <button type="button" class="btn rounded-pill btn-info" data-bs-toggle="modal"
-                    data-bs-target="#createModal"
-                    style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                    <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
-                        data-bs-html="true" title="Add cuti"></i>
-                    Add cuti
-                </button>
-                Add cuti
-            </h5> --}}
 
             <!-- Table for cuti menu Data -->
             <div class="table-responsive text-nowrap">

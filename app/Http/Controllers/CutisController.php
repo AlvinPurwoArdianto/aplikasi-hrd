@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cutis;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +17,8 @@ class CutisController extends Controller
 
     public function menu()
     {
-        $cuti = Cutis::all();
-        $cutiNotifications = Cutis::where('status_cuti', 0)->get();
+        $cuti = Cutis::latest()->get();
+        $cutiNotifications = Cutis::where('status_cuti', 'Menunggu')->get();
 
         // Hitung total hari cuti untuk setiap record cuti
         foreach ($cuti as $item) {
@@ -29,6 +28,17 @@ class CutisController extends Controller
         }
 
         return view('admin.cuti.menu', compact('cuti', 'cutiNotifications'));
+    }
+
+    public function getNotifications()
+    {
+        // Hitung jumlah cuti dengan status "Menunggu"
+        $cutiNotifications = Cutis::where('status_cuti', 'Menunggu')->count();
+
+        // Kembalikan jumlah notifikasi dalam format JSON
+        return response()->json([
+            'count' => $cutiNotifications,
+        ]);
     }
 
     public function store(Request $request)

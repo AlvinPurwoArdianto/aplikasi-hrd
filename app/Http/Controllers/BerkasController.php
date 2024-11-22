@@ -16,6 +16,7 @@ class BerkasController extends Controller
     {
         $pegawai = User::all();
         $berkas = Berkas::all();
+        confirmDelete('Hapus!', 'Apakah anda yakin?');
         return view('admin.berkas.index', compact('berkas', 'pegawai'));
     }
 
@@ -34,10 +35,10 @@ class BerkasController extends Controller
     {
         $request->validate([
             'id_user' => 'required',
-            'cv' => 'required',
-            'kk' => 'required',
-            'akte' => 'required',
-            'ktp' => 'required',
+            'cv' => 'nullable',
+            'kk' => 'nullable',
+            'akte' => 'nullable',
+            'ktp' => 'nullable',
         ]);
 
         $berkas = new Berkas();

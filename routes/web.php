@@ -89,6 +89,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     // Route::resource('cuti', CutisController::class);
     // Route cuti Tanpa Resource
     Route::get('cuti/menu', [CutisController::class, 'menu'])->name('cuti.menu');
+    Route::get('cuti/notifications', [CutisController::class, 'getNotifications'])->name('cuti.notifications');
     Route::put('/cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
     Route::put('/cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
     Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');

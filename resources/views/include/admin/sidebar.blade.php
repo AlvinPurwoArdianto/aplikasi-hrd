@@ -60,16 +60,18 @@
                 <div data-i18n="Analytics">Rekrutmen</div>
             </a>
         </li>
-        <li class="menu-item  {{ url()->current() == route('cuti.menu') ? 'active' : '' }}">
+        <li class="menu-item {{ url()->current() == route('cuti.menu') ? 'active' : '' }}">
             <a href="{{ route('cuti.menu') }}" class="menu-link">
-                <i class='menu-icon bx bx-user-check'></i>
+                <i class="menu-icon bx bx-user-check"></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 59px">
                     Aprove Cuti
-                    @if (isset($cutiNotifications) && $cutiNotifications->count() > 0)
-                        <span id="notification-count" class="badge bg-danger">
-                            {{ $cutiNotifications->count() }}
-                        </span>
-                    @endif
+                    <span id="notification-count-container">
+                        @if (isset($cutiNotifications) && $cutiNotifications->count() > 0)
+                            <span id="notification-count" class="badge bg-danger">
+                                {{ $cutiNotifications->count() }}
+                            </span>
+                        @endif
+                    </span>
                 </div>
             </a>
         </li>
@@ -80,7 +82,7 @@
                 <div data-i18n="Analytics" style="display: flex; gap: 75px">
                     Izin Sakit
                     @if (isset($izinSakitCount) && $izinSakitCount > 0)
-                        <span id="notification-count" class="badge bg-danger">
+                        <span id="notification-count-izin" class="badge bg-danger">
                             {{ $izinSakitCount }}
                         </span>
                     @endif
@@ -125,4 +127,28 @@
             </ul>
         </li>
     </ul>
+    <!-- Add AJAX Script Here -->
+    <script>
+        // Fungsi untuk memeriksa notifikasi baru setiap 5 detik
+        function checkNotifications() {
+            $.ajax({
+                url: '{{ route('cuti.notifications') }}', // Route untuk mengambil jumlah notifikasi
+                type: 'GET',
+                success: function(response) {
+                    // Update jumlah notifikasi di menu
+                    if (response.count > 0) {
+                        $('#notification-count').text(response.count).show();
+                    } else {
+                        $('#notification-count').hide();
+                    }
+                },
+                error: function() {
+                    console.log('Gagal memuat notifikasi');
+                }
+            });
+        }
+
+        // Memanggil fungsi setiap 5 detik
+        setInterval(checkNotifications, 5000);
+    </script>
 </aside>

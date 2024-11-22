@@ -150,20 +150,9 @@
                                     <form action="{{ route('berkas.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{ route('berkas.edit', $data->id) }}"><i
-                                                        class="bx bx-edit-alt me-1"></i> Edit</a>
-                                                <a href="{{ route('berkas.destroy', $data->id) }}" type="submit"
-                                                    class="dropdown-item" data-confirm-delete="true"><i
-                                                        class="bx bx-trash me-1"></i>
-                                                    Delete</a>
-                                            </div>
-                                        </div>
+                                        <button type="submit" class="btn rounded-pill btn-danger"
+                                            data-confirm-delete="true"><i class="bx bx-trash me-1"></i>
+                                            Delete</button>
                                     </form>
                                 </td>
                             </tr>

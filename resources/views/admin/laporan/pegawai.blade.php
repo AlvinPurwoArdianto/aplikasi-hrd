@@ -106,6 +106,7 @@
                 @else
                     <div class="table-responsive text-nowrap">
                         <table class="table table-bordered">
+                            Cari Nama Pegawai : <input type="text" class="mb-3" id="searchInput">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -121,7 +122,7 @@
                                     <th>Kelurahan</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
                                 @php
                                     $no = 1;
                                 @endphp
@@ -178,6 +179,17 @@
 @endsection
 
 @push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
     <script>
         document.getElementById('lihatPdfButtonPegawai').addEventListener('click', function() {
             var jabatan = '{{ request('jabatan') }}';

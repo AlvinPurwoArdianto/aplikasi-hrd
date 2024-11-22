@@ -67,6 +67,13 @@
     justify-content: center;
 }
 
+#notification-count-izin {
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+}
+
 
 .menu .app-brand.demo {
     height: 64px;

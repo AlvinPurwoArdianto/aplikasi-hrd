@@ -174,8 +174,10 @@ class WelcomeController extends Controller
     {
         // Mengambil data pegawai
         $pegawai = User::all();
-        //mengambil data absensi
+
+        // Mengambil data absensi
         $absensi = Absensi::all();
+
         // Mengambil data absensi dengan status 'sakit', diurutkan secara descending berdasarkan tanggal
         $izinSakit = Absensi::where('status', 'sakit')
             ->orderBy('created_at', 'desc')
@@ -184,8 +186,15 @@ class WelcomeController extends Controller
         // Menghitung jumlah izin sakit yang belum ada
         $izinSakitCount = Absensi::where('status', 'sakit')->count();
 
-        // Mengirim data izin sakit dan count ke view
-        return view('admin.izin.sakit', compact('izinSakit', 'izinSakitCount', 'absensi', 'pegawai'));
+        // Menyimpan status "viewed" di session untuk setiap izin sakit yang telah dilihat
+        $viewedPhotos = [];
+        foreach ($izinSakit as $data) {
+            $viewedPhotos[$data->id] = session()->has("viewed_{$data->id}");
+        }
+        session(['izinSakitCount' => 0]);
+
+        // Mengirim data izin sakit, count, absensi, pegawai, dan status foto ke view
+        return view('admin.izin.sakit', compact('izinSakit', 'izinSakitCount', 'absensi', 'pegawai', 'viewedPhotos'));
     }
 
     /**
