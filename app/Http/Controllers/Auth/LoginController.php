@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -41,10 +40,16 @@ class LoginController extends Controller
         // Periksa apakah status_pegawai aktif
         if ($user->status_pegawai === 0) {
             Auth::logout();
-            Alert::error('Login Gagal', 'Akun Anda tidak aktif. Silakan hubungi admin.');
             return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi admin.');
         }
+    }
 
+    public function index()
+    {
+        if (Auth::check()) {
+            return Auth::user()->is_admin ? redirect('admin/dashboard') : redirect('user/dashboard');
+        }
+        return view('auth.login');
     }
 
     /**
@@ -55,7 +60,6 @@ class LoginController extends Controller
         return [
             'email' => $request->email,
             'password' => $request->password,
-            'status_pegawai' => 1, // Hanya pengguna dengan status aktif
         ];
     }
 }

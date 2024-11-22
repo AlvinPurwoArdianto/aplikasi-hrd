@@ -190,31 +190,45 @@
 
         }
     </style>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.15/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.15/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                html: '<strong>{{ session('error') }}</strong>',
+                icon: 'error',
+                title: 'Login Gagal!',
+                text: "{{ session('error') }}",
+                confirmButtonText: 'Ok',
+            })
+        </script>
+    @endif
     <section class="container forms">
         <div class="form login">
             <div class="form-content">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <header>Login</header>
-                    <form action="#">
-                        <div class="field input-field">
-                            <input id="email" type="email" class="form-control" name="email"
-                                autocomplete="email" autofocus placeholder="Email">
-                        </div>
+                    <div class="field input-field">
+                        <input id="email" type="email" class="form-control" name="email" autocomplete="email"
+                            autofocus placeholder="Email">
+                    </div>
 
-                        <div class="field input-field">
-                            <input id="password" type="password" class="form-control" name="password"
-                                autocomplete="current-password" placeholder="Password">
-                            <i class='bx bx-hide eye-icon' id="togglePassword"></i>
-                        </div>
+                    <div class="field input-field">
+                        <input id="password" type="password" class="form-control" name="password"
+                            autocomplete="current-password" placeholder="Password">
+                        <i class='bx bx-hide eye-icon' id="togglePassword"></i>
+                    </div>
 
-                        <div class="field button-field">
-                            <button type="submit">Login</button>
-                        </div>
-                    </form>
+                    <div class="field button-field">
+                        <button type="submit">Login</button>
+                    </div>
                 </form>
             </div>
 
