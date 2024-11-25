@@ -73,11 +73,11 @@
                         </div>
                         @if (!$cuti->isEmpty())
                             <div class="col-1">
-                                <button id="lihatPdfButtonCuti" class="btn btn-secondary form-control"
+                                <a href="#" id="lihatPdfButtonCuti" class="btn btn-secondary form-control"
                                     data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
                                         data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
@@ -96,28 +96,6 @@
                         @endif
                     </div>
                 </form>
-                {{-- <div class="row mt-3">
-                    @if (!$cuti->isEmpty())
-                        <div class="col-1">
-                            <button id="lihatPdfButtonCuti" class="btn btn-secondary form-control" data-bs-toggle="modal"
-                                data-bs-target="#pdfModal">
-                                <i class='bx bx-search-alt-2'></i>
-                            </button>
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
-                                class="btn btn-danger form-control">
-                                <i class='bx bxs-file-pdf'></i>
-                            </a>
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
-                                class="btn btn-success form-control">
-                                <i class="bi bi-file-earmark-excel-fill"></i>
-                            </a>
-                        </div>
-                    @endif
-                </div> --}}
             </div>
             <div class="card-body">
                 @if ($cuti->isEmpty())

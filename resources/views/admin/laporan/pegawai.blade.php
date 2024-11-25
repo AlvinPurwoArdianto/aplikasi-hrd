@@ -57,11 +57,11 @@
                         </div>
                         @if (!$pegawai->isEmpty())
                             <div class="col-1">
-                                <button id="lihatPdfButtonPegawai" class="btn btn-secondary form-control"
+                                <a href="#" id="lihatPdfButtonPegawai" class="btn btn-secondary form-control"
                                     data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
                                         data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
