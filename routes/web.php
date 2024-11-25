@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BackupDatabaseExport;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
 use App\Http\Controllers\JabatanController;
@@ -108,14 +109,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
     Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
+
+    //Route Buat Backup Database
+    Route::get('/export-database', [BackupDatabaseExport::class, 'export'])->name('export-database');
+
 });
 
 // LOGIN GOOGLE
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
 Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
 Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
-
-Auth::routes();
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('dashboard', function () {

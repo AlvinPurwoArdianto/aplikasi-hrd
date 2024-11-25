@@ -126,6 +126,19 @@
                 </li>
             </ul>
         </li>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Data Backup</span>
+        </li>
+        {{-- INI BUAT BACKUP DATABASE --}}
+        <li class="menu-item">{{--  {{ request()->routeIs('backup.backupDb') ? 'active' : '' }} --}}
+            <a href="{{ route('izin.sakit') }}" class="menu-link">
+                <i class="menu-icon bx bx-export"></i>
+                <div data-i18n="Basic">
+                    Backup Database
+                </div>
+            </a>
+        </li>
     </ul>
     <!-- Add AJAX Script Here -->
     <script>

@@ -191,9 +191,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#pegawai').select2({
-                allowClear: true
-            });
+            $('#pegawai').select2();
 
             document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
                 var pegawai = '{{ request('pegawai') }}';
