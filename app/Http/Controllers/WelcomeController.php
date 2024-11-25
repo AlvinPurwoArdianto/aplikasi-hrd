@@ -50,6 +50,49 @@ class WelcomeController extends Controller
      * Store a newly created resource in storage.
      */
 
+    // public function store(Request $request)
+    // {
+    //     // Set timezone
+    //     date_default_timezone_set('Asia/Jakarta');
+
+    //     // Validate input
+    //     $request->validate([
+    //         'id_user' => 'required|exists:users,id',
+    //     ]);
+
+    //     // Get the current time
+    //     $currentTime = Carbon::now('Asia/Jakarta');
+
+    //     // Find the user
+    //     $pegawai = User::find($request->id_user);
+    //     if (!$pegawai) {
+    //         return redirect()->route('welcome.create')->with('error', 'User tidak ditemukan!');
+    //     }
+
+    //     // Check if the user has already recorded attendance today
+    //     $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('created_at', Carbon::today('Asia/Jakarta'))->first();
+    //     if ($sudahAbsen) {
+    //         return redirect()->route('welcome.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
+    //     }
+
+    //     // Check for lateness
+    //     $note = null;
+    //     $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta');
+    //     if ($currentTime->greaterThan($latenessTime)) {
+    //         $note = 'Telat';
+    //     }
+
+    //     // Record attendance
+    //     Absensi::create([
+    //         'id_user' => $request->id_user,
+    //         'tanggal_absen' => $currentTime->toDateString(),
+    //         'jam_masuk' => $currentTime->toTimeString(),
+    //         'note' => $note,
+    //     ]);
+
+    //     return redirect()->route('welcome.index')->with('success', 'Absen Masuk berhasil disimpan!');
+
+    // }
     public function store(Request $request)
     {
         // Set timezone
@@ -84,7 +127,7 @@ class WelcomeController extends Controller
 
         if ($currentTime->greaterThan($latenessTime)) {
             $note = 'Telat';
-            $telat = $currentTime->diffInMinutes($latenessTime);
+            $telat = abs($currentTime->diffInMinutes($latenessTime)); // Menggunakan abs() untuk memastikan nilai positif
         }
 
         // Record attendance
@@ -98,50 +141,6 @@ class WelcomeController extends Controller
 
         return redirect()->route('welcome.index')->with('success', "Absen berhasil disimpan!");
     }
-
-//     public function store(Request $request)
-//     {
-
-//         date_default_timezone_set('Asia/Jakarta');
-
-//         $pegawai = User::find($request->id_pegawai);
-//         $sudahAbsen = Absensi::where('id_Pegawai', $pegawai->id)->whereDate('created_at', today())->first();
-
-//         if ($sudahAbsen) {
-//             return redirect()->route('welcome.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
-//         }
-
-//         $request->validate([
-//             'id_pegawai' => 'required|exists:pegawais,id',
-//         ]);
-
-//         $currentTime = Carbon::now('Asia/Jakarta');
-
-// // Check if the current time is between 08:00 and 09:00
-//         if ($currentTime->between(Carbon::createFromTime(8, 0, 0), Carbon::createFromTime(9, 0, 0))) {
-//             // Proceed to store the check-in data
-//             Absensi::create([
-//                 'id_pegawai' => Auth::user()->id,
-//                 'tanggal_absen' => $currentTime->toDateString(),
-//                 'jam_masuk' => $currentTime->toTimeString(),
-//             ]);
-
-//             return redirect()->back()->with('success', 'Absen masuk berhasil!');
-//         } else {
-//             return redirect()->back()->with('error', 'Absen masuk hanya bisa dilakukan antara 08:00 dan 09:00.');
-//         }
-
-//         // Ambil waktu sekarang
-//         $jamMasuk = now()->format('H:i'); // atau bisa gunakan Carbon::now()
-
-//         Absensi::create([
-//             'id_pegawai' => $request->id_pegawai,
-//             'tanggal_absen' => now()->format('Y-m-d'), // format tanggal
-//             'jam_masuk' => $jamMasuk, // format jam
-//         ]);
-
-//         return redirect()->route('user.absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
-//     }
 
     /**
      * Display the specified resource.
@@ -196,21 +195,36 @@ class WelcomeController extends Controller
             return redirect()->back()->with('error', 'Data absensi tidak ditemukan untuk hari ini.');
         }
 
-        // Check if it's the correct time to perform check-out
-        if ($currentTime->between(Carbon::createFromTime(15, 0, 0), Carbon::createFromTime(16, 0, 0))) {
-            // Update only if `jam_keluar` is not already set
-            if (is_null($absensi->jam_keluar)) {
-                $absensi->jam_keluar = $currentTime->toTimeString();
-                $absensi->save();
+        // Define the check-out time range
+        $regularCheckOutEnd = Carbon::createFromTime(15, 0, 0); // Waktu akhir jam kerja reguler
+        $lemburStart = Carbon::createFromTime(16, 0, 0); // Waktu mulai lembur
 
+        // Lakukan logika absen pulang
+        if (is_null($absensi->jam_keluar)) {
+            if ($currentTime->greaterThanOrEqualTo($regularCheckOutEnd)) {
+                // Catat absensi pulang
+                $absensi->jam_keluar = $currentTime->toTimeString();
+
+                if ($currentTime->greaterThanOrEqualTo($lemburStart)) {
+                    // Jika waktu pulang lebih dari jam 16:00, catat lembur
+                    $absensi->lembur = 1; // Tandai lembur (1 = ya)
+                    $absensi->note = 'Lembur'; // Tambahkan catatan lembur
+                } else {
+                    // Jika tidak lembur, reset nilai lembur dan catatan
+                    $absensi->lembur = 0;
+                    $absensi->note = null;
+                }
+
+                $absensi->save();
                 return redirect()->back()->with('success', 'Absen pulang berhasil disimpan!');
             } else {
-                return redirect()->back()->with('error', 'Anda sudah melakukan absen pulang hari ini.');
+                return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan setelah jam 16:00.');
             }
         } else {
-            return redirect()->back()->with('error', 'Absen pulang hanya bisa dilakukan antara 15:00 dan 16:00.');
+            return redirect()->back()->with('error', 'Anda sudah melakukan absen pulang hari ini.');
         }
     }
+
 
     public function absenSakit(Request $request)
     {
@@ -224,6 +238,8 @@ class WelcomeController extends Controller
             return redirect()->back()->with('error', 'Anda sudah absen hari ini');
         }
 
+        $note = 'sakit';
+
         // Simpan absen sakit
         Absensi::create([
             'id_user' => $id_user,
@@ -231,6 +247,7 @@ class WelcomeController extends Controller
             'jam_masuk' => null, // No check-in time
             'jam_keluar' => null, // No check-out time
             'status' => 'sakit',
+            'note' => $note,
         ]);
 
         return redirect()->back()->with('success', 'Absen sakit berhasil disimpan');

@@ -34,33 +34,66 @@ class AbsensiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     date_default_timezone_set('Asia/Jakarta');
+
+    //     // Validasi apakah `id_user` ada di dalam tabel `users`
+    //     $pegawai = User::find($request->id_user);
+    //     if (!$pegawai) {
+    //         return redirect()->route('absensi.create')->with('error', 'User tidak ditemukan!');
+    //     }
+
+    //     // Cek apakah user telah melakukan absen pada hari ini
+    //     $sudahAbsen = Absensi::where('id_user', $pegawai->id)
+    //         ->whereDate('tanggal_absen', now()->format('Y-m-d'))
+    //         ->exists(); // menggunakan exists untuk efisiensi
+
+    //     if ($sudahAbsen) {
+    //         return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
+    //     }
+
+    //     // Jika belum absen, ambil waktu sekarang dan simpan data absensi
+    //     $jamMasuk = now()->format('H:i'); // menggunakan jam sekarang
+
+    //     Absensi::create([
+    //         'id_user' => $pegawai->id,
+    //         'tanggal_absen' => now()->format('Y-m-d'), // menyimpan tanggal hari ini
+    //         'jam_masuk' => $jamMasuk, // menyimpan waktu masuk
+    //     ]);
+
+    //     return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
+    // }
+
     public function store(Request $request)
     {
         date_default_timezone_set('Asia/Jakarta');
 
-        // $request->validate([
-        //     'id_user' => 'required|exists:users,id',
-        // ]);
-
-        // untuk mengecek apakah user ditemukan
+        // Ambil pengguna berdasarkan ID dari request
         $pegawai = User::find($request->id_user);
         if (!$pegawai) {
             return redirect()->route('absensi.create')->with('error', 'User tidak ditemukan!');
         }
 
-        // Cek apakah sudah absen hari ini
-        $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('created_at', today())->first();
-        if ($sudahAbsen) {
-            return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
+        // Tambahkan pengecekan jika ID adalah admin, misalnya ID 1
+        if ($pegawai->id != 1) {
+            // Cek apakah user telah melakukan absen pada hari ini (untuk selain admin)
+            $sudahAbsen = Absensi::where('id_user', $pegawai->id)
+                ->whereDate('tanggal_absen', now()->format('Y-m-d'))
+                ->exists();
+
+            if ($sudahAbsen) {
+                return redirect()->route('absensi.create')->with('error', 'Anda telah melakukan Absen Hari Ini!');
+            }
         }
 
-        // Ambil waktu sekarang
-        $jamMasuk = now()->format('H:i'); // atau bisa gunakan Carbon::now()
+        // Jika belum absen atau jika pengguna adalah admin, lakukan absensi
+        $jamMasuk = now()->format('H:i'); // menggunakan jam sekarang
 
         Absensi::create([
-            'id_user' => $request->id_user,
-            'tanggal_absen' => now()->format('Y-m-d'), // format tanggal
-            'jam_masuk' => $jamMasuk, // format jam
+            'id_user' => $pegawai->id,
+            'tanggal_absen' => now()->format('Y-m-d'), // menyimpan tanggal hari ini
+            'jam_masuk' => $jamMasuk, // menyimpan waktu masuk
         ]);
 
         return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');

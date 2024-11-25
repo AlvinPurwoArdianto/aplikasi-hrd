@@ -22,6 +22,7 @@ class CreateAbsensisTable extends Migration
             $table->string('status')->default('Hadir'); // Status bisa 'Hadir', 'Sakit', 'Izin', 'Alpa'
             $table->string('note')->nullable();
             $table->integer('telat')->nullable();
+            $table->boolean('lembur')->default(0);
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

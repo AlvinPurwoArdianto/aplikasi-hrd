@@ -134,15 +134,36 @@
                         @endif
                     </td>
                     <td>
+                        <!-- @if (!is_null($data->jam_keluar))
                         {{ $data->note ?? 'Tepat Waktu' }}
+                        @else
                         @if (isset($data->telat) && $data->telat > 0)
                         @if ($data->telat < 60) {{ $data->telat }} menit
                             @else
                             {{ floor($data->telat / 60) }} jam {{ $data->telat % 60 }} menit
                             @endif
                             @else
-                            {{ '' }}
+                            Tepat Waktu
                             @endif
+                            @endif -->
+                            @if ($data->status === 'sakit')
+                                -
+                                @else
+                                    @if (!is_null($data->jam_keluar))
+                                        {{ $data->note ?? 'Tepat Waktu' }}
+                                    @else
+                                        @if (isset($data->telat) && $data->telat > 0)
+                                            @if ($data->telat < 60)
+                                                {{ $data->telat }} menit
+                                            @else
+                                                {{ floor($data->telat / 60) }} jam {{ $data->telat % 60 }} menit
+                                            @endif
+                                        @else
+                                            Tepat Waktu
+                                        @endif
+                                    @endif
+                                @endif
+
                     </td>
                 </tr>
                 @endforeach
