@@ -1,5 +1,8 @@
 @extends('layouts.admin.template')
-
+@section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Laporan /</span> Laporan Absensi</h4>
@@ -55,7 +58,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="example">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -86,3 +89,37 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pegawai').select2({
+                allowClear: true
+            });
+
+            document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
+                var pegawai = '{{ request('pegawai') }}';
+                var tanggalAwal = '{{ request('tanggal_awal') }}';
+                var tanggalAkhir = '{{ request('tanggal_akhir') }}';
+
+                // Buat URL untuk iframe
+                var url = "{{ route('laporan.cuti', ['view_pdf' => true]) }}" +
+                    "?pegawai=" + pegawai +
+                    "&tanggal_awal=" + tanggalAwal +
+                    "&tanggal_akhir=" + tanggalAkhir;
+
+                // Set URL ke iframe
+                document.getElementById('pdfFrame').src = url;
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        new DataTable('#example')
+    </script>
+@endpush

@@ -1,5 +1,7 @@
 @extends('layouts.admin.template')
-
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
     {{-- Toast Untuk Error --}}
     @if (session('error'))
@@ -39,7 +41,7 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-9">
+                        <div class="col">
                             <select id="jabatan" name="jabatan" class="form-control">
                                 <option class="text-center" value="" disabled
                                     {{ request('jabatan') ? '' : 'selected' }}>
@@ -53,10 +55,29 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-3">
-                            <a href="{{ route('laporan.pegawai') }}" class="btn btn-danger form-control"
-                                type="submit">Reset Filter Jabatan</a>
-                        </div>
+                        @if (!$pegawai->isEmpty())
+                            <div class="col-1">
+                                <button id="lihatPdfButtonPegawai" class="btn btn-secondary form-control"
+                                    data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                    <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                        data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
+                                </button>
+                            </div>
+                            <div class="col-1">
+                                <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
+                                    class="btn btn-danger form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                    data-bs-placement="bottom" data-bs-html="true" title="Buat PDF">
+                                    <i class='bx bxs-file-pdf'></i>
+                                </a>
+                            </div>
+                            <div class="col-1">
+                                <a href="{{ route('laporan.pegawai', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
+                                    class="btn btn-success form-control" type="submit" data-bs-toggle="tooltip"
+                                    data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Buat EXCEL">
+                                    <i class="bi bi-file-earmark-excel-fill"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">
@@ -81,22 +102,6 @@
                         </div>
                     </div>
                 </form>
-                <div class="row mt-3">
-                    @if (!$pegawai->isEmpty())
-                        <div class="col-4">
-                            <button id="lihatPdfButtonPegawai" class="btn btn-secondary form-control" data-bs-toggle="modal"
-                                data-bs-target="#pdfModal">Lihat PDF</button>
-                        </div>
-                        <div class="col-4">
-                            <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
-                                class="btn btn-info form-control">Buat PDF</a>
-                        </div>
-                        <div class="col-4">
-                            <a href="{{ route('laporan.pegawai', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
-                                class="btn btn-success form-control" type="submit">Buat EXCEL</a>
-                        </div>
-                    @endif
-                </div>
             </div>
             <div class="card-body">
                 @if ($pegawai->isEmpty())
@@ -105,8 +110,7 @@
                     </div>
                 @else
                     <div class="table-responsive text-nowrap">
-                        <table class="table table-bordered">
-                            Cari Nama Pegawai : <input type="text" class="mb-3" id="searchInput">
+                        <table class="table table-bordered" id="example">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -205,5 +209,13 @@
             // Set URL ke iframe
             document.getElementById('pdfFrame').src = url;
         });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        new DataTable('#example')
     </script>
 @endpush

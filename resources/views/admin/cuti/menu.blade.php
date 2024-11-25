@@ -1,4 +1,7 @@
 @extends('layouts.admin.template')
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> Aprove Cuti</h4>
@@ -85,60 +88,70 @@
         @endif
 
         <div class="card">
-
-            <!-- Table for cuti menu Data -->
-            <div class="table-responsive text-nowrap">
-                <table class="table table-bordered2w">
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pegawai</th>
-                        <th>Total Cuti</th>
-                        <th>Alasan</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        @foreach ($cuti as $data)
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered" id="example">
+                        <thead>
                             <tr>
-                                <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->pegawai->nama_pegawai }}</td>
-                                <td>{{ $data->total_hari_cuti }} Hari</td>
-                                <td>{{ $data->alasan }}</td>
-                                <td>
-                                    @if ($data->status_cuti == 'Diterima')
-                                        <button type="button" class="btn rounded-pill btn-success" disabled>
-                                            <i class="bi bi-check-circle-fill" title="Terima"></i> Diterima
-                                        </button>
-                                    @elseif ($data->status_cuti == 'Ditolak')
-                                        <button type="button" class="btn rounded-pill btn-danger" disabled>
-                                            <i class="bi bi-x-circle-fill" title="Tolak"></i> Ditolak
-                                        </button>
-                                    @else
-                                        <!-- Action buttons for pending confirmation -->
-                                        <form action="{{ route('cuti.reject', $data->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn rounded-pill btn-danger mx-1" type="submit">
-                                                <i class="bi bi-x-circle-fill" title="Tolak"></i> Tolak
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('cuti.approve', $data->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn rounded-pill btn-success mx-1" type="submit">
-                                                <i class="bi bi-check-circle-fill" title="Terima"></i> Terima
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
+                                <th>No</th>
+                                <th>Nama Pegawai</th>
+                                <th>Total Cuti</th>
+                                <th>Alasan</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($cuti as $data)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $data->pegawai->nama_pegawai }}</td>
+                                    <td>{{ $data->total_hari_cuti }} Hari</td>
+                                    <td>{{ $data->alasan }}</td>
+                                    <td>
+                                        @if ($data->status_cuti == 'Diterima')
+                                            <button type="button" class="btn rounded-pill btn-success" disabled>
+                                                <i class="bi bi-check-circle-fill" title="Terima"></i> Diterima
+                                            </button>
+                                        @elseif ($data->status_cuti == 'Ditolak')
+                                            <button type="button" class="btn rounded-pill btn-danger" disabled>
+                                                <i class="bi bi-x-circle-fill" title="Tolak"></i> Ditolak
+                                            </button>
+                                        @else
+                                            <!-- Action buttons for pending confirmation -->
+                                            <form action="{{ route('cuti.reject', $data->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('PUT')
+                                                <button class="btn rounded-pill btn-danger mx-1" type="submit">
+                                                    <i class="bi bi-x-circle-fill" title="Tolak"></i> Tolak
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('cuti.approve', $data->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('PUT')
+                                                <button class="btn rounded-pill btn-success mx-1" type="submit">
+                                                    <i class="bi bi-check-circle-fill" title="Terima"></i> Terima
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
 
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        new DataTable('#example')
+    </script>
+@endpush

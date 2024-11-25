@@ -40,7 +40,7 @@ class LoginController extends Controller
         // Periksa apakah status_pegawai aktif
         if ($user->status_pegawai === 0) {
             Auth::logout();
-            return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi admin.');
+            return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi admin!');
         }
     }
 

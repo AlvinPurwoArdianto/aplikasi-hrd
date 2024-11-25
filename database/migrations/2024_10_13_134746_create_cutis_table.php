@@ -11,6 +11,7 @@ class CreateCutisTable extends Migration
         Schema::create('cutis', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
+            $table->enum('kategori_cuti', ['acara_keluarga', 'liburan', 'hamil']);
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('alasan');

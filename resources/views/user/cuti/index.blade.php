@@ -34,10 +34,16 @@
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Tanggal Cuti</th>
+                                            tanggal di ajukan</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Tanggal Mulai</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Tanggal Selesai</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Kategori Cuti</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Alasan Cuti</th>
@@ -50,9 +56,20 @@
                                     @foreach ($cuti as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
+                                            </td>
                                             <td>{{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('d F Y') }}
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($item->tanggal_selesai)->translatedFormat('d F Y') }}
+                                            <td>
+                                                @if ($item->kategori_cuti === 'acara_keluarga')
+                                                    Acara Keluarga
+                                                @elseif ($item->kategori_cuti === 'liburan')
+                                                    Liburan
+                                                @elseif($item->kategori_cuti === 'hamil')
+                                                    Hamil
+                                                @endif
+                                            </td>
                                             </td>
                                             <td>{{ $item->alasan }}</td>
                                             <td style="color: black;">
@@ -79,7 +96,6 @@
     </div>
 
     <!-- Modal for Ajukan Cuti -->
-    <!-- Modal for Ajukan Cuti -->
     <div class="modal fade" id="cutiModal" tabindex="-1" aria-labelledby="cutiModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -104,6 +120,32 @@
                             <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
                         </div>
 
+                        <!-- radio kategori cuti -->
+                        <div class="mb-3">
+                            <label for="kategori_cuti" class="form-label">Kategori Cuti</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kategori_cuti" id="acara_keluarga"
+                                    value="acara_keluarga" required>
+                                <label class="form-check-label" for="acara_keluarga">
+                                    Acara Keluarga
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kategori_cuti" id="liburan"
+                                    value="liburan" required>
+                                <label class="form-check-label" for="liburan">
+                                    Liburan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kategori_cuti" id="cuti_mengajar"
+                                    value="cuti_mengajar" required>
+                                <label class="form-check-label" for="cuti_mengajar">
+                                    Hamil
+                                </label>
+                            </div>
+                        </div>
+
                         <!-- Alasan Cuti -->
                         <div class="mb-3">
                             <label for="alasan" class="form-label">Alasan Cuti</label>
@@ -123,7 +165,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: '{{ $errors->first() }}', // Menampilkan pesan error pertama
+                text: '{{ $errors->first() }}',
             });
         </script>
     @endif

@@ -52,18 +52,20 @@ class CutisController extends Controller
             ],
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_cuti',
             'alasan' => 'required|string|max:255',
+            'kategori_cuti' => 'required|in:acara_keluarga,liburan,hamil',
         ], [
-            'tanggal_cuti.after_or_equal' => 'Tanggal yang di masukan tidak valid', // Pesan khusus
+            'tanggal_cuti.after_or_equal' => 'Tanggal yang di masukan tidak valid',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai cuti harus setelah atau sama dengan tanggal mulai cuti.',
         ]);
 
         // Simpan data cuti ke database
         Cutis::create([
             'id_user' => Auth::id(),
-            'tanggal_mulai' => $validated['tanggal_cuti'], // Menyimpan tanggal mulai
-            'tanggal_selesai' => $validated['tanggal_selesai'], // Menyimpan tanggal selesai
-            'alasan' => $validated['alasan'], // Menyimpan alasan
-            'status_cuti' => 'Menunggu', // Status "Menunggu Konfirmasi"
+            'tanggal_mulai' => $validated['tanggal_cuti'],
+            'tanggal_selesai' => $validated['tanggal_selesai'],
+            'alasan' => $validated['alasan'],
+            'kategori_cuti' => $validated['kategori_cuti'],
+            'status_cuti' => 'Menunggu',
         ]);
 
         return redirect()->route('cuti.index')->with('success', 'Pengajuan cuti berhasil diajukan!');
