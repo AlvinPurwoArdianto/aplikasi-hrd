@@ -66,14 +66,15 @@
                             <div class="col-1">
                                 <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
                                     class="btn btn-danger form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                    data-bs-placement="bottom" data-bs-html="true" title="Buat PDF">
+                                    data-bs-placement="bottom" data-bs-html="true" title="Download PDF">
                                     <i class='bx bxs-file-pdf'></i>
                                 </a>
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('laporan.pegawai', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
                                     class="btn btn-success form-control" type="submit" data-bs-toggle="tooltip"
-                                    data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Buat EXCEL">
+                                    data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true"
+                                    title="Download EXCEL">
                                     <i class="bi bi-file-earmark-excel-fill"></i>
                                 </a>
                             </div>

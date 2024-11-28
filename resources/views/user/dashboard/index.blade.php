@@ -7,7 +7,7 @@
             <div class="col-lg-4 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100 shadow-sm border-0">
                     <div class="card-header pb-0 pt-4 bg-gradient-primary text-white rounded-top">
-                        <h4 class="text-capitalize mb-4">Selamat Datang, {{ Auth::user()->nama_pegawai }}</h4>
+                        <h4 class="text-capitalize mb-4 text-white">Selamat Datang, {{ Auth::user()->nama_pegawai }}</h4>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-5">

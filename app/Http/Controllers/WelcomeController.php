@@ -148,9 +148,9 @@ class WelcomeController extends Controller
         // Cek apakah sudah ada absen di tanggal ini
         $absensi = Absensi::where('id_user', $id_user)->where('tanggal_absen', $tanggal_absen)->first();
 
-        // if ($absensi) {
-        //     return redirect()->back()->with('error', 'Anda sudah absen hari ini');
-        // }
+        if ($absensi) {
+            return redirect()->back()->with('error', 'Anda sudah absen hari ini');
+        }
 
         // Simpan absen sakit
         $absensi = new Absensi();

@@ -43,28 +43,26 @@ class CutisController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'tanggal_cuti' => [
                 'required',
                 'date',
-                'after_or_equal:today',
+                'after_or_equal:' . now()->addDays(7)->toDateString(),
             ],
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_cuti',
+            'kategori_cuti' => 'required|string|max:255',
             'alasan' => 'required|string|max:255',
-            'kategori_cuti' => 'required|in:acara_keluarga,liburan,hamil',
         ], [
-            'tanggal_cuti.after_or_equal' => 'Tanggal yang di masukan tidak valid',
+            'tanggal_cuti.after_or_equal' => 'Anda hanya dapat mengajukan cuti setelah satu minggu kedepan.',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai cuti harus setelah atau sama dengan tanggal mulai cuti.',
         ]);
 
-        // Simpan data cuti ke database
         Cutis::create([
             'id_user' => Auth::id(),
             'tanggal_mulai' => $validated['tanggal_cuti'],
             'tanggal_selesai' => $validated['tanggal_selesai'],
-            'alasan' => $validated['alasan'],
             'kategori_cuti' => $validated['kategori_cuti'],
+            'alasan' => $validated['alasan'],
             'status_cuti' => 'Menunggu',
         ]);
 

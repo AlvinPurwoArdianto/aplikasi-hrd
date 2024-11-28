@@ -88,7 +88,7 @@
 
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="row">
-                            <div class="col-lg-8 mb-4 order-0">
+                            <div class="col-lg-10 mb-4 order-0">
                                 <div class="card">
                                     <div class="d-flex align-items-end row">
                                         <div class="col-sm-7">
@@ -99,7 +99,7 @@
                                                 <p class="mb-4">
                                                     Ini Adalah Halaman Utama <span class="fw-bold">Aplikasi HRD.</span>
                                                     <br>
-                                                    Silahkan Cek Menu Menu Disini Untuk Melihat Informasi Yang Tersedia.
+                                                    Silahkan Cek Menu disidebar Untuk Melihat Informasi Yang Tersedia.
                                                 </p>
                                             </div>
                                         </div>
@@ -116,7 +116,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 order-1">
+                            <div class="col-lg-2 col-md-12 col-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-start justify-content-between">
+                                            <div class="avatar flex-shrink-0">
+                                                <small class="text-warning fw-semibold">
+                                                    <i class="bx bxs-user-circle" style="font-size: 50px"></i>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <span>Pegawai</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h3 class="card-title text-nowrap">
+                                                    1
+                                                </h3>
+                                            </div>
+                                            <div class="col"><a href="http://127.0.0.1:8000/admin/pegawai"
+                                                    class="btn btn-primary btn-sm">Lihat</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-lg-4 col-md-2 order-1">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12 col-6 mb-4">
                                         <div class="card">
@@ -142,26 +165,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div
-                                                    class="card-title d-flex align-items-start justify-content-between">
-                                                    <div class="avatar flex-shrink-0">
-                                                        <small class="text-primary fw-semibold">
-                                                            <i class='bx bxs-wallet' style="font-size: 50px"></i>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <span>Gaji Keseluruhan</span>
-                                                <h3 class="card-title text-nowrap mb-1 mt-3">
-                                                    {{ $totalPenggajian }}
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         {{-- DIBAWAH INI ADALAH UNTUK BAHAN SELANJUTNYA --}}
@@ -188,7 +193,7 @@
                     <!-- / Content -->
 
                     <!-- Footer -->
-                    {{-- @include('include.admin.footer') --}}
+                    @include('include.admin.footer')
                     <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>

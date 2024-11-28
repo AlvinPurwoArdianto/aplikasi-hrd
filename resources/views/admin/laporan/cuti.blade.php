@@ -82,14 +82,14 @@
                             <div class="col-1">
                                 <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
                                     class="btn btn-danger form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                    data-bs-placement="bottom" data-bs-html="true" title="Buat PDF">
+                                    data-bs-placement="bottom" data-bs-html="true" title="Download PDF">
                                     <i class='bx bxs-file-pdf'></i>
                                 </a>
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('laporan.cuti', ['download_excel' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
                                     class="btn btn-success form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                    data-bs-placement="bottom" data-bs-html="true" title="Buat EXCEL">
+                                    data-bs-placement="bottom" data-bs-html="true" title="Download EXCEL">
                                     <i class="bi bi-file-earmark-excel-fill"></i>
                                 </a>
                             </div>

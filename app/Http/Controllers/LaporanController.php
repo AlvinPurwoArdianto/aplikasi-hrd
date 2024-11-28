@@ -68,55 +68,47 @@ class LaporanController extends Controller
     // LAPORAN BUAT ABSENSI DAN FILTER
     public function absensi(Request $request)
     {
-        // Get filter parameters from the request
-        $pegawaiId = $request->input('pegawai_id');
-        $tanggalAwal = $request->input('tanggal_awal');
-        $tanggalAkhir = $request->input('tanggal_akhir');
-        $status = $request->input('status'); // status filter (masuk, pulang, sakit)
+        try {
+            // Pastikan model Absensi dapat di-query dengan benar
+            $absensiQuery = Absensi::query()->with('user');
 
-        Log::info('Filtering absensi with:', [
-            'pegawai_id' => $pegawaiId,
-            'tanggal_awal' => $tanggalAwal,
-            'tanggal_akhir' => $tanggalAkhir,
-            'status' => $status,
-        ]);
+            $tanggalAwal = $request->input('tanggal_awal');
+            $tanggalAkhir = $request->input('tanggal_akhir');
+            $pegawaiId = $request->input('pegawai_id');
+            $status = $request->input('status');
 
-        // Build the query with conditions
-        $absensiQuery = Absensi::query()->with('user'); // Eager load the user relationship
+            if ($tanggalAwal && $tanggalAkhir) {
+                $absensiQuery->whereBetween('tanggal_absen', [$tanggalAwal, $tanggalAkhir]);
+            }
 
-        // Filter by date range
-        if ($tanggalAwal && $tanggalAkhir) {
-            $absensiQuery->whereBetween('tanggal_absen', [$tanggalAwal, $tanggalAkhir]);
+            if ($pegawaiId) {
+                $absensiQuery->where('id_user', $pegawaiId);
+            }
+
+            if ($status) {
+                $absensiQuery->where('status', $status);
+            }
+
+            $absensi = $absensiQuery->latest()->get();
+
+            $pegawai = User::where('is_admin', 0)->get();
+
+            // Tampilkan PDF
+            if ($request->has('view_pdf')) {
+                $pdf = Pdf::loadView('admin.laporan.pdf_absensi', compact('absensi'));
+                return $pdf->stream('laporan_absensi.pdf');
+            }
+
+            // Handle Excel export
+            if ($request->has('download_excel')) {
+                return Excel::download(new AbsensiExport($pegawaiId, $tanggalAwal, $tanggalAkhir, $status), 'laporan_absensi.xlsx');
+            }
+
+            return view('admin.laporan.absensi', compact('absensi', 'pegawai'));
+        } catch (\Exception $e) {
+            Log::error('Error fetching absensi data:', ['message' => $e->getMessage()]);
+            return redirect()->back()->withErrors('Terjadi kesalahan saat mengambil data absensi.');
         }
-
-        // Filter by pegawai
-        if ($pegawaiId) {
-            $absensiQuery->where('id_user', $pegawaiId);
-        }
-
-        // Filter by status (optional)
-        if ($status) {
-            $absensiQuery->where('status', $status);
-        }
-
-        // Get the filtered absensi records
-        $absensi = $absensiQuery->latest()->get();
-
-        // Get all pegawai for the filter dropdown
-        $pegawai = User::where('is_admin', 0)->get();
-
-        // Handle PDF export
-        if ($request->has('view_pdf')) {
-            $pdf = Pdf::loadView('admin.laporan.pdf_absensi', compact('absensi'));
-            return $pdf->stream('laporan_absensi.pdf');
-        }
-
-        // Handle Excel export
-        if ($request->has('download_excel')) {
-            return Excel::download(new AbsensiExport($pegawaiId, $tanggalAwal, $tanggalAkhir, $status), 'laporan_absensi.xlsx');
-        }
-
-        return view('admin.laporan.absensi', compact('absensi', 'pegawai'));
     }
 
     //LAPORAN BUAT CUTI DAN FILTER
