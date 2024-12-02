@@ -114,38 +114,63 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
+                                
+                                <!-- Conditional check for CV -->
                                 <td>
-                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#viewCVModal{{ $data->id }}"
-                                        style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                        <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Lihat CV"></i>
-                                    </a>
+                                    @if ($data->file_cv)
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#viewCVModal{{ $data->id }}"
+                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="left" data-bs-html="true" title="Lihat CV"></i>
+                                        </a>
+                                    @else
+                                        <span>No CV</span>
+                                    @endif
                                 </td>
+                    
+                                <!-- Conditional check for KK -->
                                 <td>
-                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#viewKKModal{{ $data->id }}"
-                                        style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                        <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Lihat KK"></i>
-                                    </a>
+                                    @if ($data->file_kk)
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#viewKKModal{{ $data->id }}"
+                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="left" data-bs-html="true" title="Lihat KK"></i>
+                                        </a>
+                                    @else
+                                        <span>No KK</span>
+                                    @endif
                                 </td>
+                    
+                                <!-- Conditional check for KTP -->
                                 <td>
-                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
-                                        data-bs-toggle="modal" data-bs-target="#viewKTPModal{{ $data->id }}"
-                                        style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                        <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Lihat KTP"></i>
-                                    </a>
+                                    @if ($data->file_ktp)
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#viewKTPModal{{ $data->id }}"
+                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="left" data-bs-html="true" title="Lihat KTP"></i>
+                                        </a>
+                                    @else
+                                        <span>No KTP</span>
+                                    @endif
                                 </td>
+                    
+                                <!-- Conditional check for AKTE -->
                                 <td>
-                                    <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
-                                        data-bs-toggle="modal" data-bs-target="#viewAKTEModal{{ $data->id }}"
-                                        style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
-                                        <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                            data-bs-placement="left" data-bs-html="true" title="Lihat AKTE"></i>
-                                    </a>
+                                    @if ($data->file_akte)
+                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#viewAKTEModal{{ $data->id }}"
+                                            style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bx bx-search-alt" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="left" data-bs-html="true" title="Lihat AKTE"></i>
+                                        </a>
+                                    @else
+                                        <span>No AKTE</span>
+                                    @endif
                                 </td>
+                    
                                 <td>
                                     <form action="{{ route('berkas.destroy', $data->id) }}" method="POST">
                                         @csrf
@@ -156,105 +181,106 @@
                                     </form>
                                 </td>
                             </tr>
-
-
-                            <!-- Modal Lihat CV -->
-                            <div class="modal fade" id="viewCVModal{{ $data->id }}" tabindex="-1"
-                                aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Lihat CV - {{ $data->pegawai->nama_pegawai }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="embed-responsive" style="height: 500px;">
-                                                <embed src="{{ Storage::url($data->file_cv) }}" type="application/pdf"
-                                                    width="100%" height="100%">
+                    
+                            <!-- Modals for each file (CV, KK, KTP, AKTE) -->
+                            @if ($data->file_cv)
+                                <div class="modal fade" id="viewCVModal{{ $data->id }}" tabindex="-1"
+                                    aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Lihat CV - {{ $data->pegawai->nama_pegawai }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <div class="modal-body">
+                                                <div class="embed-responsive" style="height: 500px;">
+                                                    <embed src="{{ Storage::url($data->file_cv) }}" type="application/pdf"
+                                                        width="100%" height="100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Modal Lihat KK -->
-                            <div class="modal fade" id="viewKKModal{{ $data->id }}" tabindex="-1"
-                                aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Lihat KK - {{ $data->pegawai->nama_pegawai }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="embed-responsive" style="height: 500px;">
-                                                <embed src="{{ Storage::url($data->file_kk) }}" type="application/pdf"
-                                                    width="100%" height="100%">
+                            @endif
+                    
+                            @if ($data->file_kk)
+                                <div class="modal fade" id="viewKKModal{{ $data->id }}" tabindex="-1"
+                                    aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Lihat KK - {{ $data->pegawai->nama_pegawai }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <div class="modal-body">
+                                                <div class="embed-responsive" style="height: 500px;">
+                                                    <embed src="{{ Storage::url($data->file_kk) }}" type="application/pdf"
+                                                        width="100%" height="100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Modal Lihat KTP -->
-                            <div class="modal fade" id="viewKTPModal{{ $data->id }}" tabindex="-1"
-                                aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Lihat KTP - {{ $data->pegawai->nama_pegawai }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="embed-responsive" style="height: 500px;">
-                                                <embed src="{{ Storage::url($data->file_ktp) }}" type="application/pdf"
-                                                    width="100%" height="100%">
+                            @endif
+                    
+                            @if ($data->file_ktp)
+                                <div class="modal fade" id="viewKTPModal{{ $data->id }}" tabindex="-1"
+                                    aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Lihat KTP - {{ $data->pegawai->nama_pegawai }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <div class="modal-body">
+                                                <div class="embed-responsive" style="height: 500px;">
+                                                    <embed src="{{ Storage::url($data->file_ktp) }}" type="application/pdf"
+                                                        width="100%" height="100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Modal Lihat AKTE -->
-                            <div class="modal fade" id="viewAKTEModal{{ $data->id }}" tabindex="-1"
-                                aria-hidden="true" data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Lihat AKTE - {{ $data->nama }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="embed-responsive" style="height: 500px;">
-                                                <embed src="{{ Storage::url($data->file_akte) }}" type="application/pdf"
-                                                    width="100%" height="100%">
+                            @endif
+                    
+                            @if ($data->file_akte)
+                                <div class="modal fade" id="viewAKTEModal{{ $data->id }}" tabindex="-1"
+                                    aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Lihat AKTE - {{ $data->pegawai->nama_pegawai }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <div class="modal-body">
+                                                <div class="embed-responsive" style="height: 500px;">
+                                                    <embed src="{{ Storage::url($data->file_akte) }}" type="application/pdf"
+                                                        width="100%" height="100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </tbody>
+                    
                 </table>
             </div>
         </div>

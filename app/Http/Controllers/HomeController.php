@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-
+use App\Models\Absensi;
 class HomeController extends Controller
 {
     /**
@@ -22,15 +22,17 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $pegawai = User::all();
+{
+    $pegawai = User::all();
+    $totalPegawai = User::where('is_admin', 0)->count();
+    $totalPenggajian = User::sum('gaji');
 
-        $totalPegawai = User::where('is_admin', 0)->count();
-        $totalPenggajian = User::sum('gaji');
-        // $fasilitas = Fasilitas::count('id');
-        // $artikel = Artikel::count('id');
-        // $pendaftaran = Pendaftaran::count('id');
+    // Menghitung absensi berdasarkan status
+    $absensiHadir = Absensi::where('status', 'Hadir')->count();
+    $absensiPulang = Absensi::where('status', 'Pulang')->count();
+    $absensiSakit = Absensi::where('status', 'Sakit')->count();
 
-        return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian'));
-    }
+    return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian', 'absensiHadir', 'absensiPulang', 'absensiSakit'));
+}
+
 }

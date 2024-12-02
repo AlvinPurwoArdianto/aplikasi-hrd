@@ -16,7 +16,7 @@
                 <small>Just Now</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body">
+            <div class="toast-body">w
                 {{ session('error') }}
             </div>
         </div>
@@ -168,21 +168,22 @@
         });
     </script>
     <script>
-        document.getElementById('lihatPdfButtonAbsensi').addEventListener('click', function() {
-            var pegawai = '{{ request('pegawai_id') }}';
-            var tanggalAwal = '{{ request('tanggal_awal') }}';
-            var tanggalAkhir = '{{ request('tanggal_akhir') }}';
-            var status = '{{ request('status') }}';
+     document.getElementById('lihatPdfButtonAbsensi').addEventListener('click', function() {
+    var pegawai = document.querySelector('#pegawai').value || '';
+    var tanggalAwal = document.querySelector('input[name="tanggal_awal"]').value || '';
+    var tanggalAkhir = document.querySelector('input[name="tanggal_akhir"]').value || '';
+    var status = document.querySelector('select[name="status"]').value || '';
 
-            // Encode parameter untuk URL
-            var url = "{{ route('laporan.absensi', ['view_pdf' => true]) }}" +
-                "?pegawai_id=" + encodeURIComponent(pegawai) +
-                "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
-                "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir) +
-                "&status=" + encodeURIComponent(status);
+    // Buat URL dengan parameter filter
+    var url = "{{ route('laporan.absensi.lihat-pdf') }}" +
+        "?pegawai_id=" + encodeURIComponent(pegawai) +
+        "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
+        "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir) +
+        "&status=" + encodeURIComponent(status);
 
-            // Set URL ke iframe
-            document.getElementById('pdfFrame').src = url;
-        });
+    // Set URL ke iframe
+    document.getElementById('pdfFrame').src = url;
+});
+
     </script>
 @endpush

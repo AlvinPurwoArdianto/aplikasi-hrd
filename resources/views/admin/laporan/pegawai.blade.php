@@ -56,13 +56,13 @@
                             </select>
                         </div>
                         @if (!$pegawai->isEmpty())
-                            <div class="col-1">
-                                <a href="#" id="lihatPdfButtonPegawai" class="btn btn-secondary form-control"
-                                    data-bs-toggle="modal" data-bs-target="#pdfModal">
-                                    <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                        data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
-                                </a>
-                            </div>
+                        <div class="col-1">
+                            <a href="#" id="lihatPdfButtonPegawai" class="btn btn-secondary form-control"
+                                data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                    data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
+                            </a>
+                        </div>
                             <div class="col-1">
                                 <a href="{{ route('laporan.pegawai', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'jabatan' => request('jabatan')]) }}"
                                     class="btn btn-danger form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
@@ -84,6 +84,11 @@
                         <div class="col-3">
                             <select id="provinsi" name="provinsi" class="form-control">
                                 <option value="" selected disabled>-- Pilih Provinsi --</option>
+                                @foreach ($provinsi as $data)
+                                    <option value="{{ $data['id'] }}" {{ request('provinsi') == $data['id'] ? 'selected' : '' }}>
+                                        {{ $data['name'] }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-3">
@@ -195,22 +200,102 @@
             });
         });
     </script>
+    
+    
     <script>
-        document.getElementById('lihatPdfButtonPegawai').addEventListener('click', function() {
-            var jabatan = '{{ request('jabatan') }}';
-            var tanggalAwal = '{{ request('tanggal_awal') }}';
-            var tanggalAkhir = '{{ request('tanggal_akhir') }}';
-
-            // Encode parameter untuk URL
-            var url = "{{ route('laporan.pegawai', ['view_pdf' => true]) }}" +
-                "?jabatan=" + encodeURIComponent(jabatan) +
-                "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
-                "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir);
-
-            // Set URL ke iframe
-            document.getElementById('pdfFrame').src = url;
+        // Ambil data kota berdasarkan provinsi yang dipilih
+       // Fetch cities based on the selected province
+$('#provinsi').change(function() {
+    var provinsiId = $(this).val();
+    if (provinsiId) {
+        $.ajax({
+            url: '/get-kota/' + provinsiId, // Ensure this endpoint exists and returns data
+            type: 'GET',
+            success: function(data) {
+                if (data && Array.isArray(data)) {
+                    $('#kota').empty();
+                    $('#kota').append('<option value="" selected disabled>-- Pilih Kota --</option>');
+                    $.each(data, function(index, item) {
+                        $('#kota').append('<option value="'+ item.id +'">'+ item.name +'</option>');
+                    });
+                    // Clear other dropdowns
+                    $('#kecamatan').empty().append('<option value="" selected disabled>-- Pilih Kecamatan --</option>');
+                    $('#kelurahan').empty().append('<option value="" selected disabled>-- Pilih Kelurahan --</option>');
+                } else {
+                    alert('No data received for cities.');
+                }
+            },
+            error: function() {
+                alert('Failed to fetch cities data.');
+            }
         });
+    }
+});
+
+    
+        // Ambil data kecamatan berdasarkan kota yang dipilih
+        $('#kota').change(function() {
+    var kotaId = $(this).val();
+    if (kotaId) {
+        $.ajax({
+            url: '/get-kecamatan/' + kotaId,  // Make sure this API returns the districts
+            type: 'GET',
+            success: function(data) {
+                $('#kecamatan').empty();
+                $('#kecamatan').append('<option value="" selected disabled>-- Pilih Kecamatan --</option>');
+                $.each(data, function(index, item) {
+                    $('#kecamatan').append('<option value="'+ item.id +'">'+ item.name +'</option>');
+                });
+                $('#kelurahan').empty().append('<option value="" selected disabled>-- Pilih Kelurahan --</option>');
+            }
+        });
+    }
+});
+
+$('#kecamatan').change(function() {
+    var kecamatanId = $(this).val();
+    if (kecamatanId) {
+        $.ajax({
+            url: '/get-kelurahan/' + kecamatanId,  // Make sure this API returns the villages
+            type: 'GET',
+            success: function(data) {
+                $('#kelurahan').empty();
+                $('#kelurahan').append('<option value="" selected disabled>-- Pilih Kelurahan --</option>');
+                $.each(data, function(index, item) {
+                    $('#kelurahan').append('<option value="'+ item.id +'">'+ item.name +'</option>');
+                });
+            }
+        });
+    }
+});
+
     </script>
+<script>
+    document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
+    var pegawai = document.querySelector('#pegawai').value || '';
+    var tanggalAwal = document.querySelector('input[name="tanggal_awal"]').value || '';
+    var tanggalAkhir = document.querySelector('input[name="tanggal_akhir"]').value || '';
+    var statusCuti = document.querySelector('#status_cuti').value || '';
+
+    // Buat URL dengan parameter filter
+    var url = "{{ route('laporan.cuti.lihat-pdf') }}" +
+        "?pegawai=" + encodeURIComponent(pegawai) +
+        "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
+        "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir) +
+        "&status_cuti=" + encodeURIComponent(statusCuti);
+
+    // Log URL untuk debugging
+    console.log("PDF URL: ", url);
+
+    // Set URL ke iframe
+    document.getElementById('pdfFrame').src = url;
+});
+
+});
+
+
+</script>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>

@@ -189,6 +189,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <canvas id="absensiChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- / Content -->
 
@@ -297,6 +306,29 @@
             }
         });
     </script>
+
+<script>
+    const ctx = document.getElementById('absensiChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Hadir', 'Pulang', 'Sakit'],
+            datasets: [{
+                label: 'Jumlah Absensi',
+                data: [{{ $absensiHadir }}, {{ $absensiPulang }}, {{ $absensiSakit }}],
+                backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 </body>
 
 </html>

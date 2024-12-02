@@ -72,13 +72,14 @@
                             </select>
                         </div>
                         @if (!$cuti->isEmpty())
-                            <div class="col-1">
-                                <a href="#" id="lihatPdfButtonCuti" class="btn btn-secondary form-control"
-                                    data-bs-toggle="modal" data-bs-target="#pdfModal">
-                                    <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
-                                        data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
-                                </a>
-                            </div>
+                        <div class="col-1">
+                            <a href="#" id="lihatPdfButtonCuti" class="btn btn-secondary form-control"
+                                data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <i class='bx bx-search-alt-2' data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                    data-bs-placement="bottom" data-bs-html="true" title="Lihat PDF"></i>
+                            </a>
+                        </div>
+                        
                             <div class="col-1">
                                 <a href="{{ route('laporan.cuti', ['download_pdf' => true, 'tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir'), 'pegawai' => request('pegawai'), 'status_cuti' => request('status_cuti')]) }}"
                                     class="btn btn-danger form-control" data-bs-toggle="tooltip" data-bs-offset="0,4"
@@ -190,24 +191,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#pegawai').select2();
+  $('#pdfModal').on('hidden.bs.modal', function() {
+    document.getElementById('pdfFrame').src = "";
+});
+$('#pdfModal').on('shown.bs.modal', function() {
+    var pegawai = document.querySelector('#pegawai').value || '';
+    var tanggalAwal = document.querySelector('input[name="tanggal_awal"]').value || '';
+    var tanggalAkhir = document.querySelector('input[name="tanggal_akhir"]').value || '';
+    var statusCuti = document.querySelector('#status_cuti').value || '';
 
-            document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
-                var pegawai = '{{ request('pegawai') }}';
-                var tanggalAwal = '{{ request('tanggal_awal') }}';
-                var tanggalAkhir = '{{ request('tanggal_akhir') }}';
+    // Buat URL dengan parameter filter
+    var url = "{{ route('laporan.cuti.lihat-pdf') }}" +
+        "?pegawai=" + encodeURIComponent(pegawai) +
+        "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
+        "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir) +
+        "&status_cuti=" + encodeURIComponent(statusCuti);
 
-                // Buat URL untuk iframe
-                var url = "{{ route('laporan.cuti', ['view_pdf' => true]) }}" +
-                    "?pegawai=" + pegawai +
-                    "&tanggal_awal=" + tanggalAwal +
-                    "&tanggal_akhir=" + tanggalAkhir;
+    // Set URL ke iframe
+    document.getElementById('pdfFrame').src = url;
+});
 
-                // Set URL ke iframe
-                document.getElementById('pdfFrame').src = url;
-            });
-        });
+
     </script>
 
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>

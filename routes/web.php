@@ -12,6 +12,7 @@ use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\WilayahController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ Auth::routes([
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
     Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+    
 
     // Route Jabatan
     // Route::resource('jabatan', JabatanController::class);s
@@ -105,15 +109,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('berkas/{id}', [BerkasController::class, 'update'])->name('berkas.update');
     Route::delete('berkas/{id}', [BerkasController::class, 'destroy'])->name('berkas.destroy');
 
+    
+
     //Route laporan
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
+    Route::get('laporan/pegawai/pdf', [LaporanController::class, 'lihatPDFPegawai'])->name('laporan.pegawai.pdf');
+
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
+    Route::get('/laporan/absensi/lihat-pdf', [LaporanController::class, 'lihatPDFAbsensi'])->name('laporan.absensi.lihat-pdf');
+
     Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
+    Route::get('/laporan/cuti/lihat-pdf', [LaporanController::class, 'lihatPDFCuti'])->name('laporan.cuti.lihat-pdf');
+
+  // In routes/web.php or routes/api.php
+Route::get('/get-kota/{provinsiId}', [YourController::class, 'getKota']);
+Route::get('/get-kecamatan/{kotaId}', [YourController::class, 'getKecamatan']);
+Route::get('/get-kelurahan/{kecamatanId}', [YourController::class, 'getKelurahan']);
+
 
     //Route Buat Backup Database
     Route::get('/export-database', [BackupDatabaseExport::class, 'export'])->name('export-database');
 
 });
+
+
+Route::get('/get-kota/{provinsiId}', [WilayahController::class, 'getKota']);
+Route::get('/get-kecamatan/{kotaId}', [WilayahController::class, 'getKecamatan']);
+Route::get('/get-kelurahan/{kecamatanId}', [WilayahController::class, 'getKelurahan']);
 
 // LOGIN GOOGLE
 Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
