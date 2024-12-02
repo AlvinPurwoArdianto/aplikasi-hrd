@@ -172,23 +172,7 @@
                         {{-- DIBAWAH INI ADALAH UNTUK BAHAN SELANJUTNYA --}}
 
                         {{-- CART --}}
-                        <div class="row">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <canvas id="myChart1"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <canvas id="myChart2"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                       
                     <div class="row">
                         <div class="col">
                             <div class="card">
