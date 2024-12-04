@@ -35,6 +35,7 @@ class LaporanController extends Controller
     }
     
     
+    
 
     public function pegawai(Request $request)
 {

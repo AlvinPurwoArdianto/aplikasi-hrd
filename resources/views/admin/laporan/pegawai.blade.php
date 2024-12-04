@@ -271,26 +271,18 @@ $('#kecamatan').change(function() {
 
     </script>
 <script>
-    document.getElementById('lihatPdfButtonCuti').addEventListener('click', function() {
-    var pegawai = document.querySelector('#pegawai').value || '';
-    var tanggalAwal = document.querySelector('input[name="tanggal_awal"]').value || '';
-    var tanggalAkhir = document.querySelector('input[name="tanggal_akhir"]').value || '';
-    var statusCuti = document.querySelector('#status_cuti').value || '';
+ document.getElementById('lihatPdfButtonPegawai').addEventListener('click', function() {
+    var jabatan = document.querySelector('[name="jabatan"]').value || ''; 
+    var tanggalAwal = document.querySelector('[name="tanggal_awal"]').value || '';
+    var tanggalAkhir = document.querySelector('[name="tanggal_akhir"]').value || '';
 
-    // Buat URL dengan parameter filter
-    var url = "{{ route('laporan.cuti.lihat-pdf') }}" +
-        "?pegawai=" + encodeURIComponent(pegawai) +
+    var url = "{{ route('laporan.pegawai') }}" +
+        "?view_pdf=true" +
+        "&jabatan=" + encodeURIComponent(jabatan) +
         "&tanggal_awal=" + encodeURIComponent(tanggalAwal) +
-        "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir) +
-        "&status_cuti=" + encodeURIComponent(statusCuti);
+        "&tanggal_akhir=" + encodeURIComponent(tanggalAkhir);
 
-    // Log URL untuk debugging
-    console.log("PDF URL: ", url);
-
-    // Set URL ke iframe
     document.getElementById('pdfFrame').src = url;
-});
-
 });
 
 
