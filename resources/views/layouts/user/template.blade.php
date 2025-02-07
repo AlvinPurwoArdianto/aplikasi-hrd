@@ -167,30 +167,30 @@
         const calendar = document.getElementById('calendar');
         let currentDate = new Date();
         const today = new Date(); // Tanggal hari ini
-
+    
         // Fungsi untuk merender kalender
         function renderCalendar(date) {
             const month = date.getMonth();
             const year = date.getFullYear();
-
+    
             // Menentukan jumlah hari dalam bulan
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const firstDayIndex = new Date(year, month, 1).getDay();
-
-            let calendarHTML = `<table class="table table-bordered text-center mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Minggu</th>
-                                        <th>Senin</th>
-                                        <th>Selasa</th>
-                                        <th>Rabu</th>
-                                        <th>Kamis</th>
-                                        <th>Jumat</th>
-                                        <th>Sabtu</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-
+    
+            let calendarHTML = `<table class="table table-bordered text-center mb-0 table-dark">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th class="text-light">Minggu</th>
+                                            <th class="text-light">Senin</th>
+                                            <th class="text-light">Selasa</th>
+                                            <th class="text-light">Rabu</th>
+                                            <th class="text-light">Kamis</th>
+                                            <th class="text-light">Jumat</th>
+                                            <th class="text-light">Sabtu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+    
             // Membuat baris tanggal
             let day = 1;
             for (let i = 0; i < 6; i++) {
@@ -202,9 +202,8 @@
                         calendarHTML += '<td></td>';
                     } else {
                         // Memeriksa apakah tanggal adalah hari ini
-                        const isToday = day === today.getDate() && month === today.getMonth() && year === today
-                            .getFullYear();
-                        const cellClass = isToday ? 'bg-primary text-white' : ''; // Kelas CSS untuk hari ini
+                        const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                        const cellClass = isToday ? 'bg-primary text-white' : 'bg-dark text-light'; // Kelas CSS untuk hari ini
                         calendarHTML += `<td class="${cellClass}">${day}</td>`;
                         day++;
                     }
@@ -212,23 +211,23 @@
                 calendarHTML += '</tr>';
             }
             calendarHTML += '</tbody></table>';
-
+    
             calendar.innerHTML =
-                `<h5 class="text-center mb-3">${date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h5>` +
+                `<h5 class="text-center mb-3 text-light">${date.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</h5>` +
                 calendarHTML;
         }
-
+    
         // Fungsi untuk berpindah bulan
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() - 1);
             renderCalendar(currentDate);
         });
-
+    
         document.getElementById('nextMonth').addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() + 1);
             renderCalendar(currentDate);
         });
-
+    
         // Render kalender awal
         renderCalendar(currentDate);
     </script>

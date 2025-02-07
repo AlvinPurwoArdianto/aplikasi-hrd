@@ -110,4 +110,9 @@ class AbsensiController extends Controller
     {
         //
     }
+    public function notifications()
+{
+    return view('admin.absensi.index');
+}
+
 }

@@ -98,6 +98,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('/cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
     Route::put('/cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
     Route::get('/izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
+    Route::get('/izin-sakit/notifikasi', [WelcomeController::class, 'getIzinSakitHariIni'])->name('izin.sakit.notif');
+
+    
+
 
     //Route berkas
     // Route::resource('berkas', BerkasController::class);

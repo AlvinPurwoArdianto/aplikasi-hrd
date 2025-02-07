@@ -174,32 +174,46 @@ class WelcomeController extends Controller
     {
         // Mengambil data pegawai
         $pegawai = User::all();
-
-        // Mengambil data absensi
-        $absensi = Absensi::all();
-
-        // Mengambil data absensi dengan status 'sakit', diurutkan secara descending berdasarkan tanggal
-        $izinSakit = Absensi::where('status', 'sakit')
+    
+        // Mengambil data absensi semua
+        $allIzinSakit = Absensi::where('status', 'sakit')
             ->orderBy('created_at', 'desc')
             ->get();
-
-        // Menghitung jumlah izin sakit yang belum ada
-        $izinSakitCount = Absensi::where('status', 'sakit')->count();
-
-        // Menyimpan status "viewed" di session untuk setiap izin sakit yang telah dilihat
-        $viewedPhotos = [];
-        foreach ($izinSakit as $data) {
-            $viewedPhotos[$data->id] = session()->has("viewed_{$data->id}");
-        }
-        session(['izinSakitCount' => 0]);
-
-        // Mengirim data izin sakit, count, absensi, pegawai, dan status foto ke view
-        return view('admin.izin.sakit', compact('izinSakit', 'izinSakitCount', 'absensi', 'pegawai', 'viewedPhotos'));
+    
+        // Mengambil data izin sakit hanya untuk hari ini
+        $today = Carbon::today('Asia/Jakarta')->toDateString();
+        $izinSakitHariIni = Absensi::where('status', 'sakit')
+            ->whereDate('tanggal_absen', $today)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        // Menghitung jumlah izin sakit hari ini
+        $izinSakitCount = $izinSakitHariIni->count();
+    
+        return view('admin.izin.sakit', compact('izinSakitHariIni', 'izinSakitCount', 'allIzinSakit', 'pegawai'));
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
+    public function getIzinSakitHariIni()
+    {
+        $today = Carbon::today();
+        $izinSakitCount = Absensi::where('status', 'sakit')
+            ->whereDate('tanggal_absen', $today)
+            ->count();
+    
+        return response()->json(['count' => $izinSakitCount]);
+    }
+    
+    
+    // Ketika user membuka halaman izin sakit, reset notifikasi
+    public function resetIzinSakitNotif()
+    {
+        session(['izin_sakit_notif' => 0]); // Reset notifikasi di session
+        return response()->json(['success' => true]);
+    }
+    
     public function destroy($id)
     {
         //
