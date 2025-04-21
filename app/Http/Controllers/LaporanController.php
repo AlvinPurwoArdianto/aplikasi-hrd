@@ -34,7 +34,21 @@ class LaporanController extends Controller
         return $pdf->stream('laporan_pegawai.pdf');
     }
     
-    
+
+public function exportExcelPegawai(Request $request)
+{
+    $jabatanId = $request->query('jabatan');
+    $tanggalAwal = $request->query('tanggal_awal');
+    $tanggalAkhir = $request->query('tanggal_akhir');
+
+    $pegawai = User::where('is_admin', 0)
+        ->when($jabatanId, fn($query) => $query->where('id_jabatan', $jabatanId))
+        ->when($tanggalAwal && $tanggalAkhir, fn($query) => $query->whereBetween('tanggal_masuk', [$tanggalAwal, $tanggalAkhir]))
+        ->get();
+
+    return Excel::download(new PegawaiExport($pegawai), 'laporan_pegawai.xlsx');
+}
+
     
 
     public function pegawai(Request $request)

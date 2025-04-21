@@ -116,11 +116,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     
 
     //Route laporan
-    Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
-    Route::get('laporan/pegawai/pdf', [LaporanController::class, 'lihatPDFPegawai'])->name('laporan.pegawai.pdf');
-
+   
+Route::get('/laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
+Route::get('/laporan/pegawai/pdf', [LaporanController::class, 'lihatPDFPegawai'])->name('laporan.pegawai.pdf');
+Route::get('/laporan/pegawai/excel', [LaporanController::class, 'exportExcelPegawai'])->name('laporan.pegawai.excel');
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
-    Route::get('/laporan/absensi/lihat-pdf', [LaporanController::class, 'lihatPDFAbsensi'])->name('laporan.absensi.lihat-pdf');
+    Route::get('/laporan/absensi/pdf', [LaporanController::class, 'lihatPDFAbsensi'])->name('laporan.absensi.lihat-pdf');
+    Route::get('/laporan/absensi/excel', [LaporanController::class, 'lihatPDFAbsensi'])->name('laporan.absensi.lihat-pdf');
 
     Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
     Route::get('/laporan/cuti/lihat-pdf', [LaporanController::class, 'lihatPDFCuti'])->name('laporan.cuti.lihat-pdf');
@@ -171,6 +173,10 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit1'])->name('penggajian.edit1');
     Route::put('penggajian/{id}', [PenggajianController::class, 'update1'])->name('penggajian.update1');
     Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy1'])->name('penggajian.destroy1');
+    Route::post('/hitung-penggajian', [PenggajianController::class, 'hitungPenggajian']);
+    Route::get('/get-potongan-telat/{pegawai_id}', [PenggajianController::class, 'getPotonganTelat']);
+
+    
 
     Route::get('profile', function () {
         return view('user.profile.index');

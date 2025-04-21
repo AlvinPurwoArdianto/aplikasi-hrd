@@ -14,7 +14,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
-    <body>
+    <body>`
         <!-- Absen Sakit Modal -->
         <div class="modal fade" id="sickLeaveModal" tabindex="-1" aria-labelledby="sickLeaveModalLabel" aria-hidden="true"
             data-bs-backdrop="static">
@@ -168,7 +168,7 @@
                                 @else
                                     {{ \Carbon\Carbon::parse($data->jam_masuk)->format('H.i') ?? 'Belum Absen Masuk' }}
                                 @endif
-                            </td>
+                            </td>   
                             <td>
                                 @if ($data->status === 'sakit')
                                     Sakit

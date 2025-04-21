@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class AbsensiExport implements FromCollection, WithHeadings, WithMapping, WithStyles
@@ -45,17 +46,15 @@ class AbsensiExport implements FromCollection, WithHeadings, WithMapping, WithSt
 
     public function map($absensi): array
     {
-        // Menyusun data yang akan diekspor
         return [
             $absensi->user->nama_pegawai, // Nama Pegawai
             $absensi->tanggal_absen, // Tanggal Absen
-            $absensi->jam_masuk ? $absensi->jam_masuk->format('H:i') : null, // Jam Masuk
-            $absensi->jam_keluar ? $absensi->jam_keluar->format('H:i') : null, // Jam Keluar
+            $absensi->jam_masuk ? Carbon::parse($absensi->jam_masuk)->format('H:i') : null, // Jam Masuk
+            $absensi->jam_keluar ? Carbon::parse($absensi->jam_keluar)->format('H:i') : null, // Jam Keluar
             $absensi->status, // Status (Hadir, Sakit, Izin, Alpa)
             $absensi->note, // Catatan
         ];
     }
-
     public function headings(): array
     {
         // Menambahkan judul kolom (header) untuk Excel
